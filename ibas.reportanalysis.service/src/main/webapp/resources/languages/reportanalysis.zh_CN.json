@@ -1,0 +1,10 @@
+{
+  "reportanalysis": "报表&分析",
+  "reportanalysis_icon": "sap-icon://line-chart",
+  "reportanalysis_func_report": "报表定义",
+  "reportanalysis_app_report_list": "报表列表",
+  "reportanalysis_app_report_choose": "报表选择",
+  "reportanalysis_app_report_view": "报表查看",
+  "reportanalysis_app_report_edit": "报表编辑",
+  "reportanalysis_closing_delimiter": "----结束----"
+}

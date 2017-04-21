@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "0dda2ecb-af63-4a3d-b087-aa3dda8179b4",
+    "Name": "ReportAnalysis",
+    "Category": "",
+    "Address": ".../",
+    "Repository": "http://localhost:8080/reportanalysis/services/rest/data"
+  }
+]
