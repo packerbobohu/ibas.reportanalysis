@@ -6,31 +6,29 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 
-// 共享的数据
-import {
-} from "ibas/index";
-
 /**
  * 报表类型
  */
 export enum emReportType {
     /** 系统报表 */
-    REPORTS,
+    REPORT,
     /** 水晶报表服务 */
-    CRYSTAL_SERVICES
+    CRYSTAL
 }
 /**
  * 报表参数类型
  */
 export enum emReportParameterType {
     /** 自由文本 */
-    FREE_TEXT,
+    TEXT,
     /** 日期 */
     DATETIME,
     /** 系统变量 */
-    SYSTEM_VARIABLES,
+    SYSTEM,
     /** 范围值 */
-    RANGE_VALUES,
+    RANGE,
     /** 查询结果 */
-    SQL_RESULT
+    SQL,
+    /** 预置值 */
+    PRESET
 }

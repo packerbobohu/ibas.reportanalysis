@@ -20,7 +20,7 @@
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
     <Property Name="Name" Description="报表名称" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Name"/>
     <Property Name="Activated" Description="是否启用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
-    <Property Name="Type" Description="报表类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emReportType" Mapped="Type"/>
+    <Property Name="Category" Description="报表类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emReportType" Mapped="Category"/>
     <Property Name="Group" Description="报表组别" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
     <Property Name="BOCode" Description="关联的业务对象" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BOCode"/>
     <Property Name="ApplicationId" Description="关联的应用" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="AppId"/>
@@ -45,7 +45,7 @@
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
     <Property Name="Name" Description="参数名称" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Name"/>
-    <Property Name="Type" Description="参数类型" DataType="Alphanumeric" DataSubType="Default" EditSize="5" DeclaredType="emReportParameterType" Mapped="Type"/>
+    <Property Name="Category" Description="参数类型" DataType="Alphanumeric" DataSubType="Default" EditSize="5" DeclaredType="emReportParameterType" Mapped="Category"/>
     <Property Name="Description" Description="参数说明" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Description"/>
     <Property Name="Value" Description="参数值" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="Value"/>
   </Model>

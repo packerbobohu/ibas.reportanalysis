@@ -7,24 +7,24 @@
  */
 
 import * as ibas from "ibas/index";
-import { ReportListApp } from "./ReportListApp";
+import { UserReportPageApp } from "./UserReportPageApp";
 
-export class ReportFunc extends ibas.ModuleFunction {
+export class UserReportPageFunc extends ibas.ModuleFunction {
 
     /** 功能标识 */
-    static FUNCTION_ID = "66b49d3d-0cb2-4c36-94c7-0ba7ee58ca73";
+    static FUNCTION_ID = "c7b448c1-54e0-4b4e-ba15-21dc5b4b96f0";
     /** 功能名称 */
-    static FUNCTION_NAME = "reportanalysis_func_report";
+    static FUNCTION_NAME = "reportanalysis_func_user_report_page";
     /** 构造函数 */
     constructor() {
         super();
-        this.id = ReportFunc.FUNCTION_ID;
-        this.name = ReportFunc.FUNCTION_NAME;
+        this.id = UserReportPageFunc.FUNCTION_ID;
+        this.name = UserReportPageFunc.FUNCTION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 默认功能 */
     default(): ibas.IApplication<ibas.IView> {
-        let app: ReportListApp = new ReportListApp();
+        let app: UserReportPageApp = new UserReportPageApp();
         app.navigation = this.navigation;
         return app;
     }

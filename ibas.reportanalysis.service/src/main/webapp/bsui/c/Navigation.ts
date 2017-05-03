@@ -8,7 +8,9 @@
 
 import * as ibas from "ibas/index";
 import * as reportApps from "../../bsapp/report/index";
+import * as userApps from "../../bsapp/users/index";
 import * as reportViews from "./report/index";
+import * as userViews from "./users/index";
 
 /**
  * 视图导航
@@ -33,6 +35,9 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case reportApps.ReportEditApp.APPLICATION_ID:
                 view = new reportViews.ReportEditView();
+                break;
+            case userApps.UserReportPageApp.APPLICATION_ID:
+                view = new userViews.UserReportPageView();
                 break;
             default:
                 break;

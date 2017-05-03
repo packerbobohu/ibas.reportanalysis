@@ -19,6 +19,8 @@ import {
     BODocumentLine,
     BOSimple,
     BOSimpleLine,
+    config,
+    strings,
 } from "ibas/index";
 import {
     IReport,
@@ -236,14 +238,14 @@ export class Report extends BOSimple<Report> implements IReport {
     }
 
     /** 映射的属性名称-报表类型 */
-    static PROPERTY_TYPE_NAME: string = "Type";
+    static PROPERTY_CATEGORY_NAME: string = "Category";
     /** 获取-报表类型 */
-    get type(): emReportType {
-        return this.getProperty<emReportType>(Report.PROPERTY_TYPE_NAME);
+    get category(): emReportType {
+        return this.getProperty<emReportType>(Report.PROPERTY_CATEGORY_NAME);
     }
     /** 设置-报表类型 */
-    set type(value: emReportType) {
-        this.setProperty(Report.PROPERTY_TYPE_NAME, value);
+    set category(value: emReportType) {
+        this.setProperty(Report.PROPERTY_CATEGORY_NAME, value);
     }
 
     /** 映射的属性名称-报表组别 */
@@ -350,7 +352,7 @@ export class Report extends BOSimple<Report> implements IReport {
     /** 初始化数据 */
     protected init(): void {
         this.reportParameters = new ReportParameters(this);
-        this.objectCode = Report.BUSINESS_OBJECT_CODE;
+        this.objectCode = config.applyVariables(Report.BUSINESS_OBJECT_CODE);
     }
 }
 
@@ -505,14 +507,14 @@ export class ReportParameter extends BOSimpleLine<ReportParameter> implements IR
     }
 
     /** 映射的属性名称-参数类型 */
-    static PROPERTY_TYPE_NAME: string = "Type";
+    static PROPERTY_CATEGORY_NAME: string = "Category";
     /** 获取-参数类型 */
-    get type(): emReportParameterType {
-        return this.getProperty<emReportParameterType>(ReportParameter.PROPERTY_TYPE_NAME);
+    get category(): emReportParameterType {
+        return this.getProperty<emReportParameterType>(ReportParameter.PROPERTY_CATEGORY_NAME);
     }
     /** 设置-参数类型 */
-    set type(value: emReportParameterType) {
-        this.setProperty(ReportParameter.PROPERTY_TYPE_NAME, value);
+    set category(value: emReportParameterType) {
+        this.setProperty(ReportParameter.PROPERTY_CATEGORY_NAME, value);
     }
 
     /** 映射的属性名称-参数说明 */
@@ -537,9 +539,21 @@ export class ReportParameter extends BOSimpleLine<ReportParameter> implements IR
         this.setProperty(ReportParameter.PROPERTY_VALUE_NAME, value);
     }
 
-
     /** 初始化数据 */
     protected init(): void {
+    }
+    /** 属性改变时 */
+    protected onPropertyChanged(name: string): void {
+        if (strings.equalsIgnoreCase(name, ReportParameter.PROPERTY_NAME_NAME)) {
+            let tmp: string = this.name;
+            if (!tmp.startsWith("${")) {
+                tmp = "${" + tmp;
+            }
+            if (!tmp.endsWith("}")) {
+                tmp = tmp + "}";
+            }
+            this.name = tmp;
+        }
     }
 }
 

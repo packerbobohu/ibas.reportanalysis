@@ -13,10 +13,10 @@ public enum emReportType {
 	 * 系统报表
 	 */
 	@Value("R")
-	REPORTS,
+	REPORT,
 	/**
 	 * 水晶报表服务
 	 */
 	@Value("C")
-	CRYSTAL_SERVICES,
+	CRYSTAL,
 }

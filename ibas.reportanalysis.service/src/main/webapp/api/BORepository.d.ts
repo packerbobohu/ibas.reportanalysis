@@ -8,7 +8,9 @@
 
 import {
     FetchCaller,
-    SaveCaller
+    SaveCaller,
+    MethodCaller,
+    IOperationResult
 } from "ibas/index";
 import * as bo from "./bo/index"
 
@@ -27,4 +29,19 @@ export interface IBORepositoryReportAnalysis {
     saveReport(saver: SaveCaller<bo.IReport>);
 
 
+}
+
+/**
+ * 用户相关调用者
+ */
+export interface UserMethodsCaller<P> extends MethodCaller {
+    /** 用户 */
+    user: string;
+    /** 平台 */
+    platform?: string;
+    /**
+     * 调用完成
+     * @param opRslt 结果
+     */
+    onCompleted(opRslt: IOperationResult<P>): void;
 }

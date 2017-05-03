@@ -17,7 +17,7 @@
   "bo_report_organization": "数据所属组织",
   "bo_report_name": "报表名称",
   "bo_report_activated": "是否启用",
-  "bo_report_type": "报表类型",
+  "bo_report_category": "报表类型",
   "bo_report_group": "报表组别",
   "bo_report_bocode": "关联的业务对象",
   "bo_report_applicationid": "关联的应用",
@@ -41,7 +41,7 @@
   "bo_reportparameter_createactionid": "创建动作标识",
   "bo_reportparameter_updateactionid": "更新动作标识",
   "bo_reportparameter_name": "参数名称",
-  "bo_reportparameter_type": "参数类型",
+  "bo_reportparameter_category": "参数类型",
   "bo_reportparameter_description": "参数说明",
   "bo_reportparameter_value": "参数值",
   "bo_report_closing_delimiter": "----结束----"

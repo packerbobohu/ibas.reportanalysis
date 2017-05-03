@@ -61,7 +61,7 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_report_type"),
+                    label: ibas.i18n.prop("bo_report_category"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -94,6 +94,7 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
+                    /*
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("sys_shell_ui_data_view"),
                         type: sap.m.ButtonType.Transparent,
@@ -105,6 +106,7 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
                             );
                         }
                     }),
+                    */
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("sys_shell_ui_data_edit"),
                         type: sap.m.ButtonType.Transparent,

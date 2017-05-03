@@ -8,6 +8,7 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "./bo/index";
+import * as ibas4j from "./DataDeclarations.d";
 import {
 } from "../api/index";
 
@@ -17,6 +18,31 @@ export class DataConverter4ra extends ibas.DataConverter4j {
     /** 创建业务对象转换者 */
     protected createConverter(): ibas.BOConverter {
         return new BOConverter4ra;
+    }
+
+    parsing(data: any, sign: string): any {
+        if (data.type === bo.UserReport.name) {
+            let remote: ibas4j.UserReport = data;
+            let newData: bo.UserReport = new bo.UserReport();
+            newData.id = remote.Id;
+            newData.name = remote.Name;
+            newData.category = ibas.enums.valueOf(bo.emReportType, remote.Category);
+            for (let item of remote.Parameters) {
+                item.type = bo.UserReportParameter.name;
+                newData.parameters.add(this.parsing(item, null));
+            }
+            return newData;
+        } else if (data.type === bo.UserReport.name) {
+            let remote: ibas4j.UserReportParameter = data;
+            let newData: bo.UserReportParameter = new bo.UserReportParameter();
+            newData.name = remote.Name;
+            newData.category = ibas.enums.valueOf(bo.emReportParameterType, remote.Category);
+            newData.description = remote.Description;
+            newData.value = remote.Value;
+            return newData;
+        } else {
+            return super.parsing(data, sign);
+        }
     }
 }
 
@@ -41,11 +67,11 @@ class BOConverter4ra extends ibas.BOConverter {
      */
     protected convertData(boName: string, property: string, value: any): any {
         if (boName === bo.Report.name) {
-            if (property === bo.Report.PROPERTY_TYPE_NAME) {
+            if (property === bo.Report.PROPERTY_CATEGORY_NAME) {
                 return ibas.enums.toString(bo.emReportType, value);
             }
         } else if (boName === bo.ReportParameter.name) {
-            if (property === bo.ReportParameter.PROPERTY_TYPE_NAME) {
+            if (property === bo.ReportParameter.PROPERTY_CATEGORY_NAME) {
                 return ibas.enums.toString(bo.emReportParameterType, value);
             }
         }
@@ -60,12 +86,13 @@ class BOConverter4ra extends ibas.BOConverter {
      * @returns 解析的值
      */
     protected parsingData(boName: string, property: string, value: any): any {
+
         if (boName === bo.Report.name) {
-            if (property === bo.Report.PROPERTY_TYPE_NAME) {
+            if (property === bo.Report.PROPERTY_CATEGORY_NAME) {
                 return ibas.enums.valueOf(bo.emReportType, value);
             }
         } else if (boName === bo.ReportParameter.name) {
-            if (property === bo.ReportParameter.PROPERTY_TYPE_NAME) {
+            if (property === bo.ReportParameter.PROPERTY_CATEGORY_NAME) {
                 return ibas.enums.valueOf(bo.emReportParameterType, value);
             }
         }

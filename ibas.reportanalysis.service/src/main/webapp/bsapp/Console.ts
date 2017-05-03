@@ -8,6 +8,7 @@
 
 import * as ibas from "ibas/index";
 import { ReportFunc, ReportChooseServiceMapping, ReportLinkServiceMapping } from "./report/index";
+import { UserReportPageFunc } from "./users/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -30,6 +31,7 @@ export class Console extends ibas.ModuleConsole {
     protected registers(): void {
         // 注册功能
         this.register(new ReportFunc());
+        this.register(new UserReportPageFunc());
         // 注册服务应用
         this.register(new ReportChooseServiceMapping());
         this.register(new ReportLinkServiceMapping());

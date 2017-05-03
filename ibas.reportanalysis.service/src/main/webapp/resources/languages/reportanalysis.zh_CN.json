@@ -6,5 +6,12 @@
   "reportanalysis_app_report_choose": "报表选择",
   "reportanalysis_app_report_view": "报表查看",
   "reportanalysis_app_report_edit": "报表编辑",
+  "reportanalysis_ui_basic": "基本",
+  "reportanalysis_ui_associated": "关联",
+  "reportanalysis_ui_content": "内容",
+  "reportanalysis_func_user_report_page": "用户报表",
+  "reportanalysis_app_user_report_page": "用户报表",
+  "reportanalysis_loading_user_reports": "正在加载用户报表，请稍后",
+  "reportanalysis_report_id": "报表编号[{0}]",
   "reportanalysis_closing_delimiter": "----结束----"
 }

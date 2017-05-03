@@ -83,7 +83,7 @@ export interface IReport extends IBOSimple {
     activated: emYesNo;
 
     /** 报表类型 */
-    type: emReportType;
+    category: emReportType;
 
     /** 报表组别 */
     group: string;
@@ -146,7 +146,7 @@ export interface IReportParameter extends IBOSimpleLine {
     /** 参数名称 */
     name: string;
     /** 参数类型 */
-    type: emReportParameterType;
+    category: emReportParameterType;
     /** 参数说明 */
     description: string;
     /** 参数值 */

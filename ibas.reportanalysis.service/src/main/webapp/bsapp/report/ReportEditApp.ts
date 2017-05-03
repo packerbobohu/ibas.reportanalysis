@@ -136,4 +136,8 @@ export interface IReportEditView extends ibas.IBOEditView {
     removeReportParameterEvent: Function;
     /** 显示数据 */
     showReportParameters(datas: bo.ReportParameter[]): void;
+    /** 报表-业务对象选择 */
+    chooseReportBOCodeEvent: Function;
+    /** 报表-应用选择 */
+    chooseReportApplicationIdEvent: Function;
 }

@@ -1,254 +1,253 @@
 package org.colorcoding.ibas.reportanalysis.bo.report;
 
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.reportanalysis.data.*;
+import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
+import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.reportanalysis.data.emReportParameterType;
 
 /**
-* 报表参数 接口
-* 
-*/
+ * 报表参数 接口
+ * 
+ */
 public interface IReportParameter extends IBOSimpleLine {
 
-    /**
-    * 获取-对象编号
-    * 
-    * @return 值
-    */
-    Integer getObjectKey();
+	/**
+	 * 获取-对象编号
+	 * 
+	 * @return 值
+	 */
+	Integer getObjectKey();
 
-    /**
-    * 设置-对象编号
-    * 
-    * @param value 值
-    */
-    void setObjectKey(Integer value);
+	/**
+	 * 设置-对象编号
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setObjectKey(Integer value);
 
+	/**
+	 * 获取-对象行号
+	 * 
+	 * @return 值
+	 */
+	Integer getLineId();
 
-    /**
-    * 获取-对象行号
-    * 
-    * @return 值
-    */
-    Integer getLineId();
+	/**
+	 * 设置-对象行号
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setLineId(Integer value);
 
-    /**
-    * 设置-对象行号
-    * 
-    * @param value 值
-    */
-    void setLineId(Integer value);
+	/**
+	 * 获取-对象类型
+	 * 
+	 * @return 值
+	 */
+	String getObjectCode();
 
+	/**
+	 * 设置-对象类型
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setObjectCode(String value);
 
-    /**
-    * 获取-对象类型
-    * 
-    * @return 值
-    */
-    String getObjectCode();
+	/**
+	 * 获取-实例号
+	 * 
+	 * @return 值
+	 */
+	Integer getLogInst();
 
-    /**
-    * 设置-对象类型
-    * 
-    * @param value 值
-    */
-    void setObjectCode(String value);
+	/**
+	 * 设置-实例号
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setLogInst(Integer value);
 
+	/**
+	 * 获取-创建日期
+	 * 
+	 * @return 值
+	 */
+	DateTime getCreateDate();
 
-    /**
-    * 获取-实例号
-    * 
-    * @return 值
-    */
-    Integer getLogInst();
+	/**
+	 * 设置-创建日期
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setCreateDate(DateTime value);
 
-    /**
-    * 设置-实例号
-    * 
-    * @param value 值
-    */
-    void setLogInst(Integer value);
+	/**
+	 * 获取-创建时间
+	 * 
+	 * @return 值
+	 */
+	Short getCreateTime();
 
+	/**
+	 * 设置-创建时间
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setCreateTime(Short value);
 
-    /**
-    * 获取-创建日期
-    * 
-    * @return 值
-    */
-    DateTime getCreateDate();
+	/**
+	 * 获取-更新日期
+	 * 
+	 * @return 值
+	 */
+	DateTime getUpdateDate();
 
-    /**
-    * 设置-创建日期
-    * 
-    * @param value 值
-    */
-    void setCreateDate(DateTime value);
+	/**
+	 * 设置-更新日期
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setUpdateDate(DateTime value);
 
+	/**
+	 * 获取-更新时间
+	 * 
+	 * @return 值
+	 */
+	Short getUpdateTime();
 
-    /**
-    * 获取-创建时间
-    * 
-    * @return 值
-    */
-    Short getCreateTime();
+	/**
+	 * 设置-更新时间
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setUpdateTime(Short value);
 
-    /**
-    * 设置-创建时间
-    * 
-    * @param value 值
-    */
-    void setCreateTime(Short value);
+	/**
+	 * 获取-创建用户
+	 * 
+	 * @return 值
+	 */
+	Integer getCreateUserSign();
 
+	/**
+	 * 设置-创建用户
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setCreateUserSign(Integer value);
 
-    /**
-    * 获取-更新日期
-    * 
-    * @return 值
-    */
-    DateTime getUpdateDate();
+	/**
+	 * 获取-更新用户
+	 * 
+	 * @return 值
+	 */
+	Integer getUpdateUserSign();
 
-    /**
-    * 设置-更新日期
-    * 
-    * @param value 值
-    */
-    void setUpdateDate(DateTime value);
+	/**
+	 * 设置-更新用户
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setUpdateUserSign(Integer value);
 
+	/**
+	 * 获取-创建动作标识
+	 * 
+	 * @return 值
+	 */
+	String getCreateActionId();
 
-    /**
-    * 获取-更新时间
-    * 
-    * @return 值
-    */
-    Short getUpdateTime();
+	/**
+	 * 设置-创建动作标识
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setCreateActionId(String value);
 
-    /**
-    * 设置-更新时间
-    * 
-    * @param value 值
-    */
-    void setUpdateTime(Short value);
+	/**
+	 * 获取-更新动作标识
+	 * 
+	 * @return 值
+	 */
+	String getUpdateActionId();
 
+	/**
+	 * 设置-更新动作标识
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setUpdateActionId(String value);
 
-    /**
-    * 获取-创建用户
-    * 
-    * @return 值
-    */
-    Integer getCreateUserSign();
+	/**
+	 * 获取-参数名称
+	 * 
+	 * @return 值
+	 */
+	String getName();
 
-    /**
-    * 设置-创建用户
-    * 
-    * @param value 值
-    */
-    void setCreateUserSign(Integer value);
+	/**
+	 * 设置-参数名称
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setName(String value);
 
+	/**
+	 * 获取-参数类型
+	 * 
+	 * @return 值
+	 */
+	emReportParameterType getCategory();
 
-    /**
-    * 获取-更新用户
-    * 
-    * @return 值
-    */
-    Integer getUpdateUserSign();
+	/**
+	 * 设置-参数类型
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setCategory(emReportParameterType value);
 
-    /**
-    * 设置-更新用户
-    * 
-    * @param value 值
-    */
-    void setUpdateUserSign(Integer value);
+	/**
+	 * 获取-参数说明
+	 * 
+	 * @return 值
+	 */
+	String getDescription();
 
+	/**
+	 * 设置-参数说明
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setDescription(String value);
 
-    /**
-    * 获取-创建动作标识
-    * 
-    * @return 值
-    */
-    String getCreateActionId();
+	/**
+	 * 获取-参数值
+	 * 
+	 * @return 值
+	 */
+	String getValue();
 
-    /**
-    * 设置-创建动作标识
-    * 
-    * @param value 值
-    */
-    void setCreateActionId(String value);
-
-
-    /**
-    * 获取-更新动作标识
-    * 
-    * @return 值
-    */
-    String getUpdateActionId();
-
-    /**
-    * 设置-更新动作标识
-    * 
-    * @param value 值
-    */
-    void setUpdateActionId(String value);
-
-
-    /**
-    * 获取-参数名称
-    * 
-    * @return 值
-    */
-    String getName();
-
-    /**
-    * 设置-参数名称
-    * 
-    * @param value 值
-    */
-    void setName(String value);
-
-
-    /**
-    * 获取-参数类型
-    * 
-    * @return 值
-    */
-    emReportParameterType getType();
-
-    /**
-    * 设置-参数类型
-    * 
-    * @param value 值
-    */
-    void setType(emReportParameterType value);
-
-
-    /**
-    * 获取-参数说明
-    * 
-    * @return 值
-    */
-    String getDescription();
-
-    /**
-    * 设置-参数说明
-    * 
-    * @param value 值
-    */
-    void setDescription(String value);
-
-
-    /**
-    * 获取-参数值
-    * 
-    * @return 值
-    */
-    String getValue();
-
-    /**
-    * 设置-参数值
-    * 
-    * @param value 值
-    */
-    void setValue(String value);
-
-
+	/**
+	 * 设置-参数值
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setValue(String value);
 
 }

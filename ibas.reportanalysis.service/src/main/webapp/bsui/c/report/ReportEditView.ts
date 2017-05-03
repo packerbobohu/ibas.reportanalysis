@@ -22,12 +22,87 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
     addReportParameterEvent: Function;
     /** 删除报表参数事件 */
     removeReportParameterEvent: Function;
+    /** 报表-业务对象选择 */
+    chooseReportBOCodeEvent: Function;
+    /** 报表-应用选择 */
+    chooseReportApplicationIdEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
         let that = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_basic") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_name") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "/name"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_group") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "/group"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_activated") }),
+                new sap.m.Select("", {
+                    items: utils.createComboBoxItems(ibas.emYesNo)
+                }).bindProperty("selectedKey", {
+                    path: "/activated",
+                    type: "sap.ui.model.type.Integer"
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_associated") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_bocode") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseReportBOCodeEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "/boCode"
+                }), new sap.m.Label("", { text: ibas.i18n.prop("bo_report_applicationid") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseReportApplicationIdEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "/applicationId"
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_content") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_category") }),
+                new sap.m.Select("", {
+                    items: utils.createComboBoxItems(bo.emReportType)
+                }).bindProperty("selectedKey", {
+                    path: "/category",
+                    type: "sap.ui.model.type.Integer"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_sqlstring") }),
+                new sap.m.TextArea("", {
+                    rows: 9
+                }).bindProperty("value", {
+                    path: "/sqlString"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_server") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "/server"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_username") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "/userName"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_password") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Password
+                }).bindProperty("value", {
+                    path: "/password"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_address") }),
+                new sap.m.Input("", {
+                }).bindProperty("value", {
+                    path: "/address"
+                }),
             ]
         });
         this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_reportparameter") }));
@@ -73,12 +148,12 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_reportparameter_type"),
+                    label: ibas.i18n.prop("bo_reportparameter_category"),
                     template: new sap.m.Select("", {
                         width: "100%",
                         items: utils.createComboBoxItems(bo.emReportParameterType)
                     }).bindProperty("selectedKey", {
-                        path: "type",
+                        path: "category",
                         type: "sap.ui.model.type.Integer"
                     })
                 }),
