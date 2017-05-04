@@ -126,8 +126,8 @@ export class ReportViewView extends ibas.View implements IReportViewView {
         }
         this.form.destroyContent();
         this.tableResult = new sap.ui.table.Table("", {
-            enableSelectAll: false,
-            visibleRowCount: 30,
+            enableSelectAll: true,
+            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             editable: false,
             rows: "{/rows}",
         });
@@ -135,7 +135,8 @@ export class ReportViewView extends ibas.View implements IReportViewView {
             this.tableResult.addColumn(
                 new sap.ui.table.Column("", {
                     label: col.name,
-                    autoResizable: true,
+                    width: "100px",
+                    autoResizable: false,
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
