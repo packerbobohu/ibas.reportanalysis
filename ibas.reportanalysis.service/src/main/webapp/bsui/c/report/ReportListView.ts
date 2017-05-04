@@ -65,7 +65,7 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
-                        path: "type",
+                        path: "category",
                         formatter(data: any): any {
                             return ibas.enums.describe(bo.emReportType, data);
                         }
@@ -87,16 +87,15 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_ui_data_new"),
+                        text: ibas.i18n.prop("sys_shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://create",
                         press: function (): void {
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
-                    /*
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_ui_data_view"),
+                        text: ibas.i18n.prop("sys_shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://display",
                         press: function (): void {
@@ -106,9 +105,8 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
                             );
                         }
                     }),
-                    */
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_ui_data_edit"),
+                        text: ibas.i18n.prop("sys_shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://edit",
                         press: function (): void {
@@ -120,7 +118,7 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
                     }),
                     // new sap.m.ToolbarSeparator(""),// 加了后面不显示？
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_ui_data_delete"),
+                        text: ibas.i18n.prop("sys_shell_data_delete"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://delete",
                         press: function (): void {

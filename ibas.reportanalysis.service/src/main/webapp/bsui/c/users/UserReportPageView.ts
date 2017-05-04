@@ -33,7 +33,7 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
                 content: [
                     new sap.m.ToolbarSpacer(""),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_ui_refresh"),
+                        text: ibas.i18n.prop("sys_shell_refresh"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://refresh",
                         press: function (): void {
@@ -71,6 +71,8 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
     private getIcon(type: bo.emReportType): string {
         if (type === bo.emReportType.CRYSTAL) {
             return "sap-icon://bbyd-dashboard";
+        } else if (type === bo.emReportType.KPI) {
+            return "sap-icon://kpi-corporate-performance";
         }
         return "sap-icon://pie-chart";
     }

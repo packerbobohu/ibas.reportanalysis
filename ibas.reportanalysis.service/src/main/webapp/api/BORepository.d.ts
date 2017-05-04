@@ -16,7 +16,6 @@ import * as bo from "./bo/index"
 
 /** ReportAnalysis 业务仓库 */
 export interface IBORepositoryReportAnalysis {
-
     /**
      * 查询 报表
      * @param fetcher 查询者
@@ -27,8 +26,6 @@ export interface IBORepositoryReportAnalysis {
      * @param saver 保存者
      */
     saveReport(saver: SaveCaller<bo.IReport>);
-
-
 }
 
 /**

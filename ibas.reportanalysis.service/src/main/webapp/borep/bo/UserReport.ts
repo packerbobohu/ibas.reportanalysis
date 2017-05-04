@@ -7,12 +7,25 @@
  */
 import * as ibas from "ibas/index";
 import {
+    IReport,
+    IReportParameter,
     emReportType,
     emReportParameterType,
 } from "../../api/index";
 
 /** 用户报表 */
 export class UserReport {
+    static create(report: IReport): UserReport {
+        let uReport: UserReport = new UserReport();
+        uReport.id = <any>report.objectKey;
+        uReport.name = report.name;
+        uReport.category = report.category;
+        for (let item of report.reportParameters) {
+            uReport.parameters.add(UserReportParameter.create(item));
+        }
+        return uReport;
+    }
+
     constructor() {
         this.parameters = new ibas.ArrayList<UserReportParameter>();
     }
@@ -27,6 +40,14 @@ export class UserReport {
 }
 /** 用户报表参数 */
 export class UserReportParameter {
+    static create(parameter: IReportParameter): UserReportParameter {
+        let uParameter: UserReportParameter = new UserReportParameter();
+        uParameter.name = parameter.name;
+        uParameter.category = parameter.category;
+        uParameter.description = parameter.description;
+        uParameter.value = parameter.value;
+        return uParameter;
+    }
     /** 参数名称 */
     name: string;
     /** 参数类型 */

@@ -9,81 +9,102 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
-import { ReportEditApp } from "./ReportEditApp";
 
 /** 查看应用-报表 */
-export class ReportViewApp extends ibas.BOViewService<IReportViewView> {
-
+export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewView> {
     /** 应用标识 */
     static APPLICATION_ID: string = "3c42c391-4dc3-4188-a9d7-b6cc757428ae";
     /** 应用名称 */
     static APPLICATION_NAME: string = "reportanalysis_app_report_view";
-    /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.Report.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
         this.id = ReportViewApp.APPLICATION_ID;
         this.name = ReportViewApp.APPLICATION_NAME;
-        this.boCode = ReportViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
     protected registerView(): void {
         super.registerView();
         // 其他事件
-        this.view.editDataEvent = this.editData;
+        this.view.runReportEvent = this.runReport;
+        this.view.resetReportEvent = this.viewShowed;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
-    }
-    /** 编辑数据，参数：目标数据 */
-    protected editData(): void {
-        let app = new ReportEditApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(this.viewData);
+        this.view.showReport(this.report);
     }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
-        if (!ibas.objects.isNull(args) && args.length === 1 && args[0] instanceof bo.Report) {
-            this.viewData = args[0];
-            this.show();
-        } else {
-            super.run(args);
-        }
-    }
-    private viewData: bo.Report;
-    /** 查询数据 */
-    protected fetchData(criteria: ibas.ICriteria | string): void {
-        this.busy(true);
-        let that = this;
-        if (typeof criteria === "string") {
-            criteria = new ibas.Criteria();
-            // 添加查询条件
-
-        }
         try {
-            let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
-            boRepository.fetchReport({
-                criteria: criteria,
-                onCompleted(opRslt: ibas.IOperationResult<bo.Report>): void {
+            if (arguments.length === 1) {
+                let par: any = arguments[0];
+                let that = this;
+                let run: Function = function (report: bo.UserReport): void {
                     try {
-                        if (opRslt.resultCode !== 0) {
-                            throw new Error(opRslt.message);
+                        if (ibas.objects.isNull(report)) {
+                            throw new Error(ibas.i18n.prop("sys_invalid_parameter", "report"));
                         }
-                        that.viewData = opRslt.resultObjects.firstOrDefault();
-                        that.viewShowed();
+                        that.report = report;
+                        that.description = ibas.strings.format("{0} - {1}", that.description, that.report.name);
+                        that.show();
                     } catch (error) {
                         that.messages(error);
                     }
                 }
-            });
-            this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_fetching_data"));
+                if (par instanceof bo.UserReport) {
+                    run(par);
+                    return;
+                } else if (par instanceof bo.Report) {
+                    run(bo.UserReport.create(par));
+                    return;
+                } else if (typeof par === "string" || typeof par === "number") {
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.Report.PROPERTY_OBJECTKEY_NAME;
+                    condition.value = <any>par;
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.Report.PROPERTY_ACTIVATED_NAME;
+                    condition.value = <any>ibas.emYesNo.YES;
+                    let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+                    boRepository.fetchReport({
+                        criteria: criteria,
+                        onCompleted(opRslt: ibas.IOperationResult<bo.Report>): void {
+                            run(bo.UserReport.create(opRslt.resultObjects.firstOrDefault()));
+                        }
+                    });
+                    return;
+                }
+            }
+            throw new Error(ibas.i18n.prop("reportanalysis_run_report_error"));
         } catch (error) {
-            that.messages(error);
+            this.messages(error);
         }
+    }
+    private report: bo.UserReport;
+    runReport(): void {
+        let that = this;
+        let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+        boRepository.runUserReport({
+            report: this.report,
+            onCompleted(opRslt: ibas.IOperationResult<ibas.DataTable>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    let table: ibas.DataTable = opRslt.resultObjects.firstOrDefault();
+                    if (ibas.objects.isNull(table)) {
+                        throw new Error(ibas.i18n.prop("reportanalysis_report_no_data"));
+                    }
+                    that.view.showResults(table);
+                    that.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("sys_shell_sucessful"));
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("reportanalysis_running_report", this.report.name));
     }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
@@ -91,21 +112,15 @@ export class ReportViewApp extends ibas.BOViewService<IReportViewView> {
     }
 }
 /** 视图-报表 */
-export interface IReportViewView extends ibas.IBOViewView {
-
-}
-/** 报表连接服务映射 */
-export class ReportLinkServiceMapping extends ibas.BOLinkServiceMapping {
-    /** 构造函数 */
-    constructor() {
-        super();
-        this.id = ReportViewApp.APPLICATION_ID;
-        this.name = ReportViewApp.APPLICATION_NAME;
-        this.boCode = ReportViewApp.BUSINESS_OBJECT_CODE;
-        this.description = ibas.i18n.prop(this.name);
-    }
-    /** 创建服务并运行 */
-    create(): ibas.IService<ibas.IServiceContract> {
-        return new ReportViewApp();
-    }
+export interface IReportViewView extends ibas.IBOViewWithServices {
+    /** 调用服务事件 */
+    callServicesEvent: Function;
+    /** 运行报表 */
+    runReportEvent: Function;
+    /** 重置报表 */
+    resetReportEvent: Function;
+    /** 显示报表 */
+    showReport(report: bo.UserReport): void;
+    /** 显示报表结果 */
+    showResults(table: ibas.DataTable): void;
 }

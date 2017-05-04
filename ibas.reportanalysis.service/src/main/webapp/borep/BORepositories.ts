@@ -33,12 +33,26 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
     fetchUserReports(caller: UserMethodsCaller<bo.UserReport>): void {
         let remoteRepository: ibas.IRemoteRepository = this.createRemoteRepository();
         if (ibas.objects.isNull(remoteRepository)) {
-            throw new Error(ibas.i18n.prop("msg_invalid_parameter", "remoteRepository"));
+            throw new Error(ibas.i18n.prop("sys_invalid_parameter", "remoteRepository"));
         }
         let method: string =
             ibas.strings.format("fetchUserReports?user={0}&token={1}",
                 caller.user, this.token);
         remoteRepository.callRemoteMethod(method, undefined, caller);
+    }
+	/**
+	 * 运行用户报表
+	 * @param listener 用户检索监听者
+	 */
+    runUserReport(caller: RunUserReportCaller): void {
+        let remoteRepository: ibas.IRemoteRepository = this.createRemoteRepository();
+        if (ibas.objects.isNull(remoteRepository)) {
+            throw new Error(ibas.i18n.prop("sys_invalid_parameter", "remoteRepository"));
+        }
+        let method: string =
+            ibas.strings.format("runUserReport?token={0}", this.token);
+        let data: string = JSON.stringify(this.createConverter().convert(caller.report, method));
+        remoteRepository.callRemoteMethod(method, data, caller);
     }
     /**
      * 查询 报表
@@ -55,4 +69,16 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
         super.save(bo.Report.name, saver);
     }
 
+}
+/**
+ * 用户相关调用者
+ */
+export interface RunUserReportCaller extends ibas.MethodCaller {
+    /** 用户 */
+    report: bo.UserReport;
+    /**
+     * 调用完成
+     * @param opRslt 结果
+     */
+    onCompleted(opRslt: ibas.IOperationResult<ibas.DataTable>): void;
 }

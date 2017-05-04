@@ -13,5 +13,10 @@
   "reportanalysis_app_user_report_page": "用户报表",
   "reportanalysis_loading_user_reports": "正在加载用户报表，请稍后",
   "reportanalysis_report_id": "报表编号[{0}]",
+  "reportanalysis_run_report_error": "报表运行错误",
+  "reportanalysis_running_report": "正在运行报表[{0}]，请稍后",
+  "reportanalysis_running_parameters": "请输入运行参数",
+  "reportanalysis_report_no_data": "报表没有结果",
+  "reportanalysis_loading_report_data": "正在加载报表数据，请稍后",
   "reportanalysis_closing_delimiter": "----结束----"
 }

@@ -2,6 +2,7 @@ package org.colorcoding.ibas.reportanalysis.repository;
 
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.data.DataTable;
 import org.colorcoding.ibas.bobas.repository.IBORepositoryApplication;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.users.UserReport;
@@ -16,11 +17,18 @@ public interface IBORepositoryReportAnalysisApp extends IBORepositoryApplication
 	 * 
 	 * @param user
 	 *            用户
-	 * @param token
-	 *            口令
 	 * @return 操作结果
 	 */
 	IOperationResult<UserReport> fetchUserReports(String user);
+
+	/**
+	 * 运行-用户报表
+	 * 
+	 * @param report
+	 *            用户报表
+	 * @return 操作结果
+	 */
+	IOperationResult<DataTable> runUserReport(UserReport report);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

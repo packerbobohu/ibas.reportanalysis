@@ -13,7 +13,9 @@ export enum emReportType {
     /** 系统报表 */
     REPORT,
     /** 水晶报表服务 */
-    CRYSTAL
+    CRYSTAL,
+    /** 绩效指标 */
+    KPI
 }
 /**
  * 报表参数类型

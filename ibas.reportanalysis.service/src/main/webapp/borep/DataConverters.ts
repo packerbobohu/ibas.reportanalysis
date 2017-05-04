@@ -20,6 +20,47 @@ export class DataConverter4ra extends ibas.DataConverter4j {
         return new BOConverter4ra;
     }
 
+    /**
+     * 转换业务对象数据
+     * @param data 本地类型
+     * @param sign 特殊标记
+     * @returns 目标类型
+     */
+    convert(data: any, sign: string): any {
+        if (ibas.objects.instanceOf(data, bo.UserReport)) {
+            let newData: bo.UserReport = data;
+            let parameters = [];
+            for (let item of newData.parameters) {
+                parameters.push(this.convert(item, sign));
+            }
+            let remote: ibas4j.UserReport = {
+                type: data.constructor.name,
+                Id: newData.id,
+                Name: newData.name,
+                Category: ibas.enums.toString(bo.emReportType, newData.category),
+                Parameters: parameters
+            };
+            return remote;
+        } else if (ibas.objects.instanceOf(data, bo.UserReportParameter)) {
+            let newData: bo.UserReportParameter = data;
+            let remote: ibas4j.UserReportParameter = {
+                type: data.constructor.name,
+                Name: newData.name,
+                Category: ibas.enums.toString(bo.emReportParameterType, newData.category),
+                Description: newData.description,
+                Value: newData.value
+            };
+            return remote;
+        } else {
+            return super.convert(data, sign);
+        }
+    }
+    /**
+     * 解析业务对象数据
+     * @param data 目标类型
+     * @param sign 特殊标记
+     * @returns 本地类型
+     */
     parsing(data: any, sign: string): any {
         if (data.type === bo.UserReport.name) {
             let remote: ibas4j.UserReport = data;
@@ -32,7 +73,7 @@ export class DataConverter4ra extends ibas.DataConverter4j {
                 newData.parameters.add(this.parsing(item, null));
             }
             return newData;
-        } else if (data.type === bo.UserReport.name) {
+        } else if (data.type === bo.UserReportParameter.name) {
             let remote: ibas4j.UserReportParameter = data;
             let newData: bo.UserReportParameter = new bo.UserReportParameter();
             newData.name = remote.Name;

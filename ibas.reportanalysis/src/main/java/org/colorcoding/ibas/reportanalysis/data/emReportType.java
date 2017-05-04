@@ -19,4 +19,9 @@ public enum emReportType {
 	 */
 	@Value("C")
 	CRYSTAL,
+	/**
+	 * 绩效指标
+	 */
+	@Value("K")
+	KPI,
 }

@@ -14,8 +14,13 @@ import { IReportViewView } from "../../../bsapp/report/index";
 /**
  * 视图-Report
  */
-export class ReportViewView extends ibas.BOViewView implements IReportViewView {
-
+export class ReportViewView extends ibas.View implements IReportViewView {
+    /** 调用服务事件 */
+    callServicesEvent: Function;
+    /** 运行报表 */
+    runReportEvent: Function;
+    /** 重置报表 */
+    resetReportEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that = this;
@@ -23,25 +28,24 @@ export class ReportViewView extends ibas.BOViewView implements IReportViewView {
             content: [
             ]
         });
-        this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_reportparameter") }));
-        this.tableReportParameter = new sap.ui.table.Table("", {
-            enableSelectAll: false,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
-            rows: "{/rows}",
-            columns: [
-            ]
-        });
-        this.form.addContent(this.tableReportParameter);
         this.page = new sap.m.Page("", {
             showHeader: false,
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_ui_data_edit"),
+                        text: ibas.i18n.prop("sys_shell_run"),
                         type: sap.m.ButtonType.Transparent,
-                        icon: "sap-icon://edit",
+                        icon: "sap-icon://begin",
                         press: function (): void {
-                            that.fireViewEvents(that.editDataEvent);
+                            that.fireViewEvents(that.runReportEvent);
+                        }
+                    }),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("sys_shell_reset"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://reset",
+                        press: function (): void {
+                            that.fireViewEvents(that.resetReportEvent);
                         }
                     })
                 ],
@@ -85,14 +89,62 @@ export class ReportViewView extends ibas.BOViewView implements IReportViewView {
     }
     private page: sap.m.Page;
     private form: sap.ui.layout.form.SimpleForm;
-    private tableReportParameter: sap.ui.table.Table;
+    private tableResult: sap.ui.table.Table;
 
-    /** 显示数据 */
-    showReport(data: bo.Report): void {
-        this.form.setModel(new sap.ui.model.json.JSONModel(data));
+    /** 显示报表 */
+    showReport(report: bo.UserReport): void {
+        this.form.destroyContent();
+        this.form.addContent(new sap.m.Title("", {
+            text: ibas.i18n.prop("reportanalysis_running_parameters")
+        }));
+        for (let item of report.parameters) {
+            if (item.category === bo.emReportParameterType.PRESET) {
+                // 预设的不显示
+                continue;
+            }
+            this.form.addContent(new sap.m.Label("", {
+                textAlign: sap.ui.core.TextAlign.Left,
+                width: "30%",
+                text: ibas.objects.isNull(item.description) ? item.name.replace("\$\{", "").replace("\}", "") : item.description
+            }));
+            if (item.category === bo.emReportParameterType.DATETIME) {
+            } else {
+                let input = new sap.m.Input("", {
+                });
+                input.bindProperty("value", {
+                    path: "/value"
+                });
+                input.setModel(new sap.ui.model.json.JSONModel(item));
+                this.form.addContent(input);
+            }
+        }
     }
-    /** 显示数据 */
-    showReportParameters(datas: bo.ReportParameter[]): void {
-        this.tableReportParameter.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+    /** 显示报表结果 */
+    showResults(table: ibas.DataTable): void {
+        if (!ibas.objects.isNull(this.tableResult)) {
+            this.tableResult.destroy(true);
+        }
+        this.form.destroyContent();
+        this.tableResult = new sap.ui.table.Table("", {
+            enableSelectAll: false,
+            visibleRowCount: 30,
+            editable: false,
+            rows: "{/rows}",
+        });
+        for (let col of table.columns) {
+            this.tableResult.addColumn(
+                new sap.ui.table.Column("", {
+                    label: col.name,
+                    autoResizable: true,
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: col.name,
+                    })
+                })
+            );
+        }
+        this.tableResult.setModel(new sap.ui.model.json.JSONModel({ rows: table.convert() }));
+        this.form.addContent(this.tableResult);
     }
 }

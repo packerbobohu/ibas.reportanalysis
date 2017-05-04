@@ -15,5 +15,7 @@ export * from "./UserReport";
 import * as ibas from "ibas/index";
 import { Report } from "./Report";
 ibas.boFactory.register(Report);
-import { UserReport } from "./UserReport";
+import { UserReport, UserReportParameter } from "./UserReport";
 ibas.boFactory.register(UserReport);
+ibas.boFactory.register(UserReportParameter);
+

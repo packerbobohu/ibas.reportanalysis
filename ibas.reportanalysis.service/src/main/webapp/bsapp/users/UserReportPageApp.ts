@@ -9,6 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
+import { ReportViewApp } from "../report/index";
 
 /** 应用-用户报表 */
 export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
@@ -57,7 +58,10 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
         if (!ibas.objects.instanceOf(report, bo.UserReport)) {
             return;
         }
-
+        let app: ReportViewApp = new ReportViewApp();
+        app.navigation = this.navigation;
+        app.viewShower = this.viewShower;
+        app.run(report);
     }
     private refreshReports(): void {
         this.viewShowed();
