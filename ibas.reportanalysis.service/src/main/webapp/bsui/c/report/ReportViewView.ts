@@ -107,16 +107,22 @@ export class ReportViewView extends ibas.View implements IReportViewView {
                 width: "30%",
                 text: ibas.objects.isNull(item.description) ? item.name.replace("\$\{", "").replace("\}", "") : item.description
             }));
+            let input: sap.ui.core.Control;
             if (item.category === bo.emReportParameterType.DATETIME) {
-            } else {
-                let input = new sap.m.Input("", {
+                input = new sap.m.DatePicker("", {
+                    valueFormat: "yyyy-MM-dd",
                 });
                 input.bindProperty("value", {
                     path: "/value"
                 });
-                input.setModel(new sap.ui.model.json.JSONModel(item));
-                this.form.addContent(input);
+            } else {
+                input = new sap.m.Input("", {});
+                input.bindProperty("value", {
+                    path: "/value"
+                });
             }
+            input.setModel(new sap.ui.model.json.JSONModel(item));
+            this.form.addContent(input);
         }
     }
     /** 显示报表结果 */
@@ -128,22 +134,41 @@ export class ReportViewView extends ibas.View implements IReportViewView {
         this.tableResult = new sap.ui.table.Table("", {
             enableSelectAll: true,
             visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+            visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             editable: false,
             rows: "{/rows}",
         });
         for (let col of table.columns) {
-            this.tableResult.addColumn(
-                new sap.ui.table.Column("", {
-                    label: col.name,
-                    width: "100px",
-                    autoResizable: false,
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: col.name,
+            if (col.definedDataType() === ibas.emTableDataType.DATE) {
+                this.tableResult.addColumn(
+                    new sap.ui.table.Column("", {
+                        label: col.name,
+                        width: "100px",
+                        autoResizable: false,
+                        template: new sap.m.Text("", {
+                            wrapping: false
+                        }).bindProperty("text", {
+                            path: col.name,
+                            formatter(data: any): any {
+                                return ibas.dates.toString(data);
+                            }
+                        })
                     })
-                })
-            );
+                );
+            } else {
+                this.tableResult.addColumn(
+                    new sap.ui.table.Column("", {
+                        label: col.name,
+                        width: "100px",
+                        autoResizable: false,
+                        template: new sap.m.Text("", {
+                            wrapping: false
+                        }).bindProperty("text", {
+                            path: col.name,
+                        })
+                    })
+                );
+            }
         }
         this.tableResult.setModel(new sap.ui.model.json.JSONModel({ rows: table.convert() }));
         this.form.addContent(this.tableResult);
