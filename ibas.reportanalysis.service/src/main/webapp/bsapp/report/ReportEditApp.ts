@@ -39,20 +39,49 @@ export class ReportEditApp extends ibas.BOEditApplication<IReportEditView, bo.Re
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
+        if (ibas.objects.isNull(this.editData)) {
+            // 创建编辑对象实例
+            this.editData = new bo.Report();
+            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
+        }
         this.view.showReport(this.editData);
         this.view.showReportParameters(this.editData.reportParameters.filterDeleted());
     }
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
-        // 尝试设置编辑对象
-        if (!ibas.objects.isNull(args) && args.length === 1 && ibas.objects.instanceOf(args[0], bo.Report)) {
-            this.editData = args[0];
-        }
-        // 创建编辑对象实例
-        if (ibas.objects.isNull(this.editData)) {
-            this.editData = new bo.Report();
-            this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_data_created_new"));
-
+        let that = this;
+        if (ibas.objects.instanceOf(arguments[0], bo.Report)) {
+            // 尝试重新查询编辑对象
+            let criteria: ibas.ICriteria = arguments[0].criteria();
+            if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
+                // 有效的查询对象查询
+                let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+                boRepository.fetchReport({
+                    criteria: criteria,
+                    onCompleted(opRslt: ibas.IOperationResult<bo.Report>): void {
+                        let data: bo.Report;
+                        if (opRslt.resultCode === 0) {
+                            data = opRslt.resultObjects.firstOrDefault();
+                        }
+                        if (ibas.objects.instanceOf(data, bo.Report)) {
+                            // 查询到了有效数据
+                            that.editData = data;
+                            that.show();
+                        } else {
+                            // 数据重新检索无效
+                            that.messages({
+                                type: ibas.emMessageType.WARNING,
+                                message: ibas.i18n.prop("sys_shell_data_deleted_and_created"),
+                                onCompleted(): void {
+                                    that.show();
+                                }
+                            });
+                        }
+                    }
+                });
+                // 开始查询数据
+                return;
+            }
         }
         super.run();
     }
@@ -72,10 +101,10 @@ export class ReportEditApp extends ibas.BOEditApplication<IReportEditView, bo.Re
                             throw new Error(opRslt.message);
                         }
                         if (opRslt.resultObjects.length === 0) {
+                            // 删除成功，释放当前对象
                             that.messages(ibas.emMessageType.SUCCESS,
                                 ibas.i18n.prop("sys_shell_data_delete") + ibas.i18n.prop("sys_shell_sucessful"));
-                            // 创建新的对象
-                            that.editData = new bo.Report();
+                            that.editData = undefined;
                         } else {
                             // 替换编辑对象
                             that.editData = opRslt.resultObjects.firstOrDefault();
@@ -149,11 +178,28 @@ export class ReportEditApp extends ibas.BOEditApplication<IReportEditView, bo.Re
         this.view.showReportParameters(this.editData.reportParameters.filterDeleted());
     }
     /** 删除报表参数事件 */
-    removeReportParameter(item: bo.ReportParameter): void {
-        if (this.editData.reportParameters.indexOf(item) >= 0) {
-            this.editData.reportParameters.remove(item);
-            this.view.showReportParameters(this.editData.reportParameters.filterDeleted());
+    removeReportParameter(items: bo.ReportParameter[]): void {
+        // 非数组，转为数组
+        if (!(items instanceof Array)) {
+            items = [items];
         }
+        if (items.length === 0) {
+            return;
+        }
+        // 移除项目
+        for (let item of items) {
+            if (this.editData.reportParameters.indexOf(item) >= 0) {
+                if (item.isNew) {
+                    // 新建的移除集合
+                    this.editData.reportParameters.remove(item);
+                } else {
+                    // 非新建标记删除
+                    item.delete();
+                }
+            }
+        }
+        // 仅显示没有标记删除的
+        this.view.showReportParameters(this.editData.reportParameters.filterDeleted());
     }
 
 }

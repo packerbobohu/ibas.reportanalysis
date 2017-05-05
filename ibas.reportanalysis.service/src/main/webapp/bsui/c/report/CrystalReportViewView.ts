@@ -68,8 +68,8 @@ export class CrystalReportViewView extends ibas.View implements ICrystalReportVi
                     ibas.emMessageType.INFORMATION,
                     ibas.i18n.prop("reportanalysis_running_report", data.Value),
                 );
-                let html: string = ibas.strings.format(`<iframe src="{0}" width="99%" height="800px" scrolling="no"></iframe>`, data.Value);
-                html = ibas.strings.format("");
+                let html: string = ibas.strings.format(`<iframe src="{0}" width="100%" height="100%" scrolling="no"></iframe>`, data.Value);
+                // html = ibas.strings.format("");
                 this.form.addContent(
                     new sap.ui.core.HTML("", {
                         content: html

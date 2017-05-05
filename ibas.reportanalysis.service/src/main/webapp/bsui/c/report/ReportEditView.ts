@@ -124,7 +124,10 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://less",
                         press: function (): void {
-                            that.fireViewEvents(that.removeReportParameterEvent);
+                            that.fireViewEvents(that.removeReportParameterEvent,
+                                // 获取表格选中的对象
+                                utils.getTableSelecteds<bo.ReportParameter>(that.tableReportParameter)
+                            );
                         }
                     })
                 ]
