@@ -11,16 +11,16 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
 
 /** 查看应用-报表 */
-export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewView> {
+export class CrystalReportViewApp extends ibas.Application<ICrystalReportViewView> {
     /** 应用标识 */
-    static APPLICATION_ID: string = "3c42c391-4dc3-4188-a9d7-b6cc757428ae";
+    static APPLICATION_ID: string = "fe4385ed-a329-47e5-b6bb-5273b63e20ba";
     /** 应用名称 */
     static APPLICATION_NAME: string = "reportanalysis_app_report_view";
     /** 构造函数 */
     constructor() {
         super();
-        this.id = ReportViewApp.APPLICATION_ID;
-        this.name = ReportViewApp.APPLICATION_NAME;
+        this.id = CrystalReportViewApp.APPLICATION_ID;
+        this.name = CrystalReportViewApp.APPLICATION_NAME;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
@@ -28,7 +28,6 @@ export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewVie
         super.registerView();
         // 其他事件
         this.view.runReportEvent = this.runReport;
-        this.view.resetReportEvent = this.viewShowed;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -45,8 +44,8 @@ export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewVie
     run(...args: any[]): void {
         try {
             if (arguments.length === 1) {
-                let report: bo.UserReport = arguments[0];
-                if (ibas.objects.instanceOf(report, bo.UserReport) && report.category === bo.emReportType.REPORT) {
+                let report: any = arguments[0];
+                if (ibas.objects.instanceOf(report, bo.UserReport) && report.category === bo.emReportType.CRYSTAL) {
                     this.report = report;
                     this.description = ibas.strings.format("{0} - {1}", this.description, this.report.name);
                     super.run();
@@ -82,19 +81,11 @@ export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewVie
         });
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("reportanalysis_running_report", this.report.name));
     }
-    /** 获取服务的契约 */
-    protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-        return [];
-    }
 }
 /** 视图-报表 */
-export interface IReportViewView extends ibas.IBOViewWithServices {
-    /** 调用服务事件 */
-    callServicesEvent: Function;
+export interface ICrystalReportViewView extends ibas.IView {
     /** 运行报表 */
     runReportEvent: Function;
-    /** 重置报表 */
-    resetReportEvent: Function;
     /** 显示报表 */
     showReport(report: bo.UserReport): void;
     /** 显示报表结果 */

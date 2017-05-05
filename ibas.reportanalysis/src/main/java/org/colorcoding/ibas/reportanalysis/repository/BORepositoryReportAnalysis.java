@@ -10,6 +10,8 @@ import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.common.SqlQuery;
 import org.colorcoding.ibas.bobas.data.DataTable;
 import org.colorcoding.ibas.bobas.data.IDataTable;
+import org.colorcoding.ibas.bobas.data.IDataTableColumn;
+import org.colorcoding.ibas.bobas.data.IDataTableRow;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.i18n;
 import org.colorcoding.ibas.bobas.organization.IOrganizationManager;
@@ -141,6 +143,20 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 			if (rReport.getCategory() == emReportType.REPORT) {
 				opRslt.addResultObjects(this.queryReport(rReport));
 				return opRslt;
+			} else if (rReport.getCategory() == emReportType.CRYSTAL) {
+				// TODO:没有完全实现
+				IDataTable table = new DataTable();
+				IDataTableColumn columnKey = table.getColumns().create();
+				columnKey.setName("Key");
+				columnKey.setDataType(String.class);
+				IDataTableColumn columnValue = table.getColumns().create();
+				columnValue.setName("Value");
+				columnValue.setDataType(String.class);
+				IDataTableRow row = table.getRows().create();
+				row.setValue(columnKey, "${Url}");
+				row.setValue(columnValue, rReport.getAddress());
+				opRslt.addResultObjects(table);
+				return opRslt;
 			}
 			throw new Exception(i18n.prop("msg_ra_not_allowed_run_report",
 					report.getName() != null ? report.getName() : report.getId()));
@@ -151,7 +167,7 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 	}
 
 	protected IDataTable queryReport(Report report) throws Exception {
-		if (report == null || report.getSqlString() == null && report.getSqlString().isEmpty()) {
+		if (report == null || report.getSqlString() == null || report.getSqlString().isEmpty()) {
 			throw new Exception(i18n.prop("msg_ra_invaild_report_query",
 					report.getName() != null ? report.getName() : report.getObjectKey()));
 		}

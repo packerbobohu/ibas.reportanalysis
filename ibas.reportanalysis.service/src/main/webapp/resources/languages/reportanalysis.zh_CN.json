@@ -18,5 +18,6 @@
   "reportanalysis_running_parameters": "请输入运行参数",
   "reportanalysis_report_no_data": "报表没有结果",
   "reportanalysis_loading_report_data": "正在加载报表数据，请稍后",
+  "reportanalysis_report_not_support_view": "报表[{0}]是[{1}]类型不支持查看",
   "reportanalysis_closing_delimiter": "----结束----"
 }

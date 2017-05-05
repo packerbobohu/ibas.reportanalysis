@@ -12,3 +12,4 @@ export * from "./ReportListApp";
 export * from "./ReportChooseApp";
 export * from "./ReportViewApp";
 export * from "./ReportEditApp";
+export * from "./CrystalReportViewApp";

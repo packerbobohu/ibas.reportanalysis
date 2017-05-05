@@ -9,8 +9,8 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
-import { ReportViewApp } from "./ReportViewApp";
 import { ReportEditApp } from "./ReportEditApp";
+import { reportFactory } from "./ReportFactory";
 
 /** 列表应用-报表 */
 export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Report> {
@@ -81,11 +81,15 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
             ));
             return;
         }
-        let app = new ReportViewApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(data);
-
+        let report: bo.UserReport = bo.UserReport.create(data);
+        try {
+            let app: ibas.IApplication<ibas.IView> = reportFactory.createViewer(report);
+            app.navigation = this.navigation;
+            app.viewShower = this.viewShower;
+            app.run(report);
+        } catch (error) {
+            this.messages(error);
+        }
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(data: bo.Report): void {
@@ -110,8 +114,8 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
             ));
             return;
         }
-        let beDeleteds:ibas.ArrayList<bo.Report> = new ibas.ArrayList<bo.Report>();
-        if (data instanceof Array ) {
+        let beDeleteds: ibas.ArrayList<bo.Report> = new ibas.ArrayList<bo.Report>();
+        if (data instanceof Array) {
             for (let item of data) {
                 if (ibas.objects.instanceOf(item, bo.Report)) {
                     item.delete();
@@ -133,7 +137,7 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
-                        let saveMethod: Function = function(beSaved: bo.Report):void {
+                        let saveMethod: Function = function (beSaved: bo.Report): void {
                             boRepository.saveReport({
                                 beSaved: beSaved,
                                 onCompleted(opRslt: ibas.IOperationResult<bo.Report>): void {
@@ -149,7 +153,7 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
                                             // 处理完成
                                             that.busy(false);
                                             that.messages(ibas.emMessageType.SUCCESS,
-                                            ibas.i18n.prop("sys_shell_data_delete") + ibas.i18n.prop("sys_shell_sucessful"));
+                                                ibas.i18n.prop("sys_shell_data_delete") + ibas.i18n.prop("sys_shell_sucessful"));
                                         }
                                     } catch (error) {
                                         that.messages(ibas.emMessageType.ERROR,

@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IReportViewView } from "../../../bsapp/report/index";
+import { views as viewUtils } from "./Utils";
 
 /**
  * 视图-Report
@@ -94,36 +95,7 @@ export class ReportViewView extends ibas.View implements IReportViewView {
     /** 显示报表 */
     showReport(report: bo.UserReport): void {
         this.form.destroyContent();
-        this.form.addContent(new sap.m.Title("", {
-            text: ibas.i18n.prop("reportanalysis_running_parameters")
-        }));
-        for (let item of report.parameters) {
-            if (item.category === bo.emReportParameterType.PRESET) {
-                // 预设的不显示
-                continue;
-            }
-            this.form.addContent(new sap.m.Label("", {
-                textAlign: sap.ui.core.TextAlign.Left,
-                width: "30%",
-                text: ibas.objects.isNull(item.description) ? item.name.replace("\$\{", "").replace("\}", "") : item.description
-            }));
-            let input: sap.ui.core.Control;
-            if (item.category === bo.emReportParameterType.DATETIME) {
-                input = new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
-                });
-                input.bindProperty("value", {
-                    path: "/value"
-                });
-            } else {
-                input = new sap.m.Input("", {});
-                input.bindProperty("value", {
-                    path: "/value"
-                });
-            }
-            input.setModel(new sap.ui.model.json.JSONModel(item));
-            this.form.addContent(input);
-        }
+        viewUtils.addReportParameterUIs(this.form, report.parameters);
     }
     /** 显示报表结果 */
     showResults(table: ibas.DataTable): void {
