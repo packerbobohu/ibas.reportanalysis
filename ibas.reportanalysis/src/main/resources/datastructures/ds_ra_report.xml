@@ -24,6 +24,7 @@
     <Property Name="Group" Description="报表组别" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
     <Property Name="BOCode" Description="关联的业务对象" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BOCode"/>
     <Property Name="ApplicationId" Description="关联的应用" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="AppId"/>
+    <Property Name="AssociatedReport" Description="关联的报表" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Associated"/>
     <Property Name="SqlString" Description="查询语句" DataType="Memo" DataSubType="Default" EditSize="1" Mapped="SqlString"/>
     <Property Name="Server" Description="服务器名称" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="Server"/>
     <Property Name="UserName" Description="用户名" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="UserName"/>

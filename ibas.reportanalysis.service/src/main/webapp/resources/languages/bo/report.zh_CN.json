@@ -21,6 +21,7 @@
   "bo_report_group": "报表组别",
   "bo_report_bocode": "关联的业务对象",
   "bo_report_applicationid": "关联的应用",
+  "bo_report_associatedreport": "关联的报表",
   "bo_report_sqlstring": "查询语句",
   "bo_report_server": "服务器名称",
   "bo_report_username": "用户名",

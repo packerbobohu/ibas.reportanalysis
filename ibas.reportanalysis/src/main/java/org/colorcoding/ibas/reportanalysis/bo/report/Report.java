@@ -759,6 +759,38 @@ public class Report extends BusinessObject<Report> implements IReport, IDataOwne
 	}
 
 	/**
+	 * 属性名称-关联的报表
+	 */
+	private static final String PROPERTY_ASSOCIATEDREPORT_NAME = "Associated";
+
+	/**
+	 * 关联的报表 属性
+	 */
+	@DbField(name = "AppId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ASSOCIATEDREPORT = registerProperty(
+			PROPERTY_ASSOCIATEDREPORT_NAME, String.class, MY_CLASS);
+
+	/**
+	 * 获取-关联的报表
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ASSOCIATEDREPORT_NAME)
+	public final String getAssociatedReport() {
+		return this.getProperty(PROPERTY_ASSOCIATEDREPORT);
+	}
+
+	/**
+	 * 设置-关联的报表
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setAssociatedReport(String value) {
+		this.setProperty(PROPERTY_ASSOCIATEDREPORT, value);
+	}
+
+	/**
 	 * 属性名称-查询语句
 	 */
 	private static final String PROPERTY_SQLSTRING_NAME = "SqlString";

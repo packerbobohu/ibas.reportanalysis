@@ -5,26 +5,22 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.common.ISqlQuery;
 import org.colorcoding.ibas.bobas.common.OperationResult;
-import org.colorcoding.ibas.bobas.common.SqlQuery;
 import org.colorcoding.ibas.bobas.data.DataTable;
-import org.colorcoding.ibas.bobas.data.IDataTable;
-import org.colorcoding.ibas.bobas.data.IDataTableColumn;
-import org.colorcoding.ibas.bobas.data.IDataTableRow;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.bobas.messages.MessageLevel;
+import org.colorcoding.ibas.bobas.messages.RuntimeLog;
 import org.colorcoding.ibas.bobas.organization.IOrganizationManager;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.organization.fantasy.OrganizationManager;
 import org.colorcoding.ibas.bobas.ownership.PermissionGroup;
-import org.colorcoding.ibas.bobas.repository.BORepository4DbReadonly;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
-import org.colorcoding.ibas.bobas.repository.IBORepository4DbReadonly;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.Report;
 import org.colorcoding.ibas.reportanalysis.bo.users.UserReport;
-import org.colorcoding.ibas.reportanalysis.data.emReportType;
+import org.colorcoding.ibas.reportanalysis.reporter.IReporter;
+import org.colorcoding.ibas.reportanalysis.reporter.ReporterFacotry;
 
 /**
  * ReportAnalysis仓库
@@ -108,6 +104,8 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 		return this.fetchUserReports(user);
 	}
 
+	public static final String MSG_USER_RUN_REPORT = "report: user [%s] runs report [%s - %s].";
+
 	/**
 	 * 运行-用户报表
 	 * 
@@ -135,53 +133,20 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 			if (opRsltFetch.getResultCode() != 0) {
 				throw new Exception(opRsltFetch.getMessage());
 			}
-			Report rReport = opRsltFetch.getResultObjects().firstOrDefault();
-			if (rReport == null) {
+			Report boReport = opRsltFetch.getResultObjects().firstOrDefault();
+			if (boReport == null) {
 				throw new Exception(i18n.prop("msg_ra_not_found_report",
 						report.getName() != null ? report.getName() : report.getId()));
 			}
-			if (rReport.getCategory() == emReportType.REPORT) {
-				opRslt.addResultObjects(this.queryReport(rReport));
-				return opRslt;
-			} else if (rReport.getCategory() == emReportType.CRYSTAL) {
-				// TODO:没有完全实现
-				IDataTable table = new DataTable();
-				IDataTableColumn columnKey = table.getColumns().create();
-				columnKey.setName("Key");
-				columnKey.setDataType(String.class);
-				IDataTableColumn columnValue = table.getColumns().create();
-				columnValue.setName("Value");
-				columnValue.setDataType(String.class);
-				IDataTableRow row = table.getRows().create();
-				row.setValue(columnKey, "${Url}");
-				row.setValue(columnValue, rReport.getAddress());
-				opRslt.addResultObjects(table);
-				return opRslt;
-			}
-			throw new Exception(i18n.prop("msg_ra_not_allowed_run_report",
-					report.getName() != null ? report.getName() : report.getId()));
+			RuntimeLog.log(MessageLevel.DEBUG, MSG_USER_RUN_REPORT, this.getCurrentUser().getId(),
+					boReport.getObjectKey(), boReport.getName());
+			ReporterFacotry facotry = ReporterFacotry.create();
+			IReporter reporter = facotry.create(report);
+			opRslt.addResultObjects(reporter.run(boReport));
 		} catch (Exception e) {
 			opRslt.setError(e);
 		}
 		return opRslt;
-	}
-
-	protected IDataTable queryReport(Report report) throws Exception {
-		if (report == null || report.getSqlString() == null || report.getSqlString().isEmpty()) {
-			throw new Exception(i18n.prop("msg_ra_invaild_report_query",
-					report.getName() != null ? report.getName() : report.getObjectKey()));
-		}
-		IBORepository4DbReadonly boRepository = new BORepository4DbReadonly("Master");
-		ISqlQuery sqlQuery = new SqlQuery();
-		sqlQuery.setQueryString(report.getSqlString());
-		IOperationResult<IDataTable> opRslt = boRepository.query(sqlQuery);
-		if (opRslt.getError() != null) {
-			throw opRslt.getError();
-		}
-		if (opRslt.getResultCode() != 0) {
-			throw new Exception(opRslt.getMessage());
-		}
-		return opRslt.getResultObjects().firstOrDefault();
 	}
 
 	/**

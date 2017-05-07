@@ -281,6 +281,17 @@ export class Report extends BOSimple<Report> implements IReport {
         this.setProperty(Report.PROPERTY_APPLICATIONID_NAME, value);
     }
 
+    /** 映射的属性名称-关联的报表 */
+    static PROPERTY_ASSOCIATEDREPORT_NAME: string = "AssociatedReport";
+    /** 获取-关联的报表 */
+    get associatedReport(): number {
+        return this.getProperty<number>(Report.PROPERTY_ASSOCIATEDREPORT_NAME);
+    }
+    /** 设置-关联的报表 */
+    set associatedReport(value: number) {
+        this.setProperty(Report.PROPERTY_ASSOCIATEDREPORT_NAME, value);
+    }
+
     /** 映射的属性名称-查询语句 */
     static PROPERTY_SQLSTRING_NAME: string = "SqlString";
     /** 获取-查询语句 */

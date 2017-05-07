@@ -327,6 +327,21 @@ public interface IReport extends IBOSimple {
 	void setApplicationId(String value);
 
 	/**
+	 * 获取-关联的报表
+	 * 
+	 * @return 值
+	 */
+	String getAssociatedReport();
+
+	/**
+	 * 设置-关联的报表
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setAssociatedReport(String value);
+
+	/**
 	 * 获取-查询语句
 	 * 
 	 * @return 值

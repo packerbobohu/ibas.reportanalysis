@@ -28,6 +28,8 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
     chooseReportBOCodeEvent: Function;
     /** 报表-应用选择 */
     chooseReportApplicationIdEvent: Function;
+    /** 报表-报表选择 */
+    chooseReportAssociatedReportEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
@@ -61,7 +63,8 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                     }
                 }).bindProperty("value", {
                     path: "/boCode"
-                }), new sap.m.Label("", { text: ibas.i18n.prop("bo_report_applicationid") }),
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_applicationid") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
@@ -69,6 +72,15 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                     }
                 }).bindProperty("value", {
                     path: "/applicationId"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_associatedreport") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseReportAssociatedReportEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "/associatedReport"
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_content") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_category") }),

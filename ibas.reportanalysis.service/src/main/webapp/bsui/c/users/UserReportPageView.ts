@@ -67,7 +67,6 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
             );
         }
     }
-
     private getIcon(type: bo.emReportType): string {
         if (type === bo.emReportType.CRYSTAL) {
             return "sap-icon://bbyd-dashboard";
@@ -75,5 +74,21 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
             return "sap-icon://kpi-corporate-performance";
         }
         return "sap-icon://pie-chart";
+    }
+    /** 更新KPI */
+    updateKPI(report: bo.UserReport, table: ibas.DataTable): void {
+        let results: any[] = table.convert();
+        for (let item of this.container.getTiles()) {
+            if (item instanceof sap.m.StandardTile) {
+                if (item.getInfo().indexOf("[" + report.id + "]") > 0) {
+                    for (let result of results) {
+                        if (result.Key === "${Kpi}") {
+                            item.setNumber(result.Value);
+                        }
+                    }
+                    // item.setInfoState(sap.ui.core.ValueState.Warning);
+                }
+            }
+        }
     }
 }

@@ -59,16 +59,39 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
             return;
         }
         try {
-            let app: ibas.IApplication<ibas.IView> = reportFactory.createViewer(report);
-            app.navigation = this.navigation;
-            app.viewShower = this.viewShower;
-            app.run(report);
+            if (report.category === bo.emReportType.KPI) {
+                // kpi报表
+                this.runReportKpi(report);
+            } else {
+                let app: ibas.IApplication<ibas.IView> = reportFactory.createViewer(report);
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(report);
+            }
         } catch (error) {
             this.messages(error);
         }
     }
     private refreshReports(): void {
         this.viewShowed();
+    }
+    private runReportKpi(kpiReport: bo.UserReport): void {
+        if (!ibas.objects.instanceOf(kpiReport, bo.UserReport)) {
+            return;
+        }
+        let that = this;
+        let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+        boRepository.runUserReport({
+            report: kpiReport,
+            onCompleted(opRslt: ibas.IOperationResult<ibas.DataTable>): void {
+                if (opRslt.resultCode === 0) {
+                    let table: ibas.DataTable = opRslt.resultObjects.firstOrDefault();
+                    if (!ibas.objects.isNull(table)) {
+                        that.view.updateKPI(kpiReport, table);
+                    }
+                }
+            }
+        });
     }
 }
 /** 视图-报表 */
@@ -79,4 +102,6 @@ export interface IUserReportPageView extends ibas.IView {
     activeReportEvent: Function;
     /** 刷新报表 */
     refreshReportsEvent: Function;
+    /** 更新KPI */
+    updateKPI(report: bo.UserReport, table: ibas.DataTable): void;
 }

@@ -35,6 +35,7 @@ export class ReportEditApp extends ibas.BOEditApplication<IReportEditView, bo.Re
         this.view.createDataEvent = this.createData;
         this.view.addReportParameterEvent = this.addReportParameter;
         this.view.removeReportParameterEvent = this.removeReportParameter;
+        this.view.chooseReportAssociatedReportEvent = this.chooseReportAssociatedReport;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -201,7 +202,22 @@ export class ReportEditApp extends ibas.BOEditApplication<IReportEditView, bo.Re
         // 仅显示没有标记删除的
         this.view.showReportParameters(this.editData.reportParameters.filterDeleted());
     }
-
+    /** 选择报表 */
+    private chooseReportAssociatedReport(): void {
+        let that = this;
+        ibas.servicesManager.runChooseService<bo.Report>({
+            boCode: bo.Report.BUSINESS_OBJECT_CODE,
+            criteria: [
+                new ibas.Condition(bo.Report.PROPERTY_ACTIVATED_NAME,
+                    ibas.emConditionOperation.EQUAL, "Y"),
+                new ibas.Condition(bo.Report.PROPERTY_OBJECTKEY_NAME,
+                    ibas.emConditionOperation.NOT_EQUAL, ibas.strings.valueOf(this.editData.objectKey)),
+            ],
+            onCompleted(selecteds: ibas.List<bo.Report>): void {
+                that.editData.associatedReport = selecteds.firstOrDefault().objectKey;
+            }
+        });
+    }
 }
 /** 视图-报表 */
 export interface IReportEditView extends ibas.IBOEditView {
@@ -221,4 +237,6 @@ export interface IReportEditView extends ibas.IBOEditView {
     chooseReportBOCodeEvent: Function;
     /** 报表-应用选择 */
     chooseReportApplicationIdEvent: Function;
+    /** 报表-报表选择 */
+    chooseReportAssociatedReportEvent: Function;
 }

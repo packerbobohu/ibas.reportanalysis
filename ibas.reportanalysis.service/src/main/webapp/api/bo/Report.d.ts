@@ -94,6 +94,9 @@ export interface IReport extends IBOSimple {
     /** 关联的应用 */
     applicationId: string;
 
+    /** 关联的报表 */
+    associatedReport: number;
+
     /** 查询语句 */
     sqlString: string;
 
