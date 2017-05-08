@@ -33,9 +33,15 @@ export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewVie
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
-        if (ibas.objects.isNull(this.report.parameters) || this.report.parameters.length === 0) {
+        if (ibas.objects.isNull(this.report.parameters)
+            || this.report.parameters.firstOrDefault((item: bo.UserReportParameter) => {
+                if (item.category !== bo.emReportParameterType.PRESET) {
+                    return true;
+                }
+            }) === null) {
             // 没有参数的报表，直接运行
             this.runReport();
+
         } else {
             // 有参数报表，显示信息
             this.view.showReport(this.report);

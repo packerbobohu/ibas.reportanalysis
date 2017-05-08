@@ -68,10 +68,11 @@ export class CrystalReportViewView extends ibas.View implements ICrystalReportVi
                     ibas.emMessageType.INFORMATION,
                     ibas.i18n.prop("reportanalysis_running_report", data.Value),
                 );
+                let width: number = window.innerWidth - 96;
+                let height: number = window.innerHeight - 136;
+                console.log(window.pageXOffset, window.pageYOffset);
                 let html: string = ibas.strings.format(
-                    `<iframe src="{0}" width="100%" height="100%" scrolling="no" seamless
-sandbox="allow-scripts allow-forms"
-></iframe>`, data.Value);
+                    `<iframe src="{0}" width="{1}" height="{2}" scrolling="no"></iframe>`, data.Value, width, height);
                 this.form.addContent(
                     new sap.ui.core.HTML("", {
                         content: html,
@@ -80,8 +81,10 @@ sandbox="allow-scripts allow-forms"
                         visible: true,
                     })
                 );
+                /*
                 window.open(data.Value, this.application.description,
                     "toolbar=no, menubar=no, location=no, status=no, titlebar=no, fullscreen=yes");
+                */
             }
         }
     }
