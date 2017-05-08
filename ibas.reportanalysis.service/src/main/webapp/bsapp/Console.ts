@@ -8,7 +8,10 @@
 
 import * as ibas from "ibas/index";
 import { ReportFunc, ReportChooseServiceMapping } from "./report/index";
-import { UserReportPageFunc } from "./users/index";
+import { ReportBookFunc, ReportBookChooseServiceMapping, ReportBookLinkServiceMapping } from "./reportbook/index";
+import { UserReportPageFunc, UserReportBookFunc } from "./users/index";
+import * as bo from "../borep/bo/index";
+import { BORepositoryReportAnalysis } from "../borep/BORepositories";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -31,9 +34,10 @@ export class Console extends ibas.ModuleConsole {
     protected registers(): void {
         // 注册功能
         this.register(new ReportFunc());
-        this.register(new UserReportPageFunc());
+        this.register(new ReportBookFunc());
         // 注册服务应用
         this.register(new ReportChooseServiceMapping());
+        this.register(new ReportBookChooseServiceMapping());
         // 注册常驻应用
 
     }
@@ -42,6 +46,7 @@ export class Console extends ibas.ModuleConsole {
         // 加载语言-框架默认
         ibas.i18n.load(this.rootUrl + "resources/languages/reportanalysis.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/report.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/reportbook.json");
         // 设置资源属性
         this.description = ibas.i18n.prop(this.name.toLowerCase());
         this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");
@@ -61,6 +66,72 @@ export class Console extends ibas.ModuleConsole {
             that._navigation = new ui.default();
             // 调用初始化
             that.initialize();
+        });
+        // 保留基类方法
+        super.run();
+    }
+}
+
+/** 模块控制台 */
+export class ConsoleUsers extends ibas.ModuleConsole {
+    /** 模块-标识 */
+    static CONSOLE_ID: string = "0dda2ecb-af63-4a3d-b087-aa3dda8179b5";
+    /** 模块-名称 */
+    static CONSOLE_NAME: string = "ReportAnalysisUsers";
+    /** 构造函数 */
+    constructor() {
+        super();
+        this.id = ConsoleUsers.CONSOLE_ID;
+        this.name = ConsoleUsers.CONSOLE_NAME;
+    }
+    private _navigation: ibas.IViewNavigation;
+    /** 创建视图导航 */
+    navigation(): ibas.IViewNavigation {
+        return this._navigation;
+    }
+    /** 初始化 */
+    protected registers(): void {
+        // 不在使用此处注册
+    }
+    /** 运行 */
+    run(): void {
+        // 加载语言-框架默认
+        ibas.i18n.load(this.rootUrl + "resources/languages/reportanalysis.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/report.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/reportbook.json");
+        // 设置资源属性
+        this.description = ibas.i18n.prop(this.name.toLowerCase());
+        this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");
+        // 先加载ui导航
+        let uiModules: string[] = [];
+        if (!ibas.config.get(ibas.CONFIG_ITEM_DISABLE_PLATFORM_VIEW, false)
+            && this.plantform === ibas.emPlantform.PHONE) {
+            // 使用m类型视图
+            uiModules.push("../bsui/m/Navigation");
+        } else {
+            // 使用c类型视图
+            uiModules.push("../bsui/c/Navigation");
+        }
+        let that: ConsoleUsers = this;
+        require(uiModules, function (ui: any): void {
+            // 设置导航
+            that._navigation = new ui.default();
+            // 加载用户报表
+            let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+            boRepository.fetchUserReports({
+                user: ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_CODE),
+                onCompleted(opRslt: ibas.IOperationResult<bo.UserReport>): void {
+                    if (opRslt.resultCode !== 0) {
+                        ibas.logger.log(ibas.emMessageLevel.ERROR, opRslt.message);
+                    }
+                    that.register(new UserReportPageFunc());
+                    for (let item of opRslt.resultObjects) {
+                        that.register(new UserReportBookFunc(item));
+                    }
+                    // 通知初始化完成
+                    that.fireInitialized();
+                }
+            });
         });
         // 保留基类方法
         super.run();

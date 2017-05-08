@@ -9,25 +9,24 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
-import { ReportEditApp } from "./ReportEditApp";
-import { reportFactory } from "./ReportFactory";
-import { IReportViewer } from "./Report.d";
+import { ReportBookViewApp } from "./ReportBookViewApp";
+import { ReportBookEditApp } from "./ReportBookEditApp";
 
-/** 列表应用-报表 */
-export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Report> {
+/** 列表应用-报表簿 */
+export class ReportBookListApp extends ibas.BOListApplication<IReportBookListView, bo.ReportBook> {
 
     /** 应用标识 */
-    static APPLICATION_ID: string = "4fe81795-de28-4aff-9686-608b85fca322";
+    static APPLICATION_ID: string = "85d01d7f-b5d7-4932-ae1d-b06c2716408d";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "reportanalysis_app_report_list";
+    static APPLICATION_NAME: string = "reportanalysis_app_reportbook_list";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.Report.BUSINESS_OBJECT_CODE;
+    static BUSINESS_OBJECT_CODE: string = bo.ReportBook.BUSINESS_OBJECT_CODE;
     /** 构造函数 */
     constructor() {
         super();
-        this.id = ReportListApp.APPLICATION_ID;
-        this.name = ReportListApp.APPLICATION_NAME;
-        this.boCode = ReportListApp.BUSINESS_OBJECT_CODE;
+        this.id = ReportBookListApp.APPLICATION_ID;
+        this.name = ReportBookListApp.APPLICATION_NAME;
+        this.boCode = ReportBookListApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
     /** 注册视图 */
@@ -47,9 +46,9 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
             this.busy(true);
             let that = this;
             let boRepository = new BORepositoryReportAnalysis();
-            boRepository.fetchReport({
+            boRepository.fetchReportBook({
                 criteria: criteria,
-                onCompleted(opRslt: ibas.IOperationResult<bo.Report>): void {
+                onCompleted(opRslt: ibas.IOperationResult<bo.ReportBook>): void {
                     try {
                         if (opRslt.resultCode !== 0) {
                             throw new Error(opRslt.message);
@@ -68,13 +67,13 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
     }
     /** 新建数据 */
     protected newData(): void {
-        let app = new ReportEditApp();
+        let app = new ReportBookEditApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
         app.run();
     }
     /** 查看数据，参数：目标数据 */
-    protected viewData(data: bo.Report): void {
+    protected viewData(data: bo.ReportBook): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -82,18 +81,14 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
             ));
             return;
         }
-        let report: bo.UserReport = bo.UserReport.create(data);
-        try {
-            let app: IReportViewer = reportFactory.createViewer(report);
-            app.navigation = this.navigation;
-            app.viewShower = this.viewShower;
-            app.run(report);
-        } catch (error) {
-            this.messages(error);
-        }
+        let app = new ReportBookViewApp();
+        app.navigation = this.navigation;
+        app.viewShower = this.viewShower;
+        app.run(data);
+
     }
     /** 编辑数据，参数：目标数据 */
-    protected editData(data: bo.Report): void {
+    protected editData(data: bo.ReportBook): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -101,13 +96,13 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
             ));
             return;
         }
-        let app = new ReportEditApp();
+        let app = new ReportBookEditApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
         app.run(data);
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.Report): void {
+    protected deleteData(data: bo.ReportBook): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("sys_shell_please_chooose_data",
@@ -115,10 +110,10 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
             ));
             return;
         }
-        let beDeleteds: ibas.ArrayList<bo.Report> = new ibas.ArrayList<bo.Report>();
-        if (data instanceof Array) {
+        let beDeleteds:ibas.ArrayList<bo.ReportBook> = new ibas.ArrayList<bo.ReportBook>();
+        if (data instanceof Array ) {
             for (let item of data) {
-                if (ibas.objects.instanceOf(item, bo.Report)) {
+                if (ibas.objects.instanceOf(item, bo.ReportBook)) {
                     item.delete();
                     beDeleteds.add(item);
                 }
@@ -138,10 +133,10 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
-                        let saveMethod: Function = function (beSaved: bo.Report): void {
-                            boRepository.saveReport({
+                        let saveMethod: Function = function(beSaved: bo.ReportBook):void {
+                            boRepository.saveReportBook({
                                 beSaved: beSaved,
-                                onCompleted(opRslt: ibas.IOperationResult<bo.Report>): void {
+                                onCompleted(opRslt: ibas.IOperationResult<bo.ReportBook>): void {
                                     try {
                                         if (opRslt.resultCode !== 0) {
                                             throw new Error(opRslt.message);
@@ -154,7 +149,7 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
                                             // 处理完成
                                             that.busy(false);
                                             that.messages(ibas.emMessageType.SUCCESS,
-                                                ibas.i18n.prop("sys_shell_data_delete") + ibas.i18n.prop("sys_shell_sucessful"));
+                                            ibas.i18n.prop("sys_shell_data_delete") + ibas.i18n.prop("sys_shell_sucessful"));
                                         }
                                     } catch (error) {
                                         that.messages(ibas.emMessageType.ERROR,
@@ -180,12 +175,12 @@ export class ReportListApp extends ibas.BOListApplication<IReportListView, bo.Re
         return [];
     }
 }
-/** 视图-报表 */
-export interface IReportListView extends ibas.IBOListView {
+/** 视图-报表簿 */
+export interface IReportBookListView extends ibas.IBOListView {
     /** 编辑数据事件，参数：编辑对象 */
     editDataEvent: Function;
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
     /** 显示数据 */
-    showData(datas: bo.Report[]): void;
+    showData(datas: bo.ReportBook[]): void;
 }

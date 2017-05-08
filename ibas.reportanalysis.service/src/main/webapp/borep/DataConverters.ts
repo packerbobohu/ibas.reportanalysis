@@ -37,6 +37,7 @@ export class DataConverter4ra extends ibas.DataConverter4j {
                 type: data.constructor.name,
                 Id: newData.id,
                 Name: newData.name,
+                Group :newData.group,
                 Category: ibas.enums.toString(bo.emReportType, newData.category),
                 Parameters: parameters
             };
@@ -67,6 +68,7 @@ export class DataConverter4ra extends ibas.DataConverter4j {
             let newData: bo.UserReport = new bo.UserReport();
             newData.id = remote.Id;
             newData.name = remote.Name;
+            newData.group = remote.Group;
             newData.category = ibas.enums.valueOf(bo.emReportType, remote.Category);
             for (let item of remote.Parameters) {
                 item.type = bo.UserReportParameter.name;

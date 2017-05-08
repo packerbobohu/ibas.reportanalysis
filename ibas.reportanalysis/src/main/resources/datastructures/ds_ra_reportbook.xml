@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Domain>
+<Domain Name="ReportAnalysis" ShortName="RA">
+  <Model Name="ReportBook" Description="报表簿" ModelType="Simple" Mapped="${Company}_RA_ORBK">
+    <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="Series" Description="服务系列" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Series"/>    
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="更新日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="更新时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
+    <Property Name="TeamMembers" Description="团队成员" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="TeamMembers"/>
+    <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
+    <Property Name="AssignedType" Description="指派类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emAssignedType" Mapped="AssignedType"/>
+    <Property Name="Assigned" Description="指派目标" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Assigned"/>
+    <Property Name="Name" Description="报表名称" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Name"/>
+    <Property Name="Activated" Description="是否启用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
+  </Model>
+  <Model Name="ReportBookItem" Description="报表簿-项目" ModelType="SimpleLine" Mapped="${Company}_RA_RBK1">
+    <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>
+    <Property Name="LineId" Description="对象行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LineId" PrimaryKey="Yes"/>
+    <Property Name="ObjectCode" Description="对象类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="ObjectCode"/>
+    <Property Name="LogInst" Description="实例号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LogInst"/>
+    <Property Name="DataSource" Description="数据源" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DataSource"/>
+    <Property Name="CreateDate" Description="创建日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="CreateDate"/>
+    <Property Name="CreateTime" Description="创建时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="CreateTime"/>
+    <Property Name="UpdateDate" Description="更新日期" DataType="Date" DataSubType="Default" EditSize="8" Mapped="UpdateDate"/>
+    <Property Name="UpdateTime" Description="更新时间" DataType="Date" DataSubType="Time" EditSize="8" Mapped="UpdateTime"/>
+    <Property Name="CreateUserSign" Description="创建用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Creator"/>
+    <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
+    <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
+    <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Property Name="Report" Description="报表编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Report" />
+    <Property Name="Name" Description="项目名称" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="Name"/>
+    <Property Name="Group" Description="分组" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>
+  </Model>
+  <BusinessObject MappedModel="ReportBook" ShortName="${Company}_RA_RPTBOOK">
+    <RelatedBO Relation="OneToMany" MappedModel="ReportBookItem"/>
+  </BusinessObject>
+</Domain>

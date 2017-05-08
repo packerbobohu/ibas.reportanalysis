@@ -35,6 +35,8 @@ export class UserReport {
     name: string;
     /** 类型 */
     category: emReportType;
+    /** 组 */
+    group: string;
     /** 报表参数 */
     parameters: ibas.ArrayList<UserReportParameter>;
 }

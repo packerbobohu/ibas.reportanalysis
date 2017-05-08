@@ -8,6 +8,9 @@
 
 import * as ibas from "ibas/index";
 import { UserReportPageApp } from "./UserReportPageApp";
+import * as bo from "../../borep/bo/index";
+import { reportFactory } from "../report/ReportFactory";
+import { IReportViewer } from "../report/Report.d";
 
 export class UserReportPageFunc extends ibas.ModuleFunction {
 
@@ -26,6 +29,31 @@ export class UserReportPageFunc extends ibas.ModuleFunction {
     default(): ibas.IApplication<ibas.IView> {
         let app: UserReportPageApp = new UserReportPageApp();
         app.navigation = this.navigation;
+        return app;
+    }
+}
+/**
+ * 用户报表簿功能
+ */
+export class UserReportBookFunc extends ibas.ModuleFunction {
+
+    /** 功能标识 */
+    static FUNCTION_ID_PREFIX = "3563a3f7-4062-4aab-b456-";
+    /** 构造函数 */
+    constructor(report: bo.UserReport) {
+        super();
+        this.report = report;
+        this.id = UserReportBookFunc.FUNCTION_ID_PREFIX + ibas.strings.fill(report.id, 12, "0");
+        this.name = report.name;
+        this.description = report.name;
+        this.category = report.group;
+    }
+    private report: bo.UserReport;
+    /** 默认功能 */
+    default(): ibas.IApplication<ibas.IView> {
+        let app: IReportViewer = reportFactory.createViewer(this.report);
+        app.navigation = this.navigation;
+        app.report = this.report;
         return app;
     }
 }

@@ -5,5 +5,13 @@
     "Category": "",
     "Address": ".../",
     "Repository": "http://localhost:8080/reportanalysis/services/rest/data"
+  },
+  {
+    "Id": "0dda2ecb-af63-4a3d-b087-aa3dda8179b5",
+    "Name": "ReportAnalysisUsers",
+    "Category": "",
+    "Address": ".../",
+    "Repository": "http://localhost:8080/reportanalysis/services/rest/data",
+    "Index": "index.users"
   }
 ]

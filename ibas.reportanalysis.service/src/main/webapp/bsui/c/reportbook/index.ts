@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license
  * Copyright color-coding studio. All Rights Reserved.
  *
@@ -7,5 +7,7 @@
  */
 
 // 模块索引文件，此文件集中导出类
-export * from "./Report.d";
-export * from "./ReportBook.d";
+export * from "./ReportBookListView";
+export * from "./ReportBookChooseView";
+export * from "./ReportBookViewView";
+export * from "./ReportBookEditView";

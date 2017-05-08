@@ -8,13 +8,14 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import { IReportViewer } from "./Report.d";
 import { ReportViewApp } from "./ReportViewApp";
 import { CrystalReportViewApp } from "./CrystalReportViewApp";
 
 /** 报表查看工厂 */
 class ReportFactory {
     /** 创建查看者 */
-    createViewer(report: bo.UserReport): ibas.IApplication<ibas.IView> {
+    createViewer(report: bo.UserReport): IReportViewer {
         if (!ibas.objects.isNull(report)) {
             if (report.category === bo.emReportType.REPORT) {
                 return new ReportViewApp();

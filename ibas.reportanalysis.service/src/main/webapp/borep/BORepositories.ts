@@ -68,6 +68,20 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
     saveReport(saver: ibas.SaveCaller<bo.Report>): void {
         super.save(bo.Report.name, saver);
     }
+    /**
+     * 查询 报表簿
+     * @param fetcher 查询者
+     */
+    fetchReportBook(fetcher: ibas.FetchCaller<bo.ReportBook>): void {
+        super.fetch(bo.ReportBook.name, fetcher);
+    }
+    /**
+     * 保存 报表簿
+     * @param saver 保存者
+     */
+    saveReportBook(saver: ibas.SaveCaller<bo.ReportBook>): void {
+        super.save(bo.ReportBook.name, saver);
+    }
 
 }
 /**

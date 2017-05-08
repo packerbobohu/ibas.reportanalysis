@@ -8,10 +8,11 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import { IReportViewer } from "./Report.d";
 import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
 
 /** 查看应用-报表 */
-export class CrystalReportViewApp extends ibas.Application<ICrystalReportViewView> {
+export class CrystalReportViewApp extends ibas.Application<ICrystalReportViewView> implements IReportViewer {
     /** 应用标识 */
     static APPLICATION_ID: string = "fe4385ed-a329-47e5-b6bb-5273b63e20ba";
     /** 应用名称 */
@@ -49,7 +50,10 @@ export class CrystalReportViewApp extends ibas.Application<ICrystalReportViewVie
     /** 运行,覆盖原方法 */
     run(...args: any[]): void {
         try {
-            if (arguments.length === 1) {
+            if (ibas.objects.instanceOf(this.report, bo.UserReport)) {
+                super.run();
+                return;
+            } else if (arguments.length === 1) {
                 let report: any = arguments[0];
                 if (ibas.objects.instanceOf(report, bo.UserReport) && report.category === bo.emReportType.CRYSTAL) {
                     this.report = report;
@@ -63,7 +67,7 @@ export class CrystalReportViewApp extends ibas.Application<ICrystalReportViewVie
             this.messages(error);
         }
     }
-    private report: bo.UserReport;
+    report: bo.UserReport;
     runReport(): void {
         let that = this;
         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();

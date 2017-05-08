@@ -10,6 +10,7 @@ import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
 import { reportFactory } from "../report/ReportFactory";
+import { IReportViewer } from "../report/Report.d";
 
 /** 应用-用户报表 */
 export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
@@ -63,7 +64,7 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
                 // kpi报表
                 this.runReportKpi(report);
             } else {
-                let app: ibas.IApplication<ibas.IView> = reportFactory.createViewer(report);
+                let app: IReportViewer = reportFactory.createViewer(report);
                 app.navigation = this.navigation;
                 app.viewShower = this.viewShower;
                 app.run(report);

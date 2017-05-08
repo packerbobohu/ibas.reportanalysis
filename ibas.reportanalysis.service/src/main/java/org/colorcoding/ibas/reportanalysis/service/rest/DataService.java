@@ -11,6 +11,7 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.data.DataTable;
 import org.colorcoding.ibas.reportanalysis.bo.report.Report;
+import org.colorcoding.ibas.reportanalysis.bo.reportbook.ReportBook;
 import org.colorcoding.ibas.reportanalysis.bo.users.UserReport;
 import org.colorcoding.ibas.reportanalysis.repository.BORepositoryReportAnalysis;
 
@@ -89,6 +90,41 @@ public class DataService extends BORepositoryReportAnalysis {
 	@Path("saveReport")
 	public OperationResult<Report> saveReport(Report bo, @QueryParam("token") String token) {
 		return super.saveReport(bo, token);
+	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-报表簿
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchReportBook")
+	public OperationResult<ReportBook> fetchReportBook(Criteria criteria, @QueryParam("token") String token) {
+		return super.fetchReportBook(criteria, token);
+	}
+
+	/**
+	 * 保存-报表簿
+	 * 
+	 * @param bo
+	 *            对象实例
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveReportBook")
+	public OperationResult<ReportBook> saveReportBook(ReportBook bo, @QueryParam("token") String token) {
+		return super.saveReportBook(bo, token);
 	}
 
 	// --------------------------------------------------------------------------------------------//

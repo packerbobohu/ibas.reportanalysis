@@ -21,6 +21,8 @@ export interface UserReport extends DataDeclaration {
     Name: string;
     /** 类型 */
     Category: string;
+    /** 组 */
+    Group: string;
     /** 报表参数 */
     Parameters: UserReportParameter[];
 }

@@ -34,3 +34,12 @@ export enum emReportParameterType {
     /** 预置值 */
     PRESET
 }
+/**
+ * 分配类型
+ */
+export enum emAssignedType {
+    /** 用户 */
+    USER,
+    /** 角色 */
+    ROLE,
+}

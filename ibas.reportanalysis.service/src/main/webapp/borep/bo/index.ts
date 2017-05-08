@@ -9,12 +9,15 @@
 // 模块索引文件，此文件集中导出类
 export * from "../../api/Datas";
 export * from "./Report";
+export * from "./ReportBook";
 export * from "./UserReport";
 
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";
 import { Report } from "./Report";
 ibas.boFactory.register(Report);
+import { ReportBook } from "./ReportBook";
+ibas.boFactory.register(ReportBook);
 import { UserReport, UserReportParameter } from "./UserReport";
 ibas.boFactory.register(UserReport);
 ibas.boFactory.register(UserReportParameter);

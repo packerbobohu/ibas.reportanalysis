@@ -26,6 +26,16 @@ export interface IBORepositoryReportAnalysis {
      * @param saver 保存者
      */
     saveReport(saver: SaveCaller<bo.IReport>);
+    /**
+     * 查询 报表簿
+     * @param fetcher 查询者
+     */
+    fetchReportBook(fetcher: FetchCaller<bo.IReportBook>);
+    /**
+     * 保存 报表簿
+     * @param saver 保存者
+     */
+    saveReportBook(saver: SaveCaller<bo.IReportBook>);
 }
 
 /**
