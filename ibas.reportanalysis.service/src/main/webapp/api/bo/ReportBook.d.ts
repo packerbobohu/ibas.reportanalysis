@@ -127,8 +127,6 @@ export interface IReportBookItem extends IBOSimpleLine {
     report: number;
     /** 项目名称 */
     name: string;
-    /** 分组 */
-    group: string;
 }
 
 /** 报表簿-项目 集合 */

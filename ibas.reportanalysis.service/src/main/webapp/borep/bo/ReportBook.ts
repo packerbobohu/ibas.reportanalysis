@@ -448,18 +448,6 @@ export class ReportBookItem extends BOSimpleLine<ReportBookItem> implements IRep
         this.setProperty(ReportBookItem.PROPERTY_NAME_NAME, value);
     }
 
-    /** 映射的属性名称-分组 */
-    static PROPERTY_GROUP_NAME: string = "Group";
-    /** 获取-分组 */
-    get group(): string {
-        return this.getProperty<string>(ReportBookItem.PROPERTY_GROUP_NAME);
-    }
-    /** 设置-分组 */
-    set group(value: string) {
-        this.setProperty(ReportBookItem.PROPERTY_GROUP_NAME, value);
-    }
-
-
     /** 初始化数据 */
     protected init(): void {
     }

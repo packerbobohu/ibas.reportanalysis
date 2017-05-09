@@ -51,9 +51,10 @@ export class UserReportBookFunc extends ibas.ModuleFunction {
     private report: bo.UserReport;
     /** 默认功能 */
     default(): ibas.IApplication<ibas.IView> {
-        let app: IReportViewer = reportFactory.createViewer(this.report);
+        let app: IReportViewer = reportFactory.createTabViewer(this.report);
         app.navigation = this.navigation;
         app.report = this.report;
+        app.description = this.report.name;
         return app;
     }
 }

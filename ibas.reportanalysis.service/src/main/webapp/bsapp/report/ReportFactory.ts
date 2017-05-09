@@ -9,8 +9,8 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { IReportViewer } from "./Report.d";
-import { ReportViewApp } from "./ReportViewApp";
-import { CrystalReportViewApp } from "./CrystalReportViewApp";
+import { ReportViewApp, ReportTabViewApp } from "./ReportViewApp";
+import { CrystalReportViewApp, CrystalReportTabViewApp } from "./CrystalReportViewApp";
 
 /** 报表查看工厂 */
 class ReportFactory {
@@ -21,6 +21,19 @@ class ReportFactory {
                 return new ReportViewApp();
             } else if (report.category === bo.emReportType.CRYSTAL) {
                 return new CrystalReportViewApp();
+            }
+        }
+        throw new Error(
+            ibas.i18n.prop("reportanalysis_report_not_support_view",
+                report.name, ibas.enums.describe(bo.emReportType, report.category)));
+    }
+    /** 创建查看者 */
+    createTabViewer(report: bo.UserReport): IReportViewer {
+        if (!ibas.objects.isNull(report)) {
+            if (report.category === bo.emReportType.REPORT) {
+                return new ReportTabViewApp();
+            } else if (report.category === bo.emReportType.CRYSTAL) {
+                return new CrystalReportTabViewApp();
             }
         }
         throw new Error(

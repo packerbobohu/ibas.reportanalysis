@@ -16,11 +16,14 @@ import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.organization.fantasy.OrganizationManager;
 import org.colorcoding.ibas.bobas.ownership.PermissionGroup;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
+import org.colorcoding.ibas.bobas.util.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.Report;
 import org.colorcoding.ibas.reportanalysis.bo.reportbook.IReportBook;
+import org.colorcoding.ibas.reportanalysis.bo.reportbook.IReportBookItem;
 import org.colorcoding.ibas.reportanalysis.bo.reportbook.ReportBook;
 import org.colorcoding.ibas.reportanalysis.bo.users.UserReport;
+import org.colorcoding.ibas.reportanalysis.data.emAssignedType;
 import org.colorcoding.ibas.reportanalysis.reporter.IReporter;
 import org.colorcoding.ibas.reportanalysis.reporter.ReporterFacotry;
 
@@ -47,13 +50,17 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 			this.setUserToken(token);
 			ICriteria criteria = new Criteria();
 			ICondition condition = criteria.getConditions().create();
-			condition.setAlias(Report.PROPERTY_ACTIVATED.getName());
+			condition.setAlias(ReportBook.PROPERTY_ACTIVATED.getName());
 			condition.setValue(emYesNo.YES);
 			// 自己的查询
 			condition = criteria.getConditions().create();
-			condition.setBracketOpen(1);
-			condition.setAlias(Report.PROPERTY_DATAOWNER.getName());
+			condition.setBracketOpen(2);
+			condition.setAlias(ReportBook.PROPERTY_ASSIGNEDTYPE.getName());
+			condition.setValue(emAssignedType.USER);
+			condition = criteria.getConditions().create();
+			condition.setAlias(ReportBook.PROPERTY_ASSIGNED.getName());
 			condition.setValue(this.getCurrentUser().getId());
+			condition.setBracketClose(1);
 			// 所属角色的查询
 			IOrganizationManager manager = OrganizationFactory.create().createManager();
 			if (manager instanceof OrganizationManager) {
@@ -61,30 +68,64 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 				for (String role : ifManager.getUserRoles(this.getCurrentUser())) {
 					condition = criteria.getConditions().create();
 					condition.setRelationship(ConditionRelationship.OR);
-					condition.setAlias(Report.PROPERTY_GROUP.getName());
+					condition.setBracketOpen(1);
+					condition.setAlias(ReportBook.PROPERTY_ASSIGNEDTYPE.getName());
+					condition.setValue(emAssignedType.ROLE);
+					condition = criteria.getConditions().create();
+					condition.setAlias(ReportBook.PROPERTY_ASSIGNED.getName());
 					condition.setValue(role);
+					condition.setBracketClose(1);
 				}
 			}
-			condition.setBracketClose(1);
-			IOperationResult<Report> opRsltFetch = this.fetchReport(criteria, token);
-			if (opRsltFetch.getError() != null) {
-				throw opRsltFetch.getError();
+			condition.setBracketClose(2);
+			IOperationResult<ReportBook> opRsltBook = this.fetchReportBook(criteria, token);
+			if (opRsltBook.getError() != null) {
+				throw opRsltBook.getError();
 			}
-			if (opRsltFetch.getResultCode() != 0) {
-				throw new Exception(opRsltFetch.getMessage());
+			if (opRsltBook.getResultCode() != 0) {
+				throw new Exception(opRsltBook.getMessage());
 			}
-			for (Report boItem : opRsltFetch.getResultObjects()) {
-				UserReport uReport = UserReport.create(boItem);
-				boolean has = false;
-				for (UserReport uItem : opRslt.getResultObjects()) {
-					if (uItem.getId().equals(uReport.getId())) {
-						has = true;
-						break;
+			ArrayList<IReportBookItem> bookItems = new ArrayList<>();
+			// 获取报表项目列表，并去重
+			for (IReportBook rptItem : opRsltBook.getResultObjects()) {
+				for (IReportBookItem bkItem : rptItem.getReportBookItems()) {
+					if (bookItems.firstOrDefault(item -> item.getReport().equals(bkItem.getReport())) == null) {
+						bookItems.add(bkItem);
 					}
 				}
-				if (!has) {
-					// 已存在不再添加
-					opRslt.addResultObjects(uReport);
+			}
+			if (bookItems.size() > 0) {
+				// 配置了报表簿项目，则查询对应报表
+				criteria = new Criteria();
+				condition = criteria.getConditions().create();
+				condition.setAlias(ReportBook.PROPERTY_ACTIVATED.getName());
+				condition.setValue(emYesNo.YES);
+				for (IReportBookItem item : bookItems) {
+					condition = criteria.getConditions().create();
+					condition.setRelationship(ConditionRelationship.OR);
+					condition.setAlias(ReportBook.PROPERTY_OBJECTKEY.getName());
+					condition.setValue(item.getReport());
+					if (criteria.getConditions().size() == 2) {
+						// 第一个报表查询加括号
+						condition.setBracketOpen(1);
+						condition.setRelationship(ConditionRelationship.AND);
+					}
+				}
+				if (criteria.getConditions().size() > 1) {
+					// 存在报表查询，则加关闭括号
+					condition.setBracketClose(1);
+				}
+				// 查询报表
+				IOperationResult<Report> opRsltRpt = this.fetchReport(criteria, token);
+				if (opRsltRpt.getError() != null) {
+					throw opRsltRpt.getError();
+				}
+				if (opRsltRpt.getResultCode() != 0) {
+					throw new Exception(opRsltRpt.getMessage());
+				}
+				// 创建用户报表
+				for (Report rptItem : opRsltRpt.getResultObjects()) {
+					opRslt.addResultObjects(UserReport.create(rptItem));
 				}
 			}
 		} catch (Exception e) {

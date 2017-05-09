@@ -526,38 +526,6 @@ public class ReportBookItem extends BusinessObject<ReportBookItem> implements IR
 	}
 
 	/**
-	 * 属性名称-分组
-	 */
-	private static final String PROPERTY_GROUP_NAME = "Group";
-
-	/**
-	 * 分组 属性
-	 */
-	@DbField(name = "Group", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_GROUP = registerProperty(PROPERTY_GROUP_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-分组
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_GROUP_NAME)
-	public final String getGroup() {
-		return this.getProperty(PROPERTY_GROUP);
-	}
-
-	/**
-	 * 设置-分组
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setGroup(String value) {
-		this.setProperty(PROPERTY_GROUP, value);
-	}
-
-	/**
 	 * 初始化数据
 	 */
 	@Override

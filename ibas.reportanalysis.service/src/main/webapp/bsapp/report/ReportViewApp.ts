@@ -14,7 +14,7 @@ import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
 /** 查看应用-报表 */
 export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewView> implements IReportViewer {
     /** 应用标识 */
-    static APPLICATION_ID: string = "3c42c391-4dc3-4188-a9d7-b6cc757428ae";
+    static APPLICATION_ID: string = "3c42c391-4dc3-4188-a9d7-b6cc757428ea";
     /** 应用名称 */
     static APPLICATION_NAME: string = "reportanalysis_app_report_view";
     /** 构造函数 */
@@ -109,4 +109,14 @@ export interface IReportViewView extends ibas.IBOViewWithServices {
     showReport(report: bo.UserReport): void;
     /** 显示报表结果 */
     showResults(table: ibas.DataTable): void;
+}
+/** 查看应用-报表-页签 */
+export class ReportTabViewApp extends ReportViewApp {
+    /** 应用标识 */
+    static APPLICATION_ID: string = "3c42c391-4dc3-4188-a9d7-b6cc757428eb";
+    /** 构造函数 */
+    constructor() {
+        super();
+        this.id = ReportTabViewApp.APPLICATION_ID;
+    }
 }

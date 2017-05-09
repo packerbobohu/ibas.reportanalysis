@@ -26,6 +26,7 @@ public class UserReport {
 		userReport.setId(String.valueOf(boItem.getObjectKey()));
 		userReport.setName(boItem.getName());
 		userReport.setCategory(boItem.getCategory());
+		userReport.setGroup(boItem.getGroup());
 		ArrayList<UserReportParameter> parameters = new ArrayList<>();
 		// 报表中的参数
 		parameters.addAll(UserReportParameter.create(boItem));
@@ -68,6 +69,17 @@ public class UserReport {
 
 	public void setCategory(emReportType category) {
 		this.category = category;
+	}
+
+	@XmlElement(name = "Group")
+	private String group;
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
 	}
 
 	@XmlElement(name = "Parameters")

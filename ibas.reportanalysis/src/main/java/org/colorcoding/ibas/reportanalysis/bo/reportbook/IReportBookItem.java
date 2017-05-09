@@ -234,19 +234,4 @@ public interface IReportBookItem extends IBOSimpleLine {
 	 */
 	void setName(String value);
 
-	/**
-	 * 获取-分组
-	 * 
-	 * @return 值
-	 */
-	String getGroup();
-
-	/**
-	 * 设置-分组
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setGroup(String value);
-
 }

@@ -101,3 +101,13 @@ export interface ICrystalReportViewView extends ibas.IView {
     /** 显示报表结果 */
     showResults(table: ibas.DataTable): void;
 }
+/** 查看应用-报表-页签 */
+export class CrystalReportTabViewApp extends CrystalReportViewApp {
+    /** 应用标识 */
+    static APPLICATION_ID: string = "fe4385ed-a329-47e5-b6bb-5273b63e20bb";
+    /** 构造函数 */
+    constructor() {
+        super();
+        this.id = CrystalReportTabViewApp.APPLICATION_ID;
+    }
+}
