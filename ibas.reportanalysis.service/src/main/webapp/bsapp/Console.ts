@@ -72,6 +72,8 @@ export class Console extends ibas.ModuleConsole {
     }
 }
 
+/** 配置项目-禁用报表功能 */
+export const CONFIG_ITEM_DISABLE_REPORT_FUNCTIONS: string = "disableReportFunctions";
 /** 模块控制台 */
 export class ConsoleUsers extends ibas.ModuleConsole {
     /** 模块-标识 */
@@ -116,22 +118,29 @@ export class ConsoleUsers extends ibas.ModuleConsole {
         require(uiModules, function (ui: any): void {
             // 设置导航
             that._navigation = new ui.default();
-            // 加载用户报表
-            let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
-            boRepository.fetchUserReports({
-                user: ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_CODE),
-                onCompleted(opRslt: ibas.IOperationResult<bo.UserReport>): void {
-                    if (opRslt.resultCode !== 0) {
-                        ibas.logger.log(ibas.emMessageLevel.ERROR, opRslt.message);
+            if (!ibas.config.get(CONFIG_ITEM_DISABLE_REPORT_FUNCTIONS, false)) {
+                // 加载用户报表
+                let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+                boRepository.fetchUserReports({
+                    user: ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_CODE),
+                    onCompleted(opRslt: ibas.IOperationResult<bo.UserReport>): void {
+                        if (opRslt.resultCode !== 0) {
+                            ibas.logger.log(ibas.emMessageLevel.ERROR, opRslt.message);
+                        }
+                        that.register(new UserReportPageFunc());
+                        for (let item of opRslt.resultObjects) {
+                            that.register(new UserReportBookFunc(item));
+                        }
+                        // 通知初始化完成
+                        that.fireInitialized();
                     }
-                    that.register(new UserReportPageFunc());
-                    for (let item of opRslt.resultObjects) {
-                        that.register(new UserReportBookFunc(item));
-                    }
-                    // 通知初始化完成
-                    that.fireInitialized();
-                }
-            });
+                });
+            } else {
+                // 不加载用户报表菜单
+                that.register(new UserReportPageFunc());
+                // 通知初始化完成
+                that.fireInitialized();
+            }
         });
         // 保留基类方法
         super.run();

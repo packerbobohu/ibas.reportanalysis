@@ -18,12 +18,15 @@ import org.colorcoding.ibas.bobas.ownership.PermissionGroup;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
 import org.colorcoding.ibas.bobas.util.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
+import org.colorcoding.ibas.reportanalysis.bo.report.IReportParameter;
 import org.colorcoding.ibas.reportanalysis.bo.report.Report;
 import org.colorcoding.ibas.reportanalysis.bo.reportbook.IReportBook;
 import org.colorcoding.ibas.reportanalysis.bo.reportbook.IReportBookItem;
 import org.colorcoding.ibas.reportanalysis.bo.reportbook.ReportBook;
 import org.colorcoding.ibas.reportanalysis.bo.users.UserReport;
+import org.colorcoding.ibas.reportanalysis.bo.users.UserReportParameter;
 import org.colorcoding.ibas.reportanalysis.data.emAssignedType;
+import org.colorcoding.ibas.reportanalysis.data.emReportParameterType;
 import org.colorcoding.ibas.reportanalysis.reporter.IReporter;
 import org.colorcoding.ibas.reportanalysis.reporter.ReporterFacotry;
 
@@ -181,10 +184,20 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 				throw new Exception(i18n.prop("msg_ra_not_found_report",
 						report.getName() != null ? report.getName() : report.getId()));
 			}
+			IReporter reporter = ReporterFacotry.create().create(report);
 			RuntimeLog.log(MessageLevel.DEBUG, MSG_USER_RUN_REPORT, this.getCurrentUser().getId(),
 					boReport.getObjectKey(), boReport.getName());
-			ReporterFacotry facotry = ReporterFacotry.create();
-			IReporter reporter = facotry.create(report);
+			// 传递参数
+			for (IReportParameter boItem : boReport.getReportParameters()) {
+				if (boItem.getCategory() == emReportParameterType.PRESET) {
+					continue;
+				}
+				for (UserReportParameter usItem : report.getParameters()) {
+					if (boItem.getName().equals(usItem.getName())) {
+						boItem.setValue(usItem.getValue());
+					}
+				}
+			}
 			opRslt.addResultObjects(reporter.run(boReport));
 		} catch (Exception e) {
 			opRslt.setError(e);
