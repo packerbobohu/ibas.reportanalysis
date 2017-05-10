@@ -225,7 +225,6 @@ export class ReportBookEditApp extends ibas.BOEditApplication<IReportBookEditVie
                     }
                     item.report = selected.objectKey;
                     item.name = selected.name;
-                    item.group = selected.group;
                     item = null;
                 }
                 if (created) {
