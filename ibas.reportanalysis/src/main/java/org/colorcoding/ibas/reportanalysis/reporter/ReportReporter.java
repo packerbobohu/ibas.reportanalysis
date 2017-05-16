@@ -9,8 +9,8 @@ import org.colorcoding.ibas.bobas.data.IDataTable;
 import org.colorcoding.ibas.bobas.i18n.i18n;
 import org.colorcoding.ibas.bobas.repository.BORepository4DbReadonly;
 import org.colorcoding.ibas.bobas.repository.IBORepository4DbReadonly;
+import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReportParameter;
-import org.colorcoding.ibas.reportanalysis.bo.report.Report;
 
 /**
  * 系统报表者
@@ -21,7 +21,7 @@ import org.colorcoding.ibas.reportanalysis.bo.report.Report;
 public class ReportReporter extends Reporter {
 
 	@Override
-	public IDataTable run(Report report) throws Exception {
+	public IDataTable run(IReport report) throws Exception {
 		if (report == null || report.getSqlString() == null || report.getSqlString().isEmpty()) {
 			throw new Exception(i18n.prop("msg_ra_invaild_report_query",
 					report.getName() != null ? report.getName() : report.getObjectKey()));
