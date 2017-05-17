@@ -12,8 +12,8 @@
 export enum emReportType {
     /** 系统报表 */
     REPORT,
-    /** 水晶报表服务 */
-    CRYSTAL,
+    /** 报表服务 */
+    BOE,
     /** 绩效指标 */
     KPI
 }

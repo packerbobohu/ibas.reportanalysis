@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.businessobjectsenterprise;
+package org.colorcoding.ibas.boe;
 
 import org.colorcoding.ibas.bobas.i18n.i18n;
 

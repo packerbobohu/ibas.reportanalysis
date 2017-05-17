@@ -27,7 +27,7 @@
     <Property Name="AssociatedReport" Description="关联的报表" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Associated"/>
     <Property Name="SqlString" Description="查询语句" DataType="Memo" DataSubType="Default" EditSize="1" Mapped="SqlString"/>
     <Property Name="Server" Description="服务器名称" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="Server"/>
-    <Property Name="UserName" Description="用户名" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="UserName"/>
+    <Property Name="User" Description="用户名" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="User"/>
     <Property Name="Password" Description="密码" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Password"/>
     <Property Name="Address" Description="报表地址" DataType="Alphanumeric" DataSubType="Default" EditSize="300" Mapped="Address"/>
   </Model>

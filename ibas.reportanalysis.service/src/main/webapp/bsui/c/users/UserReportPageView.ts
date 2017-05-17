@@ -68,7 +68,7 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
         }
     }
     private getIcon(type: bo.emReportType): string {
-        if (type === bo.emReportType.CRYSTAL) {
+        if (type === bo.emReportType.BOE) {
             return "sap-icon://bbyd-dashboard";
         } else if (type === bo.emReportType.KPI) {
             return "sap-icon://kpi-corporate-performance";

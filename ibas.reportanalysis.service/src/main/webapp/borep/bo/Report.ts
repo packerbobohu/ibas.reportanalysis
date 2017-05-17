@@ -315,14 +315,14 @@ export class Report extends BOSimple<Report> implements IReport {
     }
 
     /** 映射的属性名称-用户名 */
-    static PROPERTY_USERNAME_NAME: string = "UserName";
+    static PROPERTY_USER_NAME: string = "User";
     /** 获取-用户名 */
-    get userName(): string {
-        return this.getProperty<string>(Report.PROPERTY_USERNAME_NAME);
+    get user(): string {
+        return this.getProperty<string>(Report.PROPERTY_USER_NAME);
     }
     /** 设置-用户名 */
-    set userName(value: string) {
-        this.setProperty(Report.PROPERTY_USERNAME_NAME, value);
+    set user(value: string) {
+        this.setProperty(Report.PROPERTY_USER_NAME, value);
     }
 
     /** 映射的属性名称-密码 */

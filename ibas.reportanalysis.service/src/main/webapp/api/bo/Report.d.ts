@@ -104,7 +104,7 @@ export interface IReport extends IBOSimple {
     server: string;
 
     /** 用户名 */
-    userName: string;
+    user: string;
 
     /** 密码 */
     password: string;

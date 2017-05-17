@@ -47,5 +47,10 @@
             <artifactId>bobas.businessobjectscommon.cxf</artifactId>
             <version>${ibas.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.colorcoding</groupId>
+            <artifactId>ibas.businessobjectsenterprise</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 </project>

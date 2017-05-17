@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.businessobjectsenterprise;
+package org.colorcoding.ibas.boe;
 
 public class BOEException extends Exception {
 	private static final long serialVersionUID = 6076534647095808482L;

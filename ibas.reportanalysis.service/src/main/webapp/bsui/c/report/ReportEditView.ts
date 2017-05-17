@@ -101,10 +101,10 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                 }).bindProperty("value", {
                     path: "/server"
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_username") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_report_user") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
-                    path: "/userName"
+                    path: "/user"
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_password") }),
                 new sap.m.Input("", {
