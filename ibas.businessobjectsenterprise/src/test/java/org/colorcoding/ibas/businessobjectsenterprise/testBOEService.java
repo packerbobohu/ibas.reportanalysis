@@ -1,7 +1,7 @@
 package org.colorcoding.ibas.businessobjectsenterprise;
 
-import org.colorcoding.ibas.boe.BOEException;
-import org.colorcoding.ibas.boe.BOEService;
+import org.colorcoding.ibas.boe.repository.BOEException;
+import org.colorcoding.ibas.boe.repository.BOEService;
 
 import com.crystaldecisions.sdk.exception.SDKException;
 

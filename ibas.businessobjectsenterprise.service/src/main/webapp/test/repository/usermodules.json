@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "${ProjectId}",
+    "Name": "BusinessObjectsEnterprise",
+    "Category": "",
+    "Address": ".../",
+    "Repository": "http://localhost:8080/businessobjectsenterprise/services/rest/data"
+  }
+]

@@ -2,7 +2,7 @@ package org.colorcoding.ibas.boe.reporter;
 
 import org.colorcoding.ibas.bobas.data.IDataTable;
 import org.colorcoding.ibas.bobas.data.KeyText;
-import org.colorcoding.ibas.boe.BOEService;
+import org.colorcoding.ibas.boe.repository.BOEService;
 import org.colorcoding.ibas.reportanalysis.reporter.ReportException;
 import org.colorcoding.ibas.reportanalysis.reporter.Reporter;
 

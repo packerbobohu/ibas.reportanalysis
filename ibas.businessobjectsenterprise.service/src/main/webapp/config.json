@@ -5,14 +5,11 @@
     "offline": false,
     "offline|BORepositoryShell": true,
     "disablePlatformView": false,
-    "disableReportFunctions": false,
-    "groupFunctions": false,
-    "autoFunction": "c7b448c1-54e0-4b4e-ba15-21dc5b4b96f0",
     "defaultUser": "admin",
     "defaultPassword": "1q2w3e",
     "repositoryAddress|BORepositoryShell": "http://localhost:8080/initialfantasy/services/rest/data",
     "repositoryAddress|BORepositoryShellOffline": ".../test/repository",
-    "repositoryAddress|BORepositoryReportAnalysisOffline": ".../test/repository"
+    "repositoryAddress|BORepositoryBusinessObjectsEnterpriseOffline": ".../test/repository"
   },
   "languages": [
     "zh_CN",

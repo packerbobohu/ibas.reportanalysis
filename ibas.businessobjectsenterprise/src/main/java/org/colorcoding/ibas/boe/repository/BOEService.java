@@ -1,6 +1,10 @@
-package org.colorcoding.ibas.boe;
+package org.colorcoding.ibas.boe.repository;
 
+import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.boe.bo.BOEFolder;
+import org.colorcoding.ibas.boe.bo.BOEReport;
 
 import com.crystaldecisions.sdk.exception.SDKException;
 import com.crystaldecisions.sdk.framework.CrystalEnterprise;
@@ -65,5 +69,43 @@ public class BOEService {
 		}
 		return tokenMgr.getDefaultToken();
 
+	}
+
+	/**
+	 * 查询-BOE文件夹
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	public OperationResult<BOEFolder> fetchFolder(ICriteria criteria, String token) {
+		OperationResult<BOEFolder> operationResult = new OperationResult<>();
+		try {
+
+		} catch (Exception e) {
+			operationResult = new OperationResult<>(e);
+		}
+		return operationResult;
+	}
+
+	/**
+	 * 查询-BOE报表
+	 * 
+	 * @param criteria
+	 *            查询
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	public OperationResult<BOEReport> fetchReport(ICriteria criteria, String token) {
+		OperationResult<BOEReport> operationResult = new OperationResult<>();
+		try {
+
+		} catch (Exception e) {
+			operationResult = new OperationResult<>(e);
+		}
+		return operationResult;
 	}
 }
