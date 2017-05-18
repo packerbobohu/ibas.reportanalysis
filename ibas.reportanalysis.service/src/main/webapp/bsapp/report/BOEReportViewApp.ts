@@ -75,6 +75,7 @@ export class BOEReportViewApp extends ibas.Application<IBOEReportViewView> imple
             report: this.report,
             onCompleted(opRslt: ibas.IOperationResult<ibas.DataTable>): void {
                 try {
+                    that.busy(false);
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
@@ -89,6 +90,7 @@ export class BOEReportViewApp extends ibas.Application<IBOEReportViewView> imple
                 }
             }
         });
+        this.busy(true);
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("reportanalysis_running_report", this.report.name));
     }
 }

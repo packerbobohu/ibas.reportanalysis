@@ -14,6 +14,7 @@ public final class ReporterFactories {
 	public final static String CONFIG_ITEM_REPORTER_FACTORIES = "ReporterFactories";
 
 	public static final String MSG_REGISTER_REPORTER_FACTORY = "reporter: register report factory [%s].";
+	public static final String MSG_NOT_FOUND_REPORTER = "reporter: not found [%s|%s]'s reporter.";
 
 	private static ReporterFactories instance;
 
@@ -41,7 +42,7 @@ public final class ReporterFactories {
 				if (item != null && item.length() > 0) {
 					try {
 						Class<?> type = Class.forName(item);
-						if (type != null && type.isAssignableFrom(ReporterFactory.class)) {
+						if (type != null && ReporterFactory.class.isAssignableFrom(type)) {
 							Object factory = type.newInstance();
 							if (factory instanceof ReporterFactory) {
 								this.getFactories().add((ReporterFactory) factory);
@@ -70,12 +71,16 @@ public final class ReporterFactories {
 		try {
 			for (ReporterFactory factory : this.getFactories()) {
 				reporter = factory.create(report);
-				if (report != null) {
+				if (reporter != null) {
 					return reporter;
 				}
 			}
 		} catch (Exception e) {
 			RuntimeLog.log(e);
+		}
+		if (reporter == null) {
+			RuntimeLog.log(MessageLevel.DEBUG, MSG_NOT_FOUND_REPORTER,
+					report.getName() != null ? report.getName() : report.getId(), report.getCategory());
 		}
 		return reporter;
 	}

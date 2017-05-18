@@ -761,12 +761,12 @@ public class Report extends BusinessObject<Report> implements IReport, IDataOwne
 	/**
 	 * 属性名称-关联的报表
 	 */
-	private static final String PROPERTY_ASSOCIATEDREPORT_NAME = "Associated";
+	private static final String PROPERTY_ASSOCIATEDREPORT_NAME = "AssociatedReport";
 
 	/**
 	 * 关联的报表 属性
 	 */
-	@DbField(name = "AppId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Associated", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_ASSOCIATEDREPORT = registerProperty(
 			PROPERTY_ASSOCIATEDREPORT_NAME, String.class, MY_CLASS);
 
