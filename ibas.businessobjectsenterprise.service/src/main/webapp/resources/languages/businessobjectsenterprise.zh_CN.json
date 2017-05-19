@@ -1,5 +1,14 @@
 {
   "businessobjectsenterprise": "BOE服务",
-  "businessobjectsenterprise_icon": "sap-icon://taxi",
+  "businessobjectsenterprise_icon": "sap-icon://wrench",
+  "businessobjectsenterprise_func_report_import": "报表导入",
+  "businessobjectsenterprise_app_report_import": "报表导入",
+  "businessobjectsenterprise_import_boe": "服务信息",
+  "businessobjectsenterprise_import_server": "地址",
+  "businessobjectsenterprise_import_user": "用户",
+  "businessobjectsenterprise_import_password": "密码",
+  "businessobjectsenterprise_import_connect": "连接",
+  "businessobjectsenterprise_import_reports": "报表信息",
+  "businessobjectsenterprise_import_import": "导入",
   "businessobjectsenterprise_closing_delimiter": "----结束----"
 }

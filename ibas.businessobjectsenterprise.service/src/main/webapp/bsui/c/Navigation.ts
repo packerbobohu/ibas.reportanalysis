@@ -7,6 +7,8 @@
  */
 
 import * as ibas from "ibas/index";
+import * as toolsApps from "../../bsapp/tools/index";
+import * as toolsViews from "./tools/index";
 
 /**
  * 视图导航
@@ -20,6 +22,9 @@ export default class Navigation extends ibas.ViewNavigation {
     protected newView(id: string): ibas.IView {
         let view: ibas.IView = null;
         switch (id) {
+            case toolsApps.ReportImportApp.APPLICATION_ID:
+                view = new toolsViews.ReportImportView();
+                break;
             default:
                 break;
         }
