@@ -18,7 +18,7 @@
     "Id": "c4d3da42-0a53-480b-98fe-bf551a9581c7",
     "Name": "BusinessObjectsEnterprise",
     "Category": "",
-    "Address": ".../3rdparty/businessobjectsenterprise",
+    "Address": ".../modules/businessobjectsenterprise",
     "Repository": "http://localhost:8080/businessobjectsenterprise/services/rest/data"
   }
 ]

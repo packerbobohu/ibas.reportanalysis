@@ -8,7 +8,9 @@
   "businessobjectsenterprise_import_user": "用户",
   "businessobjectsenterprise_import_password": "密码",
   "businessobjectsenterprise_import_connect": "连接",
+  "businessobjectsenterprise_import_folders": "目录信息",
   "businessobjectsenterprise_import_reports": "报表信息",
+  "businessobjectsenterprise_import_refresh": "刷新",
   "businessobjectsenterprise_import_import": "导入",
   "businessobjectsenterprise_closing_delimiter": "----结束----"
 }

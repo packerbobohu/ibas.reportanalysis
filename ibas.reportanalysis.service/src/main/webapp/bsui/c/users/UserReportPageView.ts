@@ -22,7 +22,7 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
 
     /** 绘制视图 */
     darw(): any {
-        let that = this;
+        let that: this = this;
         this.container = new sap.m.TileContainer("", {
 
         });
@@ -53,7 +53,7 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
     /** 显示数据 */
     showReports(reports: bo.UserReport[]): void {
         this.container.destroyTiles();
-        let that = this;
+        let that: this = this;
         for (let item of reports) {
             this.container.addTile(
                 new sap.m.StandardTile("", {

@@ -69,7 +69,7 @@ export class BOEReportViewApp extends ibas.Application<IBOEReportViewView> imple
     }
     report: bo.UserReport;
     runReport(): void {
-        let that = this;
+        let that: this = this;
         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
         boRepository.runUserReport({
             report: this.report,

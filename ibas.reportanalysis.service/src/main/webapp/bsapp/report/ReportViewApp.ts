@@ -70,7 +70,7 @@ export class ReportViewApp extends ibas.BOApplicationWithServices<IReportViewVie
     }
     report: bo.UserReport;
     runReport(): void {
-        let that = this;
+        let that: this = this;
         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
         boRepository.runUserReport({
             report: this.report,

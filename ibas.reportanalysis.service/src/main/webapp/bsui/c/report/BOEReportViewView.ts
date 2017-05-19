@@ -38,7 +38,7 @@ export class BOEReportViewView extends ibas.View implements IBOEReportViewView {
     runReportEvent: Function;
     /** 绘制视图 */
     darw(): any {
-        let that = this;
+        let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             content: [
             ]
@@ -113,7 +113,7 @@ export class BOEReportViewTabView extends ibas.TabView implements IBOEReportView
     runReportEvent: Function;
     /** 绘制视图 */
     darw(): any {
-        let that = this;
+        let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             content: [
             ]

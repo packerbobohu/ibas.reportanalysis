@@ -36,7 +36,7 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
-        let that = this;
+        let that: this = this;
         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
         boRepository.fetchUserReports({
             user: ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_CODE),
@@ -80,7 +80,7 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
         if (!ibas.objects.instanceOf(kpiReport, bo.UserReport)) {
             return;
         }
-        let that = this;
+        let that: this = this;
         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
         boRepository.runUserReport({
             report: kpiReport,
