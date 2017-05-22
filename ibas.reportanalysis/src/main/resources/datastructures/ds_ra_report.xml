@@ -18,7 +18,7 @@
     <Property Name="DataOwner" Description="数据所有者" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DataOwner"/>
     <Property Name="TeamMembers" Description="团队成员" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="TeamMembers"/>
     <Property Name="Organization" Description="数据所属组织" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrgCode"/>
-    <Property Name="Name" Description="报表名称" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Name"/>
+    <Property Name="Name" Description="报表名称" DataType="Alphanumeric" DataSubType="Default" EditSize="50" Mapped="Name" UniqueKey="Yes"/>
     <Property Name="Activated" Description="是否启用" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
     <Property Name="Category" Description="报表类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emReportType" Mapped="Category"/>
     <Property Name="Group" Description="报表组别" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Group"/>

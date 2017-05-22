@@ -28,6 +28,7 @@ import {
 /** BOE报表 */
 export class BOEReport extends BusinessObject<BOEReport> implements IBOEReport {
 
+
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = "CC_BOE_REPORT";
     /** 构造函数 */

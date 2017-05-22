@@ -17,5 +17,6 @@
   "businessobjectsenterprise_connected_server": "已连接服务",
   "businessobjectsenterprise_please_connect_servers": "请先连接服务",
   "businessobjectsenterprise_replace_exists": "替换已存在",
+  "businessobjectsenterprise_import_result": "导入结果",
   "businessobjectsenterprise_closing_delimiter": "----结束----"
 }

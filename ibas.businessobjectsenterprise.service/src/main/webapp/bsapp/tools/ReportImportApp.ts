@@ -143,9 +143,12 @@ export class ReportImportApp extends ibas.Application<IReportImportView> {
         }
     }
     /** 导入报表 */
-    importReport(): void {
+    importReport(reports: bo.BOEReport[]): void {
         try {
+            let that: this = this;
+            for (let item of reports) {
 
+            }
         } catch (error) {
             this.messages(error);
         }
@@ -159,6 +162,8 @@ export interface IReportImportView extends ibas.IView {
     readonly user: string;
     /** BOE密码 */
     readonly password: string;
+    /** 替换已存在报表 */
+    readonly replace: boolean;
     /** 连接BOE */
     connectEvent: Function;
     /** 获取目录 */

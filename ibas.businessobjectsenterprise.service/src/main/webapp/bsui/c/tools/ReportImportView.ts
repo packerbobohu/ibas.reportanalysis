@@ -223,6 +223,10 @@ export class ReportImportView extends ibas.View implements IReportImportView {
     get password(): string {
         return this.iptPassword.getValue();
     }
+    /** 替换已存在报表 */
+    get replace(): boolean {
+        return this.iptReplace.getSelected();
+    }
     /** 显示目录 */
     showFolders(datas: bo.BOEFolder[]): void {
         this.tableFolders.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));

@@ -341,8 +341,8 @@ public class BOEService {
 					IInfoObject parent = infoObject.getParent();
 					path.append("/");
 					while (parent != null && CRITERIA_CONDITION_VALUE_KIND_FOLDER.equals(parent.getKind())) {
-						path.append(parent.getTitle());
-						path.append("/");
+						path.insert(0, parent.getTitle());
+						path.insert(0, "/");
 						parent = parent.getParent();
 					}
 				} catch (Exception e) {
