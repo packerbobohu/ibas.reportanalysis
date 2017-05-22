@@ -39,10 +39,16 @@ export class ReportImportView extends ibas.View implements IReportImportView {
             type: sap.m.InputType.Password,
             value: ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE) ? ibas.config.get(CONFIG_ITEM_DEFAULT_BOE_PASSWORD) : "",
         });
+        this.iptReplace = new sap.m.CheckBox("", {
+            selected: false,
+            text: ibas.i18n.prop("businessobjectsenterprise_replace_exists"),
+        });
         this.tableFolders = new sap.ui.table.Table("", {
             enableSelectAll: true,
             visibleRowCount: 4,
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
+            rowHeight: 22,
+            columnHeaderHeight: 22,
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -63,10 +69,10 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_boefolder_parentid"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         width: "100%",
-                    }).bindProperty("value", {
-                        path: "parentid",
+                    }).bindProperty("text", {
+                        path: "parentId",
                     })
                 }),
             ]
@@ -86,14 +92,6 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_boereport_sign"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "sign",
-                    })
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_boereport_name"),
                     template: new sap.m.Input("", {
                         width: "100%",
@@ -110,27 +108,11 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_boereport_category"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "category",
-                    })
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_boereport_path"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
                         path: "path",
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_boereport_group"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "group",
                     })
                 }),
             ]
@@ -183,12 +165,16 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                     content: [
                         new sap.m.Title("", { text: ibas.i18n.prop("businessobjectsenterprise_import_reports") }),
                         new sap.m.ToolbarSpacer("", {}),
+                        this.iptReplace,
                         new sap.m.Button("", {
                             text: ibas.i18n.prop("businessobjectsenterprise_import_import"),
-                            icon: "sap-icon://connected",
+                            icon: "sap-icon://journey-arrive",
                             type: sap.m.ButtonType.Transparent,
                             press(): void {
-                                that.fireViewEvents(that.connectEvent);
+                                that.fireViewEvents(that.importReportEvent,
+                                    // 获取表格选中的对象
+                                    utils.getTableSelecteds<bo.BOEReport>(that.tableReports)
+                                );
                             }
                         }),
                         new sap.m.Button("", {
@@ -196,7 +182,10 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                             icon: "sap-icon://refresh",
                             type: sap.m.ButtonType.Transparent,
                             press(): void {
-                                that.fireViewEvents(that.fetchReportEvent);
+                                that.fireViewEvents(that.fetchReportEvent,
+                                    // 获取表格选中的对象
+                                    utils.getTableSelecteds<bo.BOEFolder>(that.tableFolders)
+                                );
                             }
                         }),
                     ]
@@ -218,9 +207,13 @@ export class ReportImportView extends ibas.View implements IReportImportView {
     private iptServer: sap.m.Input;
     private iptUser: sap.m.Input;
     private iptPassword: sap.m.Input;
+    private iptReplace: sap.m.CheckBox;
     /** BOE服务地址 */
     get server(): string {
         return this.iptServer.getValue();
+    }
+    set server(value: string) {
+        this.iptServer.setValue(value);
     }
     /** BOE用户 */
     get user(): string {

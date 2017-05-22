@@ -61,4 +61,7 @@ public class BOEFolder implements IBOEFolder {
 		this.name = name;
 	}
 
+	public String toString() {
+		return String.format("{folder: %s|%s}", this.getId(), this.getName());
+	}
 }

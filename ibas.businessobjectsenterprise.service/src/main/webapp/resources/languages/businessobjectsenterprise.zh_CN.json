@@ -12,5 +12,10 @@
   "businessobjectsenterprise_import_reports": "报表信息",
   "businessobjectsenterprise_import_refresh": "刷新",
   "businessobjectsenterprise_import_import": "导入",
+  "businessobjectsenterprise_please_server_address": "请输入服务地址",
+  "businessobjectsenterprise_completion_server_address": "补全服务地址",
+  "businessobjectsenterprise_connected_server": "已连接服务",
+  "businessobjectsenterprise_please_connect_servers": "请先连接服务",
+  "businessobjectsenterprise_replace_exists": "替换已存在",
   "businessobjectsenterprise_closing_delimiter": "----结束----"
 }

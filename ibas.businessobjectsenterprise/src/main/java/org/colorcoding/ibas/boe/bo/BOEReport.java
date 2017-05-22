@@ -120,4 +120,7 @@ public class BOEReport implements IBOEReport {
 		this.group = group;
 	}
 
+	public String toString() {
+		return String.format("{report: %s|%s}", this.getId(), this.getName());
+	}
 }

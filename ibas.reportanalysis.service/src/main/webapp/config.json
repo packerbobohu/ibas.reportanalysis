@@ -10,7 +10,7 @@
     "autoFunction": "c7b448c1-54e0-4b4e-ba15-21dc5b4b96f0",
     "defaultUser": "admin",
     "defaultPassword": "1q2w3e",
-    "defaultBOEServer": "192.168.0.43",
+    "defaultBOEServer": "http://localhost:8080/businessobjectsenterprise/services/rest/data",
     "defaultBOEUser": "administrator",
     "defaultBOEPassword": "Aa123456",
     "repositoryAddress|BORepositoryShell": "http://localhost:8080/initialfantasy/services/rest/data",

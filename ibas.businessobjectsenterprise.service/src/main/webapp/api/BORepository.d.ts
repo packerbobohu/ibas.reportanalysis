@@ -8,13 +8,19 @@
 
 import {
     FetchCaller,
-    SaveCaller
+    SaveCaller,
+    MethodCaller,
+    IOperationMessages,
 } from "ibas/index";
 import * as bo from "./bo/index"
 
 /** BusinessObjectsEnterprise 业务仓库 */
 export interface IBORepositoryBusinessObjectsEnterprise {
-
+	/**
+	 * 用户登录
+	 * @param caller 调用者
+	 */
+    connect(caller: ConnectCaller): void;
     /**
      * 查询 BOE文件夹
      * @param fetcher 查询者
@@ -27,5 +33,18 @@ export interface IBORepositoryBusinessObjectsEnterprise {
      */
     fetchReport(fetcher: FetchCaller<bo.IBOEReport>);
 
-
+}
+/**
+ * 登录调用者
+ */
+export interface ConnectCaller extends MethodCaller {
+    /** 用户 */
+    user: string;
+    /** 密码 */
+    password: string;
+    /**
+     * 调用完成
+     * @param opRslt 结果
+     */
+    onCompleted(opRslt: IOperationMessages);
 }

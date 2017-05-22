@@ -10,6 +10,13 @@
 export * from "./BOEFolder";
 export * from "./BOEReport";
 
+/** 查询条件-ID */
+export const CRITERIA_CONDITION_ALIAS_ID: string = "SI_ID";
+/** 查询条件-父项ID */
+export const CRITERIA_CONDITION_ALIAS_PARENT_ID: string = "SI_PARENTID";
+/** 查询条件-类型 */
+export const CRITERIA_CONDITION_ALIAS_KIND: string = "SI_KIND";
+
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";
 import { BOEFolder } from "./BOEFolder";

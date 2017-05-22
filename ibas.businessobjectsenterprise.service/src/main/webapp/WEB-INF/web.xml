@@ -19,7 +19,7 @@
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>jersey.config.server.provider.packages</param-name>
-      <param-value>org.colorcoding.ibas.businessobjectsenterprise.service.rest</param-value>
+      <param-value>org.colorcoding.ibas.boe.service.rest</param-value>
     </init-param>
     <init-param>
       <param-name>jersey.config.server.provider.classnames</param-name>
@@ -32,7 +32,7 @@
     <servlet-class>org.colorcoding.ibas.bobas.cxf.CXFServlet</servlet-class>
     <init-param>
       <param-name>ibas.config.server.provider.packages</param-name>
-      <param-value>org.colorcoding.ibas.businessobjectsenterprise.service.soap</param-value>
+      <param-value>org.colorcoding.ibas.boe.service.soap</param-value>
     </init-param>
     <load-on-startup>3</load-on-startup>
   </servlet>

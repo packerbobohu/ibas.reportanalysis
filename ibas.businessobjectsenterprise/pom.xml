@@ -57,6 +57,11 @@
 			<artifactId>bobas.businessobjectscommon</artifactId>
 			<version>${ibas.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.colorcoding.ibas</groupId>
+            <artifactId>bobas.businessobjectscommon.db.sybase</artifactId>
+            <version>${ibas.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>org.colorcoding</groupId>
 			<artifactId>ibas.reportanalysis</artifactId>

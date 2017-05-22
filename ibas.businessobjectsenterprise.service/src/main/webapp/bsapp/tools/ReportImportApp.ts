@@ -37,27 +37,124 @@ export class ReportImportApp extends ibas.Application<IReportImportView> {
     protected viewShowed(): void {
         // 视图加载完成
     }
+    /** boe仓库 */
+    private boeRepository: BORepositoryBusinessObjectsEnterprise;
     /** 连接boe */
-    connect(): void { 
-
+    connect(): void {
+        try {
+            let address: string = this.view.server;
+            if (ibas.objects.isNull(address)) {
+                throw new Error(ibas.i18n.prop("businessobjectsenterprise_please_server_address"));
+            }
+            if (!address.startsWith("http")) {
+                // 没有http开头认为是非完整地址
+                address = "http://" + address + "/businessobjectsenterprise/services/rest/data";
+                this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("businessobjectsenterprise_completion_server_address"));
+                this.view.server = address;
+            }
+            let that: this = this;
+            this.boeRepository = new BORepositoryBusinessObjectsEnterprise();
+            this.boeRepository.address = address;
+            this.boeRepository.connect({
+                user: this.view.user,
+                password: this.view.password,
+                onCompleted(opRslt: ibas.IOperationMessages): void {
+                    try {
+                        that.busy(false);
+                        if (opRslt.resultCode !== 0) {
+                            throw new Error(opRslt.message);
+                        }
+                        that.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("businessobjectsenterprise_connected_server"));
+                    } catch (error) {
+                        that.messages(error);
+                    }
+                }
+            });
+            this.busy(true);
+        } catch (error) {
+            this.messages(error);
+        }
     }
     /** 获取目录 */
-    fetchFolder(): void { 
-
+    fetchFolder(): void {
+        try {
+            if (ibas.objects.isNull(this.boeRepository) || ibas.objects.isNull(this.boeRepository.address)) {
+                // 没有连接服务
+                throw new Error(ibas.i18n.prop("businessobjectsenterprise_please_connect_servers"));
+            }
+            let that: this = this;
+            this.boeRepository.fetchFolder({
+                criteria: new ibas.Criteria(),
+                onCompleted(opRslt: ibas.IOperationResult<bo.BOEFolder>): void {
+                    try {
+                        that.busy(false);
+                        if (opRslt.resultCode !== 0) {
+                            throw new Error(opRslt.message);
+                        }
+                        that.view.showFolders(opRslt.resultObjects);
+                    } catch (error) {
+                        that.messages(error);
+                    }
+                }
+            });
+            this.busy(true);
+        } catch (error) {
+            this.messages(error);
+        }
     }
     /** 获取报表 */
-    fetchReport(): void { 
-
+    fetchReport(folders: bo.BOEFolder[]): void {
+        try {
+            if (ibas.objects.isNull(this.boeRepository) || ibas.objects.isNull(this.boeRepository.address)) {
+                // 没有连接服务
+                throw new Error(ibas.i18n.prop("businessobjectsenterprise_please_connect_servers"));
+            }
+            let criteria: ibas.ICriteria = new ibas.Criteria();
+            if (folders instanceof Array) {
+                for (let item of folders) {
+                    if (item instanceof bo.BOEFolder) {
+                        let folder: bo.BOEFolder = <bo.BOEFolder>item;
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = bo.CRITERIA_CONDITION_ALIAS_PARENT_ID;
+                        condition.value = ibas.strings.valueOf(folder.id);
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                    }
+                }
+            }
+            // 报表查询条件
+            let that: this = this;
+            this.boeRepository.fetchReport({
+                criteria: criteria,
+                onCompleted(opRslt: ibas.IOperationResult<bo.BOEReport>): void {
+                    try {
+                        that.busy(false);
+                        if (opRslt.resultCode !== 0) {
+                            throw new Error(opRslt.message);
+                        }
+                        that.view.showReports(opRslt.resultObjects);
+                    } catch (error) {
+                        that.messages(error);
+                    }
+                }
+            });
+            this.busy(true);
+        } catch (error) {
+            this.messages(error);
+        }
     }
     /** 导入报表 */
-    importReport(): void { 
+    importReport(): void {
+        try {
 
+        } catch (error) {
+            this.messages(error);
+        }
     }
 }
 /** 视图-BOE报表 */
 export interface IReportImportView extends ibas.IView {
     /** BOE服务地址 */
-    readonly server: string;
+    server: string;
     /** BOE用户 */
     readonly user: string;
     /** BOE密码 */
