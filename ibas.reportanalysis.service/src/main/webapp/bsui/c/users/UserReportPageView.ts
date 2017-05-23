@@ -32,13 +32,49 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
             footer: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.ToolbarSpacer(""),
-                    new sap.m.Button("", {
+                    new sap.m.MenuButton("", {
                         text: ibas.i18n.prop("sys_shell_refresh"),
                         type: sap.m.ButtonType.Transparent,
+                        width: "auto",
                         icon: "sap-icon://refresh",
-                        press: function (): void {
+                        buttonMode: sap.m.MenuButtonMode.Split,
+                        defaultAction: function (): void {
                             that.fireViewEvents(that.refreshReportsEvent);
-                        }
+                        },
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("reportanalysisusers_refresh_all"),
+                                    icon: "sap-icon://opportunity"
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("reportanalysisusers_refresh_kpi"),
+                                    icon: that.getIcon(bo.emReportType.KPI)
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("reportanalysisusers_refresh_boe"),
+                                    icon: that.getIcon(bo.emReportType.BOE)
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("reportanalysisusers_refresh_report"),
+                                    icon: that.getIcon(bo.emReportType.REPORT)
+                                }),
+                            ],
+                            itemSelected: function (event: any): void {
+                                let item: any = event.getParameter("item");
+                                if (item instanceof sap.m.MenuItem) {
+                                    if (item.getIcon() === that.getIcon(bo.emReportType.KPI)) {
+                                        that.fireViewEvents(that.refreshReportsEvent, bo.emReportType.KPI);
+                                    } else if (item.getIcon() === that.getIcon(bo.emReportType.BOE)) {
+                                        that.fireViewEvents(that.refreshReportsEvent, bo.emReportType.BOE);
+                                    } else if (item.getIcon() === that.getIcon(bo.emReportType.REPORT)) {
+                                        that.fireViewEvents(that.refreshReportsEvent, bo.emReportType.REPORT);
+                                    } else {
+                                        that.fireViewEvents(that.refreshReportsEvent);
+                                    }
+                                }
+                            }
+                        })
                     }),
                     new sap.m.ToolbarSpacer(""),
                 ]

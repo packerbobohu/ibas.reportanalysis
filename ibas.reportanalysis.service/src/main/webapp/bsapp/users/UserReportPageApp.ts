@@ -36,24 +36,7 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
-        let that: this = this;
-        let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
-        boRepository.fetchUserReports({
-            user: ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_CODE),
-            onCompleted(opRslt: ibas.IOperationResult<bo.UserReport>): void {
-                try {
-                    if (opRslt.resultCode !== 0) {
-                        throw new Error(opRslt.message);
-                    }
-                    that.view.showReports(opRslt.resultObjects);
-                    that.busy(false);
-                } catch (error) {
-                    that.messages(error);
-                }
-            }
-        });
-        // this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("reportanalysis_loading_user_reports"));
-        this.busy(true);
+        this.refreshReports(undefined);
     }
     private activeReport(report: bo.UserReport): void {
         if (!ibas.objects.instanceOf(report, bo.UserReport)) {
@@ -73,8 +56,33 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
             this.messages(error);
         }
     }
-    private refreshReports(): void {
-        this.viewShowed();
+    private refreshReports(type: bo.emReportType): void {
+        let that: this = this;
+        let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+        boRepository.fetchUserReports({
+            user: ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_CODE),
+            onCompleted(opRslt: ibas.IOperationResult<bo.UserReport>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    let reports: bo.UserReport[] = new Array();
+                    for (let report of opRslt.resultObjects) {
+                        if (!ibas.objects.isNull(type)) {
+                            if (report.category !== type) {
+                                continue;
+                            }
+                        }
+                        reports.push(report);
+                    }
+                    that.view.showReports(reports);
+                    that.busy(false);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        this.busy(true);
     }
     private runReportKpi(kpiReport: bo.UserReport): void {
         if (!ibas.objects.instanceOf(kpiReport, bo.UserReport)) {

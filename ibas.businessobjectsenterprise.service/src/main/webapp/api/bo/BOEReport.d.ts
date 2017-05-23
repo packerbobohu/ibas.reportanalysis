@@ -52,7 +52,7 @@ export interface IBOEReport extends IBusinessObject {
     url: string;
 
     /** 报表服务地址 */
-    serer: string;
+    server: string;
 
 }
 
