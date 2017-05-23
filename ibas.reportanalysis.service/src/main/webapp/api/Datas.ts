@@ -6,6 +6,13 @@
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
 
+/** 业务仓库名称 */
+export const BO_REPOSITORY_REPORTANALYSIS: string = "BORepositoryReportAnalysis";
+/** 业务对象编码-报表 */
+export const BO_CODE_REPORT: string = "${Company}_RA_REPORT";
+/** 业务对象编码-报表簿 */
+export const BO_CODE_REPORTBOOK: string = "${Company}_RA_RPTBOOK";
+
 /**
  * 报表类型
  */

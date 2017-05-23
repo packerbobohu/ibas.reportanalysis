@@ -111,4 +111,33 @@ public interface IBOEReport {
 	 */
 	void setGroup(String value);
 
+	/**
+	 * 获取-报表服务地址
+	 * 
+	 * @return 值
+	 */
+	String getServer();
+
+	/**
+	 * 设置-报表服务地址
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setServer(String value);
+
+	/**
+	 * 获取-报表地址
+	 * 
+	 * @return 值
+	 */
+	String getUrl();
+
+	/**
+	 * 设置-报表地址
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setUrl(String value);
 }

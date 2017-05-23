@@ -120,6 +120,36 @@ public class BOEReport implements IBOEReport {
 		this.group = group;
 	}
 
+	/**
+	 * 属性名称-报表地址
+	 */
+	private static final String PROPERTY_URL_NAME = "Url";
+	private String url;
+
+	@XmlElement(name = PROPERTY_URL_NAME)
+	public final String getUrl() {
+		return url;
+	}
+
+	public final void setUrl(String url) {
+		this.url = url;
+	}
+
+	/**
+	 * 属性名称-报表服务地址
+	 */
+	private static final String PROPERTY_SERVER_NAME = "Server";
+	private String server;
+
+	@XmlElement(name = PROPERTY_SERVER_NAME)
+	public final String getServer() {
+		return server;
+	}
+
+	public final void setServer(String server) {
+		this.server = server;
+	}
+
 	public String toString() {
 		return String.format("{report: %s|%s}", this.getId(), this.getName());
 	}

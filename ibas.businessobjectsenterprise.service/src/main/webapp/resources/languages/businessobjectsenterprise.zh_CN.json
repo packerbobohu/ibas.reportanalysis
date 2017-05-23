@@ -18,5 +18,7 @@
   "businessobjectsenterprise_please_connect_servers": "请先连接服务",
   "businessobjectsenterprise_replace_exists": "替换已存在",
   "businessobjectsenterprise_import_result": "导入结果",
+  "businessobjectsenterprise_import_successful": "成功导入报表[{0}|{1}]",
+  "businessobjectsenterprise_import_faild": "导入报表[{0}]失败，{1}，是否继续",
   "businessobjectsenterprise_closing_delimiter": "----结束----"
 }

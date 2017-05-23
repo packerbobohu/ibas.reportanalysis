@@ -9,6 +9,10 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryBusinessObjectsEnterprise } from "../../borep/BORepositories";
+import { transforms } from "../../borep/DataConverters";
+import {
+    IReport, IBORepositoryReportAnalysis, BO_REPOSITORY_REPORTANALYSIS
+} from "../../3rdparty/reportanalysis/index";
 
 /** 列表应用-BOE报表 */
 export class ReportImportApp extends ibas.Application<IReportImportView> {
@@ -50,7 +54,6 @@ export class ReportImportApp extends ibas.Application<IReportImportView> {
                 // 没有http开头认为是非完整地址
                 address = "http://" + address + "/businessobjectsenterprise/services/rest/data";
                 this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("businessobjectsenterprise_completion_server_address"));
-                this.view.server = address;
             }
             let that: this = this;
             this.boeRepository = new BORepositoryBusinessObjectsEnterprise();
@@ -143,12 +146,59 @@ export class ReportImportApp extends ibas.Application<IReportImportView> {
         }
     }
     /** 导入报表 */
-    importReport(reports: bo.BOEReport[]): void {
+    importReport(items: bo.BOEReport[]): void {
         try {
             let that: this = this;
-            for (let item of reports) {
-
+            let reports: ibas.ArrayList<IReport> = new ibas.ArrayList<IReport>();
+            for (let item of items) {
+                let report: IReport = transforms.toReport(item);
+                report.user = this.view.user;
+                report.password = this.view.password;
+                reports.add(report);
             }
+            let index: number = 0;
+            let saver: Function = function (): void {
+                let boRepository: IBORepositoryReportAnalysis
+                    = ibas.boFactory.create<IBORepositoryReportAnalysis>(BO_REPOSITORY_REPORTANALYSIS);
+                if (index < reports.length) {
+                    // 数据未处理完成
+                    boRepository.saveReport({
+                        beSaved: reports[index],
+                        onCompleted(opRslt: ibas.IOperationResult<IReport>): void {
+                            try {
+                                if (opRslt.resultCode === 0) {
+                                    // 成功，继续下一个
+                                    let report: IReport = opRslt.resultObjects.firstOrDefault();
+                                    if (!ibas.objects.isNull(report)) {
+                                        that.proceeding(ibas.emMessageType.SUCCESS,
+                                            ibas.i18n.prop("businessobjectsenterprise_import_successful", report.objectKey, report.name));
+                                    }
+                                    index++;
+                                    saver();
+                                } else {
+                                    // 失败，询问是否继续
+                                    that.messages({
+                                        type: ibas.emMessageType.ERROR,
+                                        message: ibas.i18n.prop("businessobjectsenterprise_import_faild",
+                                            reports[index].name, opRslt.message),
+                                        actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
+                                        onCompleted(action: ibas.emMessageAction): void {
+                                            if (action === ibas.emMessageAction.YES) {
+                                                index++;
+                                                saver();
+                                            }
+                                        }
+                                    });
+                                }
+                            } catch (error) {
+                                that.messages(error);
+                            }
+                        }
+                    });
+                }
+            };
+            // 调用保存
+            saver();
         } catch (error) {
             this.messages(error);
         }
@@ -157,7 +207,7 @@ export class ReportImportApp extends ibas.Application<IReportImportView> {
 /** 视图-BOE报表 */
 export interface IReportImportView extends ibas.IView {
     /** BOE服务地址 */
-    server: string;
+    readonly server: string;
     /** BOE用户 */
     readonly user: string;
     /** BOE密码 */

@@ -8,7 +8,7 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "./bo/index";
-import { IBORepositoryReportAnalysis, UserMethodsCaller } from "../api/index";
+import { IBORepositoryReportAnalysis, UserMethodsCaller, BO_REPOSITORY_REPORTANALYSIS } from "../api/index";
 import { DataConverter4ra } from "./DataConverters";
 
 /** ReportAnalysis 业务仓库 */
@@ -84,6 +84,8 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
     }
 
 }
+// 注册业务对象仓库到工厂
+ibas.boFactory.register(BO_REPOSITORY_REPORTANALYSIS, BORepositoryReportAnalysis);
 /**
  * 用户相关调用者
  */

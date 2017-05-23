@@ -28,7 +28,6 @@ import {
 /** BOE报表 */
 export class BOEReport extends BusinessObject<BOEReport> implements IBOEReport {
 
-
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = "CC_BOE_REPORT";
     /** 构造函数 */
@@ -110,6 +109,28 @@ export class BOEReport extends BusinessObject<BOEReport> implements IBOEReport {
     /** 设置-报表组别 */
     set group(value: string) {
         this.setProperty(BOEReport.PROPERTY_GROUP_NAME, value);
+    }
+
+    /** 映射的属性名称-报表地址 */
+    static PROPERTY_URL_NAME: string = "Url";
+    /** 获取-报表地址 */
+    get url(): string {
+        return this.getProperty<string>(BOEReport.PROPERTY_URL_NAME);
+    }
+    /** 设置-报表地址 */
+    set url(value: string) {
+        this.setProperty(BOEReport.PROPERTY_URL_NAME, value);
+    }
+
+    /** 映射的属性名称-报表服务地址 */
+    static PROPERTY_SERVER_NAME: string = "Server";
+    /** 获取-报表服务地址 */
+    get server(): string {
+        return this.getProperty<string>(BOEReport.PROPERTY_SERVER_NAME);
+    }
+    /** 设置-报表服务地址 */
+    set server(value: string) {
+        this.setProperty(BOEReport.PROPERTY_SERVER_NAME, value);
     }
 
     /** 获取查询 */

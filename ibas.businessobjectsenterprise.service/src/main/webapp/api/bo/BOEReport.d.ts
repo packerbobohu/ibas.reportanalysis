@@ -48,6 +48,11 @@ export interface IBOEReport extends IBusinessObject {
     /** 报表组别 */
     group: string;
 
+    /** 报表地址 */
+    url: string;
+
+    /** 报表服务地址 */
+    serer: string;
 
 }
 

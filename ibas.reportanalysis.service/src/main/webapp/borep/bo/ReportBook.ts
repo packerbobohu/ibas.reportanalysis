@@ -25,6 +25,7 @@ import {
     IReportBook,
     IReportBookItem,
     IReportBookItems,
+    BO_CODE_REPORTBOOK,
     emAssignedType,
 } from "../../api/index";
 
@@ -32,7 +33,7 @@ import {
 export class ReportBook extends BOSimple<ReportBook> implements IReportBook {
 
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = "${Company}_RA_RPTBOOK";
+    static BUSINESS_OBJECT_CODE: string = BO_CODE_REPORTBOOK;
     /** 构造函数 */
     constructor() {
         super();

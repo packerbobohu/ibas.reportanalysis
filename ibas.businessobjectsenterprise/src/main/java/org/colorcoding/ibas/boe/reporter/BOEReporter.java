@@ -10,9 +10,10 @@ public class BOEReporter extends Reporter {
 
 	public static final String PARAMETER_NAME_USER = "${User}";
 	public static final String PARAMETER_NAME_PASSWORD = "${Password}";
-	public static final String PARAMETER_NAME_SERVER = "${Server}";
 	public static final String PARAMETER_NAME_ADDRESS = "${Address}";
 	public static final String PARAMETER_NAME_URL = "${Url}";
+	public static final String PARAMETER_NAME_TOKEN = "${Token}";
+	public static final String PARAMETER_NAME_SERVER = "${Server}";
 
 	public String getServer() throws ReportException {
 		return this.getParameterValue(PARAMETER_NAME_SERVER);
@@ -38,7 +39,7 @@ public class BOEReporter extends Reporter {
 			boeService.logon(this.getUser(), this.getPassword());
 			KeyText keyText = new KeyText();
 			keyText.key = PARAMETER_NAME_URL;
-			keyText.text = String.format("%s&sIDType=CUID&token=%s", this.getAddress(), boeService.getToken());
+			keyText.text = this.getAddress().replace(PARAMETER_NAME_TOKEN, boeService.getToken());
 			return this.create(new KeyText[] { keyText });
 		} catch (Exception e) {
 			throw new ReportException(e);

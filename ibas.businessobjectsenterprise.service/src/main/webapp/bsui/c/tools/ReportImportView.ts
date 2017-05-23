@@ -165,7 +165,7 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                     content: [
                         new sap.m.Title("", { text: ibas.i18n.prop("businessobjectsenterprise_import_reports") }),
                         new sap.m.ToolbarSpacer("", {}),
-                        this.iptReplace,
+                        // this.iptReplace,
                         new sap.m.Button("", {
                             text: ibas.i18n.prop("businessobjectsenterprise_import_import"),
                             icon: "sap-icon://journey-arrive",
@@ -211,9 +211,6 @@ export class ReportImportView extends ibas.View implements IReportImportView {
     /** BOE服务地址 */
     get server(): string {
         return this.iptServer.getValue();
-    }
-    set server(value: string) {
-        this.iptServer.setValue(value);
     }
     /** BOE用户 */
     get user(): string {

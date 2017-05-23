@@ -18,6 +18,7 @@ import org.colorcoding.ibas.bobas.util.ArrayList;
 import org.colorcoding.ibas.boe.MyConfiguration;
 import org.colorcoding.ibas.boe.bo.BOEFolder;
 import org.colorcoding.ibas.boe.bo.BOEReport;
+import org.colorcoding.ibas.boe.reporter.BOEReporter;
 
 import com.crystaldecisions.sdk.exception.SDKException;
 import com.crystaldecisions.sdk.framework.CrystalEnterprise;
@@ -43,10 +44,6 @@ public class BOEService {
 	private static final String MSG_FETCH_REPORT = "boe: fetch report count [%s].";
 	private static final String DB_TYPE = "SYBASE";
 	/**
-	 * 配置项目-BOE地址
-	 */
-	public static final String CONFIG_ITEM_BOE_SERVER_ADDRESS = "BOEAddress";
-	/**
 	 * 查询条件-ID
 	 */
 	public static final String CRITERIA_CONDITION_ALIAS_ID = "SI_ID";
@@ -67,13 +64,30 @@ public class BOEService {
 
 	public final String getAddress() {
 		if (this.address == null || this.address.isEmpty()) {
-			this.address = MyConfiguration.getConfigValue(CONFIG_ITEM_BOE_SERVER_ADDRESS, "");
+			this.address = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_BOE_SERVER_ADDRESS, "");
 		}
 		return address;
 	}
 
 	public final void setAddress(String address) {
 		this.address = address;
+	}
+
+	private String viewer;
+
+	public final String getViewer() {
+		if (this.viewer == null || this.viewer.isEmpty()) {
+			this.viewer = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_BOE_VIEWER_ADDRESS, "");
+			if (!this.getAddress().isEmpty() && (this.viewer == null || this.viewer.isEmpty())) {
+				this.viewer = String.format("http://%s:8080/BOE/OpenDocument/opendoc/openDocument.jsp",
+						this.getAddress());
+			}
+		}
+		return viewer;
+	}
+
+	public final void setViewer(String viewer) {
+		this.viewer = viewer;
 	}
 
 	private String authentication;
@@ -335,6 +349,8 @@ public class BOEService {
 				report.setDescription(infoObject.getDescription());
 				report.setCategory(infoObject.getProgID());
 				report.setGroup(String.valueOf(infoObject.getParentID()));
+				// 设置服务地址
+				report.setServer(this.getAddress());
 				// 设置路径
 				StringBuilder path = new StringBuilder();
 				try {
@@ -351,6 +367,18 @@ public class BOEService {
 				if (path.length() > 0) {
 					report.setPath(path.toString());
 				}
+				// 设置视图查看地址
+				StringBuilder url = new StringBuilder();
+				url.append(this.getViewer());
+				url.append("?");
+				url.append("iDocID=");
+				url.append(report.getSign());
+				url.append("&");
+				url.append("sIDType=CUID");
+				url.append("&");
+				url.append("token=");
+				url.append(BOEReporter.PARAMETER_NAME_TOKEN);
+				report.setUrl(url.toString());
 				operationResult.addResultObjects(report);
 			}
 		} catch (Exception e) {

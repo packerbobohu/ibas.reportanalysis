@@ -10,6 +10,9 @@ import * as ibas from "ibas/index";
 import * as bo from "./bo/index";
 import {
 } from "../api/index";
+import {
+    IReport, BO_CODE_REPORT, emReportType
+} from "../3rdparty/reportanalysis/index";
 
 /** 数据转换者 */
 export class DataConverter4boe extends ibas.DataConverter4j {
@@ -53,4 +56,19 @@ class BOConverter4boe extends ibas.BOConverter {
     protected parsingData(boName: string, property: string, value: any): any {
         return super.parsingData(boName, property, value);
     }
+}
+/** 转换 */
+export module transforms {
+    /** 转换报表 */
+    export function toReport(boe: bo.BOEReport): IReport {
+        let report: IReport = ibas.boFactory.create<IReport>(BO_CODE_REPORT);
+        report.name = boe.name;
+        report.group = boe.group;
+        report.server = boe.server;
+        report.activated = ibas.emYesNo.YES;
+        report.category = emReportType.BOE;
+        report.address = boe.url;
+        return report;
+    }
+
 }

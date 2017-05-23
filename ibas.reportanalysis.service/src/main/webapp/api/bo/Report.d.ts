@@ -89,7 +89,7 @@ export interface IReport extends IBOSimple {
     group: string;
 
     /** 关联的业务对象 */
-    bOCode: string;
+    boCode: string;
 
     /** 关联的应用 */
     applicationId: string;
