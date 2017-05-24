@@ -52,6 +52,7 @@ export class ReportImportView extends ibas.View implements IReportImportView {
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
+                    width: "100px",
                     label: ibas.i18n.prop("bo_boefolder_id"),
                     template: new sap.m.Text("", {
                         wrapping: false
@@ -68,6 +69,7 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    width: "100px",
                     label: ibas.i18n.prop("bo_boefolder_parentid"),
                     template: new sap.m.Text("", {
                         width: "100%",
@@ -84,8 +86,10 @@ export class ReportImportView extends ibas.View implements IReportImportView {
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
+                    width: "100px",
                     label: ibas.i18n.prop("bo_boereport_id"),
                     template: new sap.m.Text("", {
+                        width: "100%",
                         wrapping: false
                     }).bindProperty("text", {
                         path: "id",
@@ -101,15 +105,17 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_boereport_description"),
-                    template: new sap.m.Input("", {
+                    template: new sap.m.Text("", {
                         width: "100%",
-                    }).bindProperty("value", {
+                        wrapping: false
+                    }).bindProperty("text", {
                         path: "description",
                     })
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_boereport_path"),
                     template: new sap.m.Text("", {
+                        width: "100%",
                         wrapping: false
                     }).bindProperty("text", {
                         path: "path",

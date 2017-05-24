@@ -217,8 +217,10 @@ export class ReportListView extends ibas.BOListView implements IReportListView {
         super.query(criteria);
         this.lastCriteria = criteria;
         // 清除历史数据
-        this.table.setBusy(true);
-        this.table.setFirstVisibleRow(0);
-        this.table.setModel(null);
+        if (this.isDisplayed) {
+            this.table.setBusy(true);
+            this.table.setFirstVisibleRow(0);
+            this.table.setModel(null);
+        }
     }
 }

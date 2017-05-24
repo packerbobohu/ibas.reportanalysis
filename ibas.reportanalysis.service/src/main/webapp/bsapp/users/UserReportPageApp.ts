@@ -12,6 +12,10 @@ import { BORepositoryReportAnalysis } from "../../borep/BORepositories";
 import { reportFactory } from "../report/ReportFactory";
 import { IReportViewer } from "../report/Report.d";
 
+/** 显示的报表类型 */
+export const CONFIG_ITEM_DISPLAY_REPORT_TYPE: string = "displayReportType";
+export const PARAMETER_NAME_ASSOCIATED_REPORT: string = "${Report}";
+
 /** 应用-用户报表 */
 export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
 
@@ -36,7 +40,12 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
     /** 视图显示后 */
     protected viewShowed(): void {
         // 视图加载完成
-        this.refreshReports(undefined);
+        let type: any = undefined;
+        let cValue: string = ibas.config.get(CONFIG_ITEM_DISPLAY_REPORT_TYPE);
+        if (!ibas.objects.isNull(cValue)) {
+            type = ibas.enums.valueOf(bo.emReportType, cValue);
+        }
+        this.refreshReports(type);
     }
     private activeReport(report: bo.UserReport): void {
         if (!ibas.objects.instanceOf(report, bo.UserReport)) {
@@ -45,7 +54,22 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
         try {
             if (report.category === bo.emReportType.KPI) {
                 // kpi报表
+                // 刷新指标
                 this.runReportKpi(report);
+                // 激活关联报表
+                let parameter: bo.UserReportParameter = report.parameters.firstOrDefault((item: bo.UserReportParameter) => {
+                    return item.name === PARAMETER_NAME_ASSOCIATED_REPORT;
+                });
+                if (!ibas.objects.isNull(parameter)) {
+                    for (let item of this.reports) {
+                        if (item.id === parameter.value) {
+                            this.activeReport(item);
+                            return;
+                        }
+                    }
+                    // 用户没有此关联报表
+                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("reportanalysis_not_found_report", parameter.value));
+                }
             } else {
                 let app: IReportViewer = reportFactory.createViewer(report);
                 app.navigation = this.navigation;
@@ -56,6 +80,8 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
             this.messages(error);
         }
     }
+    /** 当前用户报表集合 */
+    private reports: ibas.ArrayList<bo.UserReport>;
     private refreshReports(type: bo.emReportType): void {
         let that: this = this;
         let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
@@ -66,17 +92,20 @@ export class UserReportPageApp extends ibas.Application<IUserReportPageView> {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
-                    let reports: bo.UserReport[] = new Array();
-                    for (let report of opRslt.resultObjects) {
-                        if (!ibas.objects.isNull(type)) {
-                            if (report.category !== type) {
-                                continue;
-                            }
-                        }
-                        reports.push(report);
-                    }
-                    that.view.showReports(reports);
+                    that.reports = new ibas.ArrayList<bo.UserReport>();
+                    that.reports.add(opRslt.resultObjects);
+                    let beShowed: bo.UserReport[] = that.reports.where((item: bo.UserReport) => {
+                        return type === undefined ? true : item.category === type;
+                    });
+                    that.view.showReports(beShowed);
                     that.busy(false);
+                    // 激活kpi类型报表
+                    for (let item of beShowed) {
+                        if (item.category !== bo.emReportType.KPI) {
+                            continue;
+                        }
+                        that.runReportKpi(item);
+                    }
                 } catch (error) {
                     that.messages(error);
                 }

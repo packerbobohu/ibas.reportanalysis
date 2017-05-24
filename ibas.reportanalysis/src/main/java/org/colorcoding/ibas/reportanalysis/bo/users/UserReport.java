@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.util.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReportParameter;
+import org.colorcoding.ibas.reportanalysis.data.emReportParameterType;
 import org.colorcoding.ibas.reportanalysis.data.emReportType;
 
 /**
@@ -22,6 +23,8 @@ import org.colorcoding.ibas.reportanalysis.data.emReportType;
 @XmlRootElement(name = "UserReport")
 public class UserReport {
 
+	public static final String PARAMETER_NAME_ASSOCIATED_REPORT = "${Report}";
+
 	public static UserReport create(IReport boItem) {
 		UserReport userReport = new UserReport();
 		userReport.setId(String.valueOf(boItem.getObjectKey()));
@@ -30,6 +33,13 @@ public class UserReport {
 		userReport.setGroup(boItem.getGroup());
 		ArrayList<UserReportParameter> parameters = new ArrayList<>();
 		// 参数
+		if (boItem.getAssociatedReport() != null) {
+			UserReportParameter parameter = new UserReportParameter();
+			parameter.setName(PARAMETER_NAME_ASSOCIATED_REPORT);
+			parameter.setCategory(emReportParameterType.PRESET);
+			parameter.setValue(boItem.getAssociatedReport());
+			parameters.add(parameter);
+		}
 		for (IReportParameter item : boItem.getReportParameters()) {
 			parameters.add(UserReportParameter.create(item));
 		}

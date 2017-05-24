@@ -154,8 +154,10 @@ export class ReportChooseView extends ibas.BOChooseView implements IReportChoose
         super.query(criteria);
         this.lastCriteria = criteria;
         // 清除历史数据
-        this.table.setBusy(true);
-        this.table.setFirstVisibleRow(0);
-        this.table.setModel(null);
+        if (this.isDisplayed) {
+            this.table.setBusy(true);
+            this.table.setFirstVisibleRow(0);
+            this.table.setModel(null);
+        }
     }
 }

@@ -24,11 +24,12 @@
   "reportanalysis_report_no_data": "报表没有结果",
   "reportanalysis_loading_report_data": "正在加载报表数据，请稍后",
   "reportanalysis_report_not_support_view": "报表[{0}]是[{1}]类型不支持查看",
+  "reportanalysis_not_found_report": "没有找到编号[{0}]的报表",
   "reportanalysisusers": "我的报表",
   "reportanalysisusers_icon": "sap-icon://opportunity",
   "reportanalysisusers_refresh_all": "全部",
   "reportanalysisusers_refresh_kpi": "KPI",
-  "reportanalysisusers_refresh_boe": "BO报表",
+  "reportanalysisusers_refresh_boe": "BOE报表",
   "reportanalysisusers_refresh_report": "系统报表",
   "reportanalysis_closing_delimiter": "----结束----"
 }
