@@ -47,7 +47,7 @@ export class ReportImportApp extends ibas.Application<IReportImportView> {
     connect(): void {
         try {
             let address: string = this.view.server;
-            if (ibas.objects.isNull(address)) {
+            if (ibas.objects.isNull(address) || address.length === 0) {
                 throw new Error(ibas.i18n.prop("businessobjectsenterprise_please_server_address"));
             }
             if (!address.startsWith("http")) {

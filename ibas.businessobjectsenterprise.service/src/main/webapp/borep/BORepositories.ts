@@ -32,7 +32,7 @@ export class BORepositoryBusinessObjectsEnterprise extends ibas.BORepositoryAppl
         }
         let that: this = this;
         let require: Require = ibas.requires.create({
-            baseUrl: "../3rdparty/ibas/3rdparty/"
+            baseUrl: "../3rdparty/"
         }, []);
         require(["crypto-js"], function (cryptoJS: CryptoJS.Hashes): void {
             // todo：应对密码加密

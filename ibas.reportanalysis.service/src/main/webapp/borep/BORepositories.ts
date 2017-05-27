@@ -44,7 +44,7 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
 	 * 运行用户报表
 	 * @param listener 用户检索监听者
 	 */
-    runUserReport(caller: RunUserReportCaller): void {
+    runUserReport(caller: IRunUserReportCaller): void {
         let remoteRepository: ibas.IRemoteRepository = this.createRemoteRepository();
         if (ibas.objects.isNull(remoteRepository)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "remoteRepository"));
@@ -89,7 +89,7 @@ ibas.boFactory.register(BO_REPOSITORY_REPORTANALYSIS, BORepositoryReportAnalysis
 /**
  * 用户相关调用者
  */
-export interface RunUserReportCaller extends ibas.MethodCaller {
+export interface IRunUserReportCaller extends ibas.MethodCaller {
     /** 用户 */
     report: bo.UserReport;
     /**
