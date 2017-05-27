@@ -213,6 +213,9 @@ export class ReportBookEditApp extends ibas.BOEditApplication<IReportBookEditVie
                 boCode: BO_CODE_ROLE,
                 onCompleted(selecteds: ibas.List<IRole>): void {
                     that.editData.assigned = selecteds.firstOrDefault().code;
+                    if (ibas.objects.isNull(that.editData.name)) {
+                        that.editData.name = ibas.i18n.prop("reportanalysis_someone_report", selecteds.firstOrDefault().name);
+                    }
                 }
             });
         } else if (this.editData.assignedType === bo.emAssignedType.USER) {
@@ -220,6 +223,9 @@ export class ReportBookEditApp extends ibas.BOEditApplication<IReportBookEditVie
                 boCode: BO_CODE_USER,
                 onCompleted(selecteds: ibas.List<IUser>): void {
                     that.editData.assigned = ibas.strings.valueOf(selecteds.firstOrDefault().docEntry);
+                    if (ibas.objects.isNull(that.editData.name)) {
+                        that.editData.name = ibas.i18n.prop("reportanalysis_someone_report", selecteds.firstOrDefault().name);
+                    }
                 }
             });
         }

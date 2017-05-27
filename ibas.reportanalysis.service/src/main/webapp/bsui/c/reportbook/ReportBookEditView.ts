@@ -33,7 +33,7 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysisusers_basis_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_basis_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_reportbook_name") }),
                 new sap.m.Input("", {
                     value: "{/name}",
@@ -47,7 +47,7 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysisusers_other_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_other_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_reportbook_assignedtype") }),
                 new sap.m.Select("", {
                     items: utils.createComboBoxItems(bo.emAssignedType)
