@@ -58,16 +58,10 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 			condition.setValue(emYesNo.YES);
 			// 自己的查询
 			condition = criteria.getConditions().create();
-			condition.setBracketOpen(1);
+			condition.setBracketOpen(2);
 			condition.setAlias(ReportBook.PROPERTY_ASSIGNEDTYPE.getName());
 			condition.setValue(emAssignedType.USER);
 			condition = criteria.getConditions().create();
-			condition.setAlias(ReportBook.PROPERTY_ASSIGNED.getName());
-			condition.setValue(this.getCurrentUser().getId());
-			condition.setBracketOpen(1);
-			// TODO: 组织维护完成后，下面代码应去除
-			condition = criteria.getConditions().create();
-			condition.setRelationship(ConditionRelationship.OR);
 			condition.setAlias(ReportBook.PROPERTY_ASSIGNED.getName());
 			condition.setValue(user);
 			condition.setBracketClose(1);
