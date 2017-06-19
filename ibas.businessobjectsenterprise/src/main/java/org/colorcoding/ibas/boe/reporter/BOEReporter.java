@@ -3,6 +3,7 @@ package org.colorcoding.ibas.boe.reporter;
 import org.colorcoding.ibas.bobas.data.IDataTable;
 import org.colorcoding.ibas.bobas.data.KeyText;
 import org.colorcoding.ibas.boe.repository.BOEService;
+import org.colorcoding.ibas.reportanalysis.data.emReportParameterType;
 import org.colorcoding.ibas.reportanalysis.reporter.ExecuteReportParameter;
 import org.colorcoding.ibas.reportanalysis.reporter.ReportException;
 import org.colorcoding.ibas.reportanalysis.reporter.Reporter;
@@ -41,12 +42,13 @@ public class BOEReporter extends Reporter {
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append(this.getAddress().replace(PARAMETER_NAME_TOKEN, boeService.getToken()));
 			for (ExecuteReportParameter item : this.getReport().getParameters()) {
-				if (item.getName().equalsIgnoreCase(PARAMETER_NAME_USER)
-						|| item.getName().equalsIgnoreCase(PARAMETER_NAME_PASSWORD)
-						|| item.getName().equalsIgnoreCase(PARAMETER_NAME_ADDRESS)
-						|| item.getName().equalsIgnoreCase(PARAMETER_NAME_URL)
-						|| item.getName().equalsIgnoreCase(PARAMETER_NAME_TOKEN)
-						|| item.getName().equalsIgnoreCase(PARAMETER_NAME_SERVER)) {
+				if (item.getCategory() == emReportParameterType.PRESET
+						&& (item.getName().equalsIgnoreCase(PARAMETER_NAME_USER)
+								|| item.getName().equalsIgnoreCase(PARAMETER_NAME_PASSWORD)
+								|| item.getName().equalsIgnoreCase(PARAMETER_NAME_ADDRESS)
+								|| item.getName().equalsIgnoreCase(PARAMETER_NAME_URL)
+								|| item.getName().equalsIgnoreCase(PARAMETER_NAME_TOKEN)
+								|| item.getName().equalsIgnoreCase(PARAMETER_NAME_SERVER))) {
 					// 跳过已使用变量
 					continue;
 				}
