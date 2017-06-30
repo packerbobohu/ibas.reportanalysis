@@ -31,7 +31,6 @@ public final class ReporterFactories {
 	}
 
 	protected void init() {
-		this.getFactories().add(new ReporterFactory());
 		String factories = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_REPORTER_FACTORIES);
 		if (factories != null && factories.length() > 0) {
 			for (String item : factories.split(";")) {
@@ -51,6 +50,7 @@ public final class ReporterFactories {
 				}
 			}
 		}
+		this.getFactories().add(new ReporterFactory());
 	}
 
 	private List<ReporterFactory> factories;
