@@ -10,7 +10,7 @@ import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
 import { IUserReportPageView } from "../../../bsapp/users/index";
-
+import { BORepositoryReportAnalysis } from "../../../borep/BORepositories";
 /**
  * 视图-Report
  */
@@ -19,16 +19,37 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
     activeReportEvent: Function;
     /** 刷新报表 */
     refreshReportsEvent: Function;
-
+    private page: sap.m.Page;
+    private container: sap.m.TileContainer;
+    /** 页面头部 */
+    private mainHeader: sap.tnt.ToolHeader;
+    /** 报表筛选条件下拉菜单 */
+    private multicombobox: sap.m.MultiComboBox;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
+        this.multicombobox = new sap.m.MultiComboBox("", {
+            width: "20%",
+            Deselected: true,
+            filterSecondaryValues: false,
+            showSecondaryValues: true,
+            placement: sap.m.PlacementType.Auto,
+            selectionFinish: function (oEvent) {
+                let selectedItems = oEvent.getParameter("selectedItems");
+                let messageText: any[] = [];
+                for (let i = 0; i < selectedItems.length; i++) {
+                    messageText.push(selectedItems[i].getText());
+                };
+                that.groupsTranslateReports(messageText);
+            },
+        });
         this.container = new sap.m.TileContainer("", {
-
         });
         this.page = new sap.m.Page("", {
             showHeader: false,
-            content: [this.container],
+            content: [
+                this.container,
+            ],
             footer: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.ToolbarSpacer(""),
@@ -76,6 +97,7 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
                             }
                         })
                     }),
+                    this.multicombobox,
                     new sap.m.ToolbarSpacer(""),
                 ]
             })
@@ -83,12 +105,10 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
         this.id = this.page.getId();
         return this.page;
     }
-    private page: sap.m.Page;
-    private container: sap.m.TileContainer;
-
     /** 显示数据 */
     showReports(reports: bo.UserReport[]): void {
         this.container.destroyTiles();
+        let reportgroups: string[] = [];
         let that: this = this;
         for (let item of reports) {
             this.container.addTile(
@@ -101,6 +121,58 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
                     }
                 })
             );
+            //将用户报表组别添加进reportgroups
+            if (reportgroups.length > 0) {
+                let status = false;
+                for (let i = 0; i < reportgroups.length; i++) {
+                    if (reportgroups[i] === item.group) {
+                        status = true;
+                    }
+                    if (i === reportgroups.length - 1 && status === false) {
+                        reportgroups.push(item.group)
+                    }
+                }
+            } else {
+                reportgroups.push(item.group);
+            }
+        };
+        //解决选择筛选条件后下拉框元素重组
+        if (this.multicombobox.getItems().length === 0) {
+            this.initMulticomboboxItem(reportgroups);
+            //将第一次获取到的当前用户报表保存
+            this.reports = reports;
+        }
+    }
+    /** 当前用户报表集合 */
+    reports: bo.UserReport[];
+    /** 将用户选择的条件转化为具体哪些报表作为参数传给showReports函数 */
+    groupsTranslateReports(groups): void {
+        let that: this = this;
+        let beShowed: bo.UserReport[];
+        let beShowedes: bo.UserReport[] = [];
+        //在用户报表集合中找出所有符合用户选定条件的报表
+        if (groups.length > 0) {
+            for (let i = 0; i < that.reports.length; i++) {
+                for (let item of that.reports) {
+                    if (groups[i] === item.group) {
+                        beShowedes.push(item)
+                    }
+                }
+            };
+            that.showReports(beShowedes);
+        }
+        //当用户清空筛选条件，显示所有报表
+        else {
+            that.showReports(that.reports);
+        }
+    }
+    /** 初始化筛选条件下拉框 */
+    initMulticomboboxItem(list): void {
+        this.multicombobox.destroyItems();
+        for (let item of list) {
+            this.multicombobox.addItem(new sap.ui.core.Item("", {
+                text: item
+            }));
         }
     }
     private getIcon(type: bo.emReportType): string {

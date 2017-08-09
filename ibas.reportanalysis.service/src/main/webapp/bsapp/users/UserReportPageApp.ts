@@ -138,4 +138,6 @@ export interface IUserReportPageView extends ibas.IView {
     refreshReportsEvent: Function;
     /** 更新KPI */
     updateKPI(report: bo.UserReport, table: ibas.DataTable): void;
+
+    reports: bo.UserReport[];
 }
