@@ -119,6 +119,7 @@ export class ReportImportView extends ibas.View implements IReportImportView {
             ]
         });
         this.form = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
             content: [
                 new sap.m.Toolbar("", {
                     design: sap.m.ToolbarDesign.Transparent,
@@ -236,18 +237,18 @@ export class ReportImportView extends ibas.View implements IReportImportView {
         // 记录临时变量
         this.folders = datas;
         let parentNode: Function = function (node: TreeNode, parentId: number): TreeNode {
-            //判断该分支是否为空
+            // 判断该分支是否为空
             if (ibas.objects.isNull(node)) {
                 return null;
             }
-            //判断该文件夹id
+            // 判断该文件夹id
             if (node.id === parentId) {
                 return node;
             }
-            //如果该分支的子项不为空
+            // 如果该分支的子项不为空
             if (!ibas.objects.isNull(node.nodes)) {
                 for (let item of node.nodes) {
-                    //递归。遍历分支子项，如果其父级不为空，返回父级属性
+                    // 递归。遍历分支子项，如果其父级不为空，返回父级属性
                     let parent: TreeNode = parentNode(item);
                     if (!ibas.objects.isNull(parent)) {
                         return parent;
@@ -260,17 +261,17 @@ export class ReportImportView extends ibas.View implements IReportImportView {
         for (let item of datas) {
             let parent: TreeNode = null;
             for (let node of trees) {
-                //调用方法，将分支和元素的父id作为参数传入
+                // 调用方法，将分支和元素的父id作为参数传入
                 parent = parentNode(node, item.parentId);
-                //直到找到父级跳出循环
+                // 直到找到父级跳出循环
                 if (!ibas.objects.isNull(parent)) {
                     break;
                 }
             }
-            //如果不存在父级文件夹，则直接加入trees
+            // 如果不存在父级文件夹，则直接加入trees
             if (ibas.objects.isNull(parent)) {
                 trees.push(new TreeNode(item.id, item.name));
-            //否则加入其父级文件夹的子项
+                // 否则加入其父级文件夹的子项
             } else {
                 parent.nodes.push(new TreeNode(item.id, item.name));
             }
@@ -289,7 +290,7 @@ class TreeNode {
     constructor() {
         this.id = arguments[0];
         this.name = arguments[1];
-        //在节点的子项加入节点
+        // 在节点的子项加入节点
         this.nodes = new ibas.ArrayList<TreeNode>();
     }
     id: number;

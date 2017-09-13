@@ -37,6 +37,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_basic") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_name") }),
