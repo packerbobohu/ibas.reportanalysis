@@ -5,14 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.boe.MyConsts;
+import org.colorcoding.ibas.boe.MyConfiguration;
 
 /**
  * 获取-BOE报表
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = "BOEReport", namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = "BOEReport", namespace = MyConfiguration.NAMESPACE_BO)
 public class BOEReport implements IBOEReport {
 
 	/**

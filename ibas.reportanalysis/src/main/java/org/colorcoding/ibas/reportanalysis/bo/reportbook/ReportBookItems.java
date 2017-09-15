@@ -7,12 +7,12 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
 import org.colorcoding.ibas.bobas.common.ICriteria;
-import org.colorcoding.ibas.reportanalysis.MyConsts;
+import org.colorcoding.ibas.reportanalysis.MyConfiguration;
 
 /**
  * 报表簿-项目 集合
  */
-@XmlType(name = ReportBookItems.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = ReportBookItems.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ ReportBookItem.class })
 public class ReportBookItems extends BusinessObjects<IReportBookItem, IReportBook> implements IReportBookItems {
 

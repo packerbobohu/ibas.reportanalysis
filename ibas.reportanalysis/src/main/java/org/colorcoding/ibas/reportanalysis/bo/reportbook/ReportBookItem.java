@@ -10,14 +10,14 @@ import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
-import org.colorcoding.ibas.reportanalysis.MyConsts;
+import org.colorcoding.ibas.reportanalysis.MyConfiguration;
 
 /**
  * 获取-报表簿-项目
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = ReportBookItem.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = ReportBookItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class ReportBookItem extends BusinessObject<ReportBookItem> implements IReportBookItem {
 
 	/**

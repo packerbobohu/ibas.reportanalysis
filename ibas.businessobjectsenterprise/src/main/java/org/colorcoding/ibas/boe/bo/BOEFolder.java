@@ -5,14 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.boe.MyConsts;
+import org.colorcoding.ibas.boe.MyConfiguration;
 
 /**
  * 获取-BOE文件夹
  * 
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = "BOEFolder", namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = "BOEFolder", namespace = MyConfiguration.NAMESPACE_BO)
 public class BOEFolder implements IBOEFolder {
 
 	/**
