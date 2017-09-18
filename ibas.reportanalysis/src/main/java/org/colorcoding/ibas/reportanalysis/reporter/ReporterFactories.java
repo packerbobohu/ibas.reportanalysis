@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.colorcoding.ibas.bobas.messages.MessageLevel;
-import org.colorcoding.ibas.bobas.messages.RuntimeLog;
+import org.colorcoding.ibas.bobas.messages.Logger;
 import org.colorcoding.ibas.reportanalysis.MyConfiguration;
 
 public final class ReporterFactories {
@@ -41,11 +41,11 @@ public final class ReporterFactories {
 							Object factory = type.newInstance();
 							if (factory instanceof ReporterFactory) {
 								this.getFactories().add((ReporterFactory) factory);
-								RuntimeLog.log(MessageLevel.DEBUG, MSG_REGISTER_REPORTER_FACTORY, type.getName());
+								Logger.log(MessageLevel.DEBUG, MSG_REGISTER_REPORTER_FACTORY, type.getName());
 							}
 						}
 					} catch (Exception e) {
-						RuntimeLog.log(e);
+						Logger.log(e);
 					}
 				}
 			}
@@ -72,10 +72,10 @@ public final class ReporterFactories {
 				}
 			}
 		} catch (Exception e) {
-			RuntimeLog.log(e);
+			Logger.log(e);
 		}
 		if (reporter == null) {
-			RuntimeLog.log(MessageLevel.DEBUG, MSG_NOT_FOUND_REPORTER,
+			Logger.log(MessageLevel.DEBUG, MSG_NOT_FOUND_REPORTER,
 					report.getName() != null ? report.getName() : report.getId(), report.getCategory());
 		}
 		return reporter;

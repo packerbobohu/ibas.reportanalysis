@@ -5,7 +5,7 @@ import org.colorcoding.ibas.bobas.data.IDataTable;
 import org.colorcoding.ibas.bobas.data.IDataTableColumn;
 import org.colorcoding.ibas.bobas.data.IDataTableRow;
 import org.colorcoding.ibas.bobas.data.KeyText;
-import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 
 public abstract class Reporter implements IReporter {
 
@@ -27,7 +27,7 @@ public abstract class Reporter implements IReporter {
 				}
 			}
 		}
-		throw new ReportException(i18n.prop("msg_ra_not_found_report_parameter", name));
+		throw new ReportException(I18N.prop("msg_ra_not_found_report_parameter", name));
 	}
 
 	/**

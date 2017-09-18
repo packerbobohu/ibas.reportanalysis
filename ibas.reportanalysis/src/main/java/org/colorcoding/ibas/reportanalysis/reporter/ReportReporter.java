@@ -6,7 +6,7 @@ import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.SqlQuery;
 import org.colorcoding.ibas.bobas.data.IDataTable;
 import org.colorcoding.ibas.bobas.data.IKeyText;
-import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.repository.BORepository4DbReadonly;
 import org.colorcoding.ibas.bobas.repository.IBORepository4DbReadonly;
 import org.colorcoding.ibas.initialfantasy.MyConfiguration;
@@ -28,7 +28,7 @@ public class ReportReporter extends Reporter {
 		ExecuteReportParameter sqlParameter = this.getReport().getParameters()
 				.firstOrDefault(c -> PARAMETER_NAME_SQL.equalsIgnoreCase(c.getName()));
 		if (sqlParameter == null || sqlParameter.getValue() == null || sqlParameter.getValue().isEmpty()) {
-			throw new ReportException(i18n.prop("msg_ra_invaild_report_query",
+			throw new ReportException(I18N.prop("msg_ra_invaild_report_query",
 					this.getReport().getName() != null ? this.getReport().getName() : this.getReport().getId()));
 		}
 		// 替换变量

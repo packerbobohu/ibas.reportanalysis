@@ -10,10 +10,10 @@ import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.common.SqlQuery;
 import org.colorcoding.ibas.bobas.db.DbAdapterFactory;
 import org.colorcoding.ibas.bobas.db.IDbAdapter;
-import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.messages.MessageLevel;
-import org.colorcoding.ibas.bobas.messages.RuntimeLog;
+import org.colorcoding.ibas.bobas.messages.Logger;
 import org.colorcoding.ibas.bobas.util.ArrayList;
 import org.colorcoding.ibas.boe.MyConfiguration;
 import org.colorcoding.ibas.boe.bo.BOEFolder;
@@ -121,7 +121,7 @@ public class BOEService {
 		IEnterpriseSession session = CrystalEnterprise.getSessionMgr().logon(user, password, this.getAddress(),
 				this.getAuthentication());
 		this.setSession(session);
-		RuntimeLog.log(MessageLevel.DEBUG, MSG_USER_LOGON, user);
+		Logger.log(MessageLevel.DEBUG, MSG_USER_LOGON, user);
 	}
 
 	public void logon(String token) throws SDKException, BOEException {
@@ -130,20 +130,20 @@ public class BOEService {
 			this.setSession(null);
 		}
 		this.setSession(CrystalEnterprise.getSessionMgr().logonWithToken(token));
-		RuntimeLog.log(MessageLevel.DEBUG, MSG_LOGON_BY_TOKEN, token);
+		Logger.log(MessageLevel.DEBUG, MSG_LOGON_BY_TOKEN, token);
 	}
 
 	public String getToken() throws BOEException, SDKException {
 		IEnterpriseSession session = this.getSession();
 		if (session == null) {
-			throw new BOEException(i18n.prop("msg_boe_not_logon_system"));
+			throw new BOEException(I18N.prop("msg_boe_not_logon_system"));
 		}
 		ILogonTokenMgr tokenMgr = session.getLogonTokenMgr();
 		if (tokenMgr == null) {
-			throw new BOEException(i18n.prop("msg_boe_not_found_token_manager"));
+			throw new BOEException(I18N.prop("msg_boe_not_found_token_manager"));
 		}
 		String token = tokenMgr.getDefaultToken();
-		RuntimeLog.log(MessageLevel.DEBUG, MSG_USER_TOKEN, token);
+		Logger.log(MessageLevel.DEBUG, MSG_USER_TOKEN, token);
 		return token;
 
 	}
@@ -164,7 +164,7 @@ public class BOEService {
 			opRslt.setUserSign(this.getToken());
 		} catch (Exception e) {
 			opRslt.setError(e);
-			RuntimeLog.log(e);
+			Logger.log(e);
 		}
 		return opRslt;
 	}
@@ -173,7 +173,7 @@ public class BOEService {
 		ArrayList<IInfoObject> resluts = new ArrayList<>();
 		IEnterpriseSession session = this.getSession();
 		IInfoStore infoStore = (IInfoStore) session.getService("InfoStore");
-		RuntimeLog.log(MessageLevel.DEBUG, MSG_RUN_QUERY, sql.getQueryString());
+		Logger.log(MessageLevel.DEBUG, MSG_RUN_QUERY, sql.getQueryString());
 		IInfoObjects infoObjects = infoStore.query(sql.getQueryString());
 		for (Object object : infoObjects) {
 			if (object instanceof IInfoObject) {
@@ -223,7 +223,7 @@ public class BOEService {
 		OperationResult<BOEFolder> operationResult = new OperationResult<>();
 		try {
 			if (this.getSession() == null) {
-				throw new BOException(i18n.prop("msg_boe_not_logon_system"));
+				throw new BOException(I18N.prop("msg_boe_not_logon_system"));
 			}
 			if (criteria == null) {
 				criteria = new Criteria();
@@ -260,7 +260,7 @@ public class BOEService {
 				stringBuilder.append(sqlQuery.toString());
 			}
 			IInfoObject[] infoObjects = this.query(new SqlQuery(stringBuilder.toString()));
-			RuntimeLog.log(MessageLevel.DEBUG, MSG_FETCH_FOLDER, infoObjects.length);
+			Logger.log(MessageLevel.DEBUG, MSG_FETCH_FOLDER, infoObjects.length);
 			for (IInfoObject infoObject : infoObjects) {
 				BOEFolder folder = new BOEFolder();
 				folder.setId(infoObject.getID());
@@ -303,7 +303,7 @@ public class BOEService {
 		OperationResult<BOEReport> operationResult = new OperationResult<>();
 		try {
 			if (this.getSession() == null) {
-				throw new BOException(i18n.prop("msg_boe_not_logon_system"));
+				throw new BOException(I18N.prop("msg_boe_not_logon_system"));
 			}
 			if (criteria == null) {
 				criteria = new Criteria();
@@ -340,7 +340,7 @@ public class BOEService {
 				stringBuilder.append(sqlQuery.toString());
 			}
 			IInfoObject[] infoObjects = this.query(new SqlQuery(stringBuilder.toString()));
-			RuntimeLog.log(MessageLevel.DEBUG, MSG_FETCH_REPORT, infoObjects.length);
+			Logger.log(MessageLevel.DEBUG, MSG_FETCH_REPORT, infoObjects.length);
 			for (IInfoObject infoObject : infoObjects) {
 				BOEReport report = new BOEReport();
 				report.setId(infoObject.getID());

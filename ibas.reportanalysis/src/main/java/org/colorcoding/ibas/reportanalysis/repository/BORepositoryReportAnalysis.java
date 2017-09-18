@@ -8,13 +8,12 @@ import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.data.DataTable;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.i18n.i18n;
+import org.colorcoding.ibas.bobas.i18n.I18N;
+import org.colorcoding.ibas.bobas.messages.Logger;
 import org.colorcoding.ibas.bobas.messages.MessageLevel;
-import org.colorcoding.ibas.bobas.messages.RuntimeLog;
 import org.colorcoding.ibas.bobas.organization.IOrganizationManager;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.organization.fantasy.OrganizationManager;
-import org.colorcoding.ibas.bobas.ownership.PermissionGroup;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
 import org.colorcoding.ibas.bobas.util.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
@@ -34,7 +33,6 @@ import org.colorcoding.ibas.reportanalysis.reporter.ReporterFactories;
 /**
  * ReportAnalysis仓库
  */
-@PermissionGroup("ReportAnalysis")
 public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 		implements IBORepositoryReportAnalysisSvc, IBORepositoryReportAnalysisApp {
 
@@ -182,7 +180,7 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 			}
 			Report boReport = opRsltFetch.getResultObjects().firstOrDefault();
 			if (boReport == null) {
-				throw new Exception(i18n.prop("msg_ra_not_found_report",
+				throw new Exception(I18N.prop("msg_ra_not_found_report",
 						report.getName() != null ? report.getName() : report.getId()));
 			}
 			ExecuteReport exeReport = ExecuteReport.create(boReport);
@@ -199,11 +197,11 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 			}
 			IReporter reporter = ReporterFactories.create().create(exeReport);
 			if (reporter == null) {
-				throw new Exception(i18n.prop("msg_ra_not_allowed_run_report",
+				throw new Exception(I18N.prop("msg_ra_not_allowed_run_report",
 						report.getName() != null ? report.getName() : report.getId()));
 			}
-			RuntimeLog.log(MessageLevel.DEBUG, MSG_USER_RUN_REPORT, this.getCurrentUser().getId(),
-					boReport.getObjectKey(), boReport.getName());
+			Logger.log(MessageLevel.DEBUG, MSG_USER_RUN_REPORT, this.getCurrentUser().getId(), boReport.getObjectKey(),
+					boReport.getName());
 			// 运行报表
 			opRslt.addResultObjects(reporter.run(exeReport));
 		} catch (Exception e) {
