@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.colorcoding.ibas.bobas.util.ArrayList;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReportParameter;
 import org.colorcoding.ibas.reportanalysis.data.emReportParameterType;

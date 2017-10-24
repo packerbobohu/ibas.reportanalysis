@@ -2,7 +2,7 @@ package org.colorcoding.ibas.reportanalysis.reporter;
 
 import java.util.List;
 
-import org.colorcoding.ibas.bobas.util.ArrayList;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.initialfantasy.MyConfiguration;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReportParameter;

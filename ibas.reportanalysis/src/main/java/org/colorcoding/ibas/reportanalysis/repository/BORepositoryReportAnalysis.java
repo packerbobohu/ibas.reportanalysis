@@ -15,7 +15,7 @@ import org.colorcoding.ibas.bobas.organization.IOrganizationManager;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.organization.fantasy.OrganizationManager;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
-import org.colorcoding.ibas.bobas.util.ArrayList;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.Report;
 import org.colorcoding.ibas.reportanalysis.bo.reportbook.IReportBook;

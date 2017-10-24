@@ -1,6 +1,6 @@
 package org.colorcoding.ibas.reportanalysis.reporter;
 
-import org.colorcoding.ibas.bobas.util.ArrayList;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReportParameter;
 import org.colorcoding.ibas.reportanalysis.data.emReportType;
