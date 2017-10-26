@@ -6,6 +6,7 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DataTable;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -13,9 +14,7 @@ import org.colorcoding.ibas.bobas.messages.Logger;
 import org.colorcoding.ibas.bobas.messages.MessageLevel;
 import org.colorcoding.ibas.bobas.organization.IOrganizationManager;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
-import org.colorcoding.ibas.bobas.organization.fantasy.OrganizationManager;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
-import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.reportanalysis.bo.report.IReport;
 import org.colorcoding.ibas.reportanalysis.bo.report.Report;
 import org.colorcoding.ibas.reportanalysis.bo.reportbook.IReportBook;
@@ -64,20 +63,17 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 			condition.setValue(user);
 			condition.setBracketClose(1);
 			// 所属角色的查询
-			IOrganizationManager manager = OrganizationFactory.create().createManager();
-			if (manager instanceof OrganizationManager) {
-				OrganizationManager ifManager = (OrganizationManager) manager;
-				for (String role : ifManager.getUserRoles(this.getCurrentUser())) {
-					condition = criteria.getConditions().create();
-					condition.setRelationship(ConditionRelationship.OR);
-					condition.setBracketOpen(1);
-					condition.setAlias(ReportBook.PROPERTY_ASSIGNEDTYPE.getName());
-					condition.setValue(emAssignedType.ROLE);
-					condition = criteria.getConditions().create();
-					condition.setAlias(ReportBook.PROPERTY_ASSIGNED.getName());
-					condition.setValue(role);
-					condition.setBracketClose(1);
-				}
+			IOrganizationManager orgManager = OrganizationFactory.create().createManager();
+			for (String role : orgManager.getRoles(this.getCurrentUser())) {
+				condition = criteria.getConditions().create();
+				condition.setRelationship(ConditionRelationship.OR);
+				condition.setBracketOpen(1);
+				condition.setAlias(ReportBook.PROPERTY_ASSIGNEDTYPE.getName());
+				condition.setValue(emAssignedType.ROLE);
+				condition = criteria.getConditions().create();
+				condition.setAlias(ReportBook.PROPERTY_ASSIGNED.getName());
+				condition.setValue(role);
+				condition.setBracketClose(1);
 			}
 			condition.setBracketClose(2);
 			IOperationResult<ReportBook> opRsltBook = this.fetchReportBook(criteria, token);
