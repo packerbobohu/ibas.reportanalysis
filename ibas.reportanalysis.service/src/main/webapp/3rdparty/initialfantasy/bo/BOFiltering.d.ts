@@ -33,7 +33,7 @@ export interface IBOFiltering extends IBOSimple {
     roleCode: string;
 
     /** 对象类型 */
-    bOCode: string;
+    boCode: string;
 
     /** 激活的 */
     activated: emYesNo;
@@ -88,7 +88,7 @@ export interface IBOFiltering extends IBOSimple {
 
 
     /** 业务对象筛选-条件集合 */
-    bOFilteringConditions: IBOFilteringConditions;
+    boFilteringConditions: IBOFilteringConditions;
 
 
 }
@@ -130,6 +130,12 @@ export interface IBOFilteringCondition extends IBOSimpleLine {
     operation: emConditionOperation;
     /** 与上一个条件的关系 */
     relationship: emConditionRelationship;
+
+    /** 开括号数 */
+    bracketOpen: number;
+
+    /** 闭括号数 */
+    bracketClose: number;
 }
 
 /** 业务对象筛选-条件 集合 */
