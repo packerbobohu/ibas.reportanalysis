@@ -60,7 +60,7 @@ export class ReportImportApp extends ibas.Application<IReportImportView> {
         this.boeRepository.connect({
             user: this.view.user,
             password: this.view.password,
-            onCompleted(opRslt: ibas.IOperationMessages): void {
+            onCompleted(opRslt: ibas.IOperationMessage): void {
                 try {
                     that.busy(false);
                     if (opRslt.resultCode !== 0) {

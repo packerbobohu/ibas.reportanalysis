@@ -35,7 +35,7 @@ export class BORepositoryBusinessObjectsEnterprise extends ibas.BORepositoryAppl
             // todo：应对密码加密
             let method: string = ibas.strings.format("connect?user={0}&password={1}", caller.user, caller.password);
             let methodCaller: ibas.MethodCaller = {
-                onCompleted(opRslt: ibas.IOperationMessages): void {
+                onCompleted(opRslt: ibas.IOperationMessage): void {
                     if (opRslt.resultCode === 0) {
                         // 连接成功，记录口令
                         that.token = opRslt.userSign;
@@ -46,7 +46,7 @@ export class BORepositoryBusinessObjectsEnterprise extends ibas.BORepositoryAppl
             remoteRepository.callRemoteMethod(method, undefined, methodCaller);
         }, function (error: RequireError): void {
             // 加载js库失败
-            let opRslt: ibas.IOperationMessages = new ibas.OperationMessages();
+            let opRslt: ibas.IOperationMessage = new ibas.OperationMessage();
             opRslt.resultCode = -901;
             opRslt.message = error.message;
             caller.onCompleted(opRslt);

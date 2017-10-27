@@ -5,15 +5,15 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.ISqlQuery;
-import org.colorcoding.ibas.bobas.common.OperationMessages;
+import org.colorcoding.ibas.bobas.common.OperationMessage;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.common.SqlQuery;
 import org.colorcoding.ibas.bobas.db.DbAdapterFactory;
 import org.colorcoding.ibas.bobas.db.IDbAdapter;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
-import org.colorcoding.ibas.bobas.messages.MessageLevel;
-import org.colorcoding.ibas.bobas.messages.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.boe.MyConfiguration;
 import org.colorcoding.ibas.boe.bo.BOEFolder;
@@ -157,8 +157,8 @@ public class BOEService {
 	 *            密码
 	 * @return 操作消息，userSign为成功口令
 	 */
-	public OperationMessages connect(String user, String password) {
-		OperationMessages opRslt = new OperationMessages();
+	public OperationMessage connect(String user, String password) {
+		OperationMessage opRslt = new OperationMessage();
 		try {
 			this.logon(user, password);
 			opRslt.setUserSign(this.getToken());

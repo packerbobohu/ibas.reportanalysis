@@ -10,7 +10,7 @@ import {
     FetchCaller,
     SaveCaller,
     MethodCaller,
-    IOperationMessages,
+    IOperationMessage,
 } from "ibas/index";
 import * as bo from "./bo/index"
 
@@ -46,5 +46,5 @@ export interface ConnectCaller extends MethodCaller {
      * 调用完成
      * @param opRslt 结果
      */
-    onCompleted(opRslt: IOperationMessages);
+    onCompleted(opRslt: IOperationMessage);
 }

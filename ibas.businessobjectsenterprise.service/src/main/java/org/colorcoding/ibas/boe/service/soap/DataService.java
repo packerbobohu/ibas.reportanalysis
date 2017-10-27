@@ -5,7 +5,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
-import org.colorcoding.ibas.bobas.common.OperationMessages;
+import org.colorcoding.ibas.bobas.common.OperationMessage;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.cxf.WebServicePath;
 import org.colorcoding.ibas.boe.bo.BOEFolder;
@@ -28,7 +28,7 @@ public class DataService extends BOEService {
 	 * @return 操作结果
 	 */
 	@WebMethod
-	public OperationMessages connect(@WebParam(name = "user") String user,
+	public OperationMessage connect(@WebParam(name = "user") String user,
 			@WebParam(name = "password") String password) {
 		return super.connect(user, password);
 	}

@@ -8,7 +8,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
-import org.colorcoding.ibas.bobas.common.OperationMessages;
+import org.colorcoding.ibas.bobas.common.OperationMessage;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.boe.bo.BOEFolder;
 import org.colorcoding.ibas.boe.bo.BOEReport;
@@ -32,7 +32,7 @@ public class DataService extends BOEService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("connect")
-	public OperationMessages connect(@QueryParam("user") String user, @QueryParam("password") String password) {
+	public OperationMessage connect(@QueryParam("user") String user, @QueryParam("password") String password) {
 		return super.connect(user, password);
 	}
 
