@@ -32,9 +32,11 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 public class FileService extends FileRepositoryService {
 
 	public FileService() {
-		String workFolder = MyConfiguration.getDataFolder() + File.separator + "report_files";
-		workFolder = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_REPORT_FILE_FOLDER, workFolder);
-		this.getRepository().setRepositoryFolder(workFolder);
+		// 设置工作目录，资源目录下的报表目录
+		File workFolder = new File(MyConfiguration.getWorkFolder());
+		File reportFolder = new File(
+				workFolder.getParentFile() + File.separator + "resources" + File.separator + "report_files");
+		this.getRepository().setRepositoryFolder(reportFolder.getPath());
 	}
 
 	@POST

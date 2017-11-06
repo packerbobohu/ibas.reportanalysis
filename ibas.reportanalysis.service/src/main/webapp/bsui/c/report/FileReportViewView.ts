@@ -48,12 +48,10 @@ let checkReportUrl: Function = function (url: string): string {
     // 正常地址
     url = ibas.urls.normalize(url).toLowerCase();
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = ibas.strings.format("{0}/../file/loadReport?report={1}&token={2}",
-            ibas.config.get(ibas.strings.format(
-                ibas.CONFIG_ITEM_TEMPLATE_REMOTE_REPOSITORY_ADDRESS,
-                BORepositoryReportAnalysis.name)),
-            url,
-            ibas.config.get(ibas.CONFIG_ITEM_USER_TOKEN));
+        url = ibas.strings.format("{0}resources/report_files/{1}",
+            require.toUrl(""),
+            url
+        );
     }
     return url;
 };
