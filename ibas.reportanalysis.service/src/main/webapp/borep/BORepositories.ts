@@ -18,41 +18,51 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
     protected createConverter(): ibas.IDataConverter {
         return new DataConverter4ra;
     }
-    /** 创建远程仓库 */
-    protected createRemoteRepository(): ibas.IRemoteRepository {
-        let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
-        boRepository.address = this.address;
-        boRepository.token = this.token;
-        boRepository.converter = this.createConverter();
-        return boRepository;
+    /**
+     * 上传报表文件
+     * @param caller 调用者
+     */
+    uploadReport(caller: ibas.UploadFileCaller): void {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let fileRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
+        fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
+        fileRepository.token = this.token;
+        fileRepository.converter = this.createConverter();
+        fileRepository.upload("uploadReport", caller);
     }
 	/**
 	 * 查询用户报表
 	 * @param listener 用户检索监听者
 	 */
     fetchUserReports(caller: UserMethodsCaller<bo.UserReport>): void {
-        let remoteRepository: ibas.IRemoteRepository = this.createRemoteRepository();
-        if (ibas.objects.isNull(remoteRepository)) {
+        let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
+        boRepository.address = this.address;
+        boRepository.token = this.token;
+        boRepository.converter = this.createConverter();
+        if (ibas.objects.isNull(boRepository)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "remoteRepository"));
         }
         let method: string =
             ibas.strings.format("fetchUserReports?user={0}&token={1}",
                 caller.user, this.token);
-        remoteRepository.callRemoteMethod(method, undefined, caller);
+        boRepository.callRemoteMethod(method, undefined, caller);
     }
     /**
      * 运行用户报表
      * @param listener 用户检索监听者
      */
     runUserReport(caller: IRunUserReportCaller): void {
-        let remoteRepository: ibas.IRemoteRepository = this.createRemoteRepository();
-        if (ibas.objects.isNull(remoteRepository)) {
+        let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
+        boRepository.address = this.address;
+        boRepository.token = this.token;
+        boRepository.converter = this.createConverter();
+        if (ibas.objects.isNull(boRepository)) {
             throw new Error(ibas.i18n.prop("sys_invalid_parameter", "remoteRepository"));
         }
         let method: string =
             ibas.strings.format("runUserReport?token={0}", this.token);
         let data: string = JSON.stringify(this.createConverter().convert(caller.report, method));
-        remoteRepository.callRemoteMethod(method, data, caller);
+        boRepository.callRemoteMethod(method, data, caller);
     }
     /**
      * 查询 报表

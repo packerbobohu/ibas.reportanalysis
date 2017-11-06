@@ -28,6 +28,8 @@
   "reportanalysis_basis_information": "基本信息",
   "reportanalysis_other_information": "其他信息",
   "reportanalysis_someone_report": "{0}的报表簿",
+  "reportanalysis_report_file": "报表文件",
+  "reportanalysis_upload_report": "是否上传报表文件？",
   "reportanalysisusers": "我的报表",
   "reportanalysisusers_icon": "sap-icon://opportunity",
   "reportanalysisusers_refresh_all": "全部",

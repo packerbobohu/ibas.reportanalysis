@@ -38,6 +38,7 @@ export class ReportEditApp extends ibas.BOEditApplication<IReportEditView, bo.Re
         this.view.removeReportParameterEvent = this.removeReportParameter;
         this.view.chooseReportAssociatedReportEvent = this.chooseReportAssociatedReport;
         this.view.chooseReportParameterVariableEvent = this.chooseReportParameterVariable;
+        this.view.uploadReportEvent = this.uploadReport;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -251,7 +252,32 @@ export class ReportEditApp extends ibas.BOEditApplication<IReportEditView, bo.Re
                 }
             }
         });
-
+    }
+    /** 上传报表 */
+    uploadReport(data: FormData): void {
+        this.busy(true);
+        let that: this = this;
+        let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+        boRepository.uploadReport({
+            fileData: data,
+            onCompleted(opRslt: ibas.IOperationResult<ibas.FileData>): void {
+                try {
+                    that.busy(false);
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    let fileData: ibas.FileData = opRslt.resultObjects.firstOrDefault();
+                    if (!ibas.objects.isNull(fileData)) {
+                        that.editData.address = fileData.fileName;
+                        that.messages(ibas.emMessageType.SUCCESS,
+                            ibas.i18n.prop("sys_shell_upload") + ibas.i18n.prop("sys_shell_sucessful"));
+                    }
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("sys_shell_uploading_file"));
     }
 }
 /** 视图-报表 */
@@ -276,4 +302,6 @@ export interface IReportEditView extends ibas.IBOEditView {
     chooseReportAssociatedReportEvent: Function;
     /** 报表参数-系统变量选择 */
     chooseReportParameterVariableEvent: Function;
+    /** 上传报表文件 */
+    uploadReportEvent: Function;
 }

@@ -9,6 +9,7 @@
 import * as ibas from "ibas/index";
 import { utils } from "openui5/typings/ibas.utils";
 import * as bo from "../../../borep/bo/index";
+import { BORepositoryReportAnalysis } from "../../../borep/BORepositories";
 import { IReportViewView } from "../../../bsapp/report/index";
 import { ReportViewView, ReportViewTabView } from "./ReportViewView";
 
@@ -42,6 +43,19 @@ let createHTML: Function = function (url: string): string {
     return ibas.strings.format(
         `<iframe src="{0}" width="{1}" height="{2}" frameborder="no" border="0" scrolling="no"></iframe>`,
         url, getWindowWidth(true), getWindowHeight(true));
+};
+let checkReportUrl: Function = function (url: string): string {
+    // 正常地址
+    url = ibas.urls.normalize(url).toLowerCase();
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = ibas.strings.format("{0}/../file/loadReport?report={1}&token={2}",
+            ibas.config.get(ibas.strings.format(
+                ibas.CONFIG_ITEM_TEMPLATE_REMOTE_REPOSITORY_ADDRESS,
+                BORepositoryReportAnalysis.name)),
+            url,
+            ibas.config.get(ibas.CONFIG_ITEM_USER_TOKEN));
+    }
+    return url;
 };
 /**
  * 视图-Report
@@ -87,8 +101,7 @@ export class FileReportViewView extends ReportViewView {
         if (datas.length === 1) {
             let data: any = datas[0];
             if (data.Key === "${Url}") {
-                let url: string = data.Value;
-                url = ibas.urls.normalize(url);
+                let url: string = checkReportUrl(data.Value);
                 this.application.viewShower.proceeding(this,
                     ibas.emMessageType.INFORMATION,
                     ibas.i18n.prop("reportanalysis_running_report", url),
@@ -155,7 +168,7 @@ export class FileReportViewTabView extends ReportViewTabView {
         if (datas.length === 1) {
             let data: any = datas[0];
             if (data.Key === "${Url}") {
-                let url: string = data.Value;
+                let url: string = checkReportUrl(data.Value);
                 url = ibas.urls.normalize(url);
                 this.application.viewShower.proceeding(this,
                     ibas.emMessageType.INFORMATION,

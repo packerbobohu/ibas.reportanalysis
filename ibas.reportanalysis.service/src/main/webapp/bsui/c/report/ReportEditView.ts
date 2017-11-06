@@ -32,6 +32,8 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
     chooseReportAssociatedReportEvent: Function;
     /** 报表参数-系统变量选择 */
     chooseReportParameterVariableEvent: Function;
+    /** 上传报表文件 */
+    uploadReportEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
@@ -119,6 +121,30 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                 new sap.m.Input("", {
                 }).bindProperty("value", {
                     path: "/address"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("reportanalysis_report_file") }),
+                new sap.ui.unified.FileUploader("", {
+                    name: "file",
+                    width: "100%",
+                    placeholder: ibas.i18n.prop("sys_shell_browse"),
+                    change(event: sap.ui.base.Event): void {
+                        let fileData: FormData = new FormData();
+                        fileData.append("file", event.getParameters().files[0]);
+                        fileData.append("name", event.getParameters().newValue);
+                        that.application.viewShower.messages({
+                            type: ibas.emMessageType.QUESTION,
+                            actions: [
+                                ibas.emMessageAction.YES,
+                                ibas.emMessageAction.NO
+                            ],
+                            message: ibas.i18n.prop("reportanalysis_upload_report"),
+                            onCompleted(action: ibas.emMessageAction): void {
+                                if (action === ibas.emMessageAction.YES) {
+                                    that.fireViewEvents(that.uploadReportEvent, fileData);
+                                }
+                            }
+                        });
+                    }
                 }),
             ]
         });
@@ -249,7 +275,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                                 }
                             }
                         })
-                    })
+                    }),
                 ]
             }),
             content: [this.form]
