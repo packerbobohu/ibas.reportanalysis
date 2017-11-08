@@ -24,6 +24,10 @@
         <add key="OrganizationWay" value="initial" />
         <!-- 配置项目-权限判断方式 -->
         <add key="OwnershipWay" value="initial" />
+        <!-- 配置项目-组织过期时间（建议600） -->
+        <add key="OrgManagerExpiry" value="-1" />
+        <!-- 配置项目-权限过期时间（建议120） -->
+        <add key="OwnJudgerExpiry" value="-1" />
         <!-- 配置项目-报表工厂，多个时“;”分隔 -->
         <add key="ReporterFactories" value="org.colorcoding.ibas.boe.reporter.ReporterFactory;" />
     </appSettings>
