@@ -31,30 +31,6 @@ let getWindowHeight: Function = function (tab: boolean): number {
     }
     return window.innerHeight - consume;
 };
-let createHTML: Function = function (url: string): string {
-    if (ibas.objects.isNull(url)) {
-        return "";
-    }
-    if (url.startsWith("data:application/x-shockwave-flash") || url.endsWith(".swf") || url.indexOf(".swf?") > 0) {
-        return ibas.strings.format(
-            `<html><iframe src="{0}" width="{1}" height="{2}" class='preview-iframe' frameborder="no" scrolling="no"></iframe></html>`,
-            url, getWindowWidth(true), getWindowHeight(true));
-    }
-    return ibas.strings.format(
-        `<iframe src="{0}" width="{1}" height="{2}" frameborder="no" border="0" scrolling="no"></iframe>`,
-        url, getWindowWidth(true), getWindowHeight(true));
-};
-let checkReportUrl: Function = function (url: string): string {
-    // 正常地址
-    url = ibas.urls.normalize(url).toLowerCase();
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = ibas.strings.format("{0}resources/report_files/{1}",
-            require.toUrl(""),
-            url
-        );
-    }
-    return url;
-};
 let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout.form.SimpleForm): void {
     let datas: any[] = table.convert();
     if (datas.length === 1) {
@@ -71,29 +47,38 @@ let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout
                     let blob: Blob = opRslt.resultObjects.firstOrDefault();
                     if (!ibas.objects.isNull(blob)) {
                         // 成功获取
-                        let fileReader: FileReader = new FileReader();
-                        fileReader.onload = function (e: ProgressEvent): void {
-                            let dataUrl: string = (<any>e.target).result;
-                            // dataUrl = "http://localhost:15386/others/report_files/report_1.swf";
-                            dataUrl = "data:application/x-shockwave-flash" + dataUrl.slice(dataUrl.indexOf(";"));
-                            let html: string = createHTML(dataUrl);
+                        let dataUrl: string = window.URL.createObjectURL(blob);
+                        if (data.Value.endsWith(".swf")) {
+                            let id: string = ibas.uuids.random();
                             form.addContent(
                                 new sap.ui.core.HTML("", {
-                                    content: html,
+                                    content: ibas.strings.format(`<div id="{0}" />`, id),
                                     preferDOM: false,
                                     sanitizeContent: true,
                                     visible: true,
                                 })
                             );
-                            /*
                             require([
                                 "../../../3rdparty/swfobject"
                             ], function (): void {
-                                swfobject.embedSWF(dataUrl, "report-swf", "300", "120", "27.0.0.183");
+                                swfobject.embedSWF(dataUrl, id,
+                                    getWindowWidth(true), getWindowHeight(true),
+                                    "10");
                             });
-                            */
-                        };
-                        fileReader.readAsDataURL(blob);
+                        } else {
+                            form.addContent(
+                                new sap.ui.core.HTML("", {
+                                    content: ibas.strings.format(
+                                        `<iframe src="{0}" width="{1}" height="{2}" frameborder="no" border="0" scrolling="no"></iframe>`,
+                                        dataUrl,
+                                        getWindowWidth(true),
+                                        getWindowHeight(true)),
+                                    preferDOM: false,
+                                    sanitizeContent: true,
+                                    visible: true,
+                                })
+                            );
+                        }
                     } else {
                         // 获取失败
                         form.addContent(new sap.m.MessagePage("", {
