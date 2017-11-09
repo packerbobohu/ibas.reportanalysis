@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
@@ -17,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
-import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.data.FileData;
 import org.colorcoding.ibas.bobas.i18n.I18N;
@@ -30,13 +30,16 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("file")
 public class FileService extends FileRepositoryService {
+	/**
+	 * 工作目录
+	 */
+	public final static String WORK_FOLDER = MyConfiguration.getConfigValue(
+			MyConfiguration.CONFIG_ITEM_REPORT_FILE_FOLDER,
+			MyConfiguration.getDataFolder() + File.separator + "report_files");
 
 	public FileService() {
 		// 设置工作目录，资源目录下的报表目录
-		File workFolder = new File(MyConfiguration.getWorkFolder());
-		File reportFolder = new File(
-				workFolder.getParentFile() + File.separator + "resources" + File.separator + "report_files");
-		this.getRepository().setRepositoryFolder(reportFolder.getPath());
+		this.getRepository().setRepositoryFolder(FileService.WORK_FOLDER);
 	}
 
 	@POST
@@ -49,17 +52,26 @@ public class FileService extends FileRepositoryService {
 	}
 
 	@GET
+	@Path("{report}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public byte[] loadReport(@PathParam("report") String report, @QueryParam("token") String token,
+			@Context HttpServletResponse response) {
+		Criteria criteria = new Criteria();
+		ICondition condition = criteria.getConditions().create();
+		condition.setAlias(FileRepositoryReadonly.CRITERIA_CONDITION_ALIAS_FILE_NAME);
+		condition.setValue(report);
+		return this.loadReport(criteria, token, response);
+	}
+
+	@POST
 	@Path("loadReport")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public byte[] loadReport(@QueryParam("report") String report, @QueryParam("token") String token,
+	public byte[] loadReport(Criteria criteria, @QueryParam("token") String token,
 			@Context HttpServletResponse response) {
 		try {
-			// 获取导出的文件
-			ICriteria criteria = new Criteria();
-			ICondition condition = criteria.getConditions().create();
-			condition.setAlias(FileRepositoryReadonly.CRITERIA_CONDITION_ALIAS_FILE_NAME);
-			condition.setValue(report);
+			// 获取文件
 			FileData fileData = this.fetch(criteria, token).getResultObjects().firstOrDefault();
 			if (fileData != null) {
 				// 数据存在，尝试转为字节数组
@@ -77,9 +89,8 @@ public class FileService extends FileRepositoryService {
 					offset += numRead;
 				}
 				inputStream.close();
-				response.setHeader("content-disposition",
-						String.format("attachment;filename=%s", fileData.getFileName()));// 为文件命名
-				// response.addHeader("content-type", "application/xml");
+				response.setHeader("Content-Disposition",
+						String.format("attachment;filename=%s", fileData.getFileName()));
 				return buffer;
 			} else {
 				throw new WebApplicationException(404);

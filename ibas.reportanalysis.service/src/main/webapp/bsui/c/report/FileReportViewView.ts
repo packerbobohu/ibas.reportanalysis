@@ -35,7 +35,7 @@ let createHTML: Function = function (url: string): string {
     if (ibas.objects.isNull(url)) {
         return "";
     }
-    if (url.endsWith(".swf") || url.indexOf(".swf?") > 0) {
+    if (url.startsWith("data:application/x-shockwave-flash") || url.endsWith(".swf") || url.indexOf(".swf?") > 0) {
         return ibas.strings.format(
             `<html><iframe src="{0}" width="{1}" height="{2}" class='preview-iframe' frameborder="no" scrolling="no"></iframe></html>`,
             url, getWindowWidth(true), getWindowHeight(true));
@@ -54,6 +54,57 @@ let checkReportUrl: Function = function (url: string): string {
         );
     }
     return url;
+};
+let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout.form.SimpleForm): void {
+    let datas: any[] = table.convert();
+    if (datas.length === 1) {
+        let data: any = datas[0];
+        if (data.Key === "${Url}") {
+            let criteria: ibas.ICriteria = new ibas.Criteria();
+            let condition: ibas.ICondition = criteria.conditions.create();
+            condition.alias = ibas.CRITERIA_CONDITION_ALIAS_FILE_NAME;
+            condition.value = data.Value;
+            let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
+            boRepository.loadReport({
+                criteria: criteria,
+                onCompleted(opRslt: ibas.IOperationResult<any>): void {
+                    let blob: Blob = opRslt.resultObjects.firstOrDefault();
+                    if (!ibas.objects.isNull(blob)) {
+                        // 成功获取
+                        let fileReader: FileReader = new FileReader();
+                        fileReader.onload = function (e: ProgressEvent): void {
+                            let dataUrl: string = (<any>e.target).result;
+                            // dataUrl = "http://localhost:15386/others/report_files/report_1.swf";
+                            dataUrl = "data:application/x-shockwave-flash" + dataUrl.slice(dataUrl.indexOf(";"));
+                            let html: string = createHTML(dataUrl);
+                            form.addContent(
+                                new sap.ui.core.HTML("", {
+                                    content: html,
+                                    preferDOM: false,
+                                    sanitizeContent: true,
+                                    visible: true,
+                                })
+                            );
+                            /*
+                            require([
+                                "../../../3rdparty/swfobject"
+                            ], function (): void {
+                                swfobject.embedSWF(dataUrl, "report-swf", "300", "120", "27.0.0.183");
+                            });
+                            */
+                        };
+                        fileReader.readAsDataURL(blob);
+                    } else {
+                        // 获取失败
+                        form.addContent(new sap.m.MessagePage("", {
+                            showHeader: false,
+                            showNavButton: false,
+                        }));
+                    }
+                }
+            });
+        }
+    }
 };
 /**
  * 视图-Report
@@ -95,31 +146,7 @@ export class FileReportViewView extends ReportViewView {
         }
         this.form.destroyContent();
         this.page.setShowSubHeader(false);
-        let datas: any[] = table.convert();
-        if (datas.length === 1) {
-            let data: any = datas[0];
-            if (data.Key === "${Url}") {
-                let url: string = checkReportUrl(data.Value);
-                this.application.viewShower.proceeding(this,
-                    ibas.emMessageType.INFORMATION,
-                    ibas.i18n.prop("reportanalysis_running_report", url),
-                );
-                let html: string = createHTML(url);
-                ibas.logger.log(ibas.emMessageLevel.DEBUG, "view: {0}", html);
-                this.form.addContent(
-                    new sap.ui.core.HTML("", {
-                        content: html,
-                        preferDOM: false,
-                        sanitizeContent: true,
-                        visible: true,
-                    })
-                );
-                /*
-                window.open(data.Value, this.application.description,
-                    "toolbar=no, menubar=no, location=no, status=no, titlebar=no, fullscreen=yes");
-                */
-            }
-        }
+        showResults(table, this.form);
     }
 }
 /**
@@ -162,31 +189,6 @@ export class FileReportViewTabView extends ReportViewTabView {
         }
         this.form.destroyContent();
         this.page.setShowSubHeader(false);
-        let datas: any[] = table.convert();
-        if (datas.length === 1) {
-            let data: any = datas[0];
-            if (data.Key === "${Url}") {
-                let url: string = checkReportUrl(data.Value);
-                url = ibas.urls.normalize(url);
-                this.application.viewShower.proceeding(this,
-                    ibas.emMessageType.INFORMATION,
-                    ibas.i18n.prop("reportanalysis_running_report", url),
-                );
-                let html: string = createHTML(url);
-                ibas.logger.log(ibas.emMessageLevel.DEBUG, "view: {0}", html);
-                this.form.addContent(
-                    new sap.ui.core.HTML("", {
-                        content: html,
-                        preferDOM: false,
-                        sanitizeContent: true,
-                        visible: true,
-                    })
-                );
-                /*
-                window.open(data.Value, this.application.description,
-                    "toolbar=no, menubar=no, location=no, status=no, titlebar=no, fullscreen=yes");
-                */
-            }
-        }
+        showResults(table, this.form);
     }
 }

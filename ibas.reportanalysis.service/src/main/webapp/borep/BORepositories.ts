@@ -30,6 +30,18 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
         fileRepository.converter = this.createConverter();
         fileRepository.upload("uploadReport", caller);
     }
+    /**
+     * 读取报表文件
+     * @param caller 调用者
+     */
+    loadReport(caller: ibas.DownloadFileCaller): void {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let fileRepository: ibas.FileRepositoryDownloadAjax = new ibas.FileRepositoryDownloadAjax();
+        fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
+        fileRepository.token = this.token;
+        fileRepository.converter = this.createConverter();
+        fileRepository.download("loadReport", caller);
+    }
 	/**
 	 * 查询用户报表
 	 * @param listener 用户检索监听者
