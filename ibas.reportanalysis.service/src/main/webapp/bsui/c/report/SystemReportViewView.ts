@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { ISystemReportViewView } from "../../../bsapp/report/index";
 import { ReportViewView, ReportViewTabView } from "./ReportViewView";
@@ -96,7 +96,7 @@ export class SystemReportViewView extends ReportViewView implements ISystemRepor
         this.form.destroyContent();
         this.tableResult = new sap.ui.table.Table("", {
             enableSelectAll: true,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             editable: false,
             rows: "{/rows}",
@@ -222,7 +222,7 @@ export class SystemReportViewTabView extends ReportViewTabView implements ISyste
         this.form.destroyContent();
         this.tableResult = new sap.ui.table.Table("", {
             enableSelectAll: true,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             editable: false,
             rows: "{/rows}",

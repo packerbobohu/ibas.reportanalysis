@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IReportImportView } from "../../../bsapp/tools/index";
 
@@ -175,7 +175,7 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                             press(): void {
                                 that.fireViewEvents(that.importReportEvent,
                                     // 获取表格选中的对象
-                                    utils.getTableSelecteds<bo.BOEReport>(that.tableReports)
+                                    openui5.utils.getTableSelecteds<bo.BOEReport>(that.tableReports)
                                 );
                             }
                         }),
@@ -184,7 +184,7 @@ export class ReportImportView extends ibas.View implements IReportImportView {
                             icon: "sap-icon://refresh",
                             type: sap.m.ButtonType.Transparent,
                             press(): void {
-                                let treeNodes: TreeNode[] = utils.getTableSelecteds<TreeNode>(that.tableFolders);
+                                let treeNodes: TreeNode[] = openui5.utils.getTableSelecteds<TreeNode>(that.tableFolders);
                                 let sltFolders: ibas.ArrayList<bo.BOEFolder> = new ibas.ArrayList<bo.BOEFolder>();
                                 for (let node of treeNodes) {
                                     for (let folder of that.folders) {

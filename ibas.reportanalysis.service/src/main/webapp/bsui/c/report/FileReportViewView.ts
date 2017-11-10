@@ -8,7 +8,7 @@
 
 /// <reference path="../../../3rdparty/swfobject" />
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { BORepositoryReportAnalysis } from "../../../borep/BORepositories";
 import { IReportViewView } from "../../../bsapp/report/index";

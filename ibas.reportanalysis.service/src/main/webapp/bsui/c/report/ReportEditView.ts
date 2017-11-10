@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IReportEditView } from "../../../bsapp/report/index";
 
@@ -54,7 +54,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_activated") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo)
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo)
                 }).bindProperty("selectedKey", {
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
@@ -90,7 +90,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_content") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_category") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(bo.emReportType)
+                    items: openui5.utils.createComboBoxItems(bo.emReportType)
                 }).bindProperty("selectedKey", {
                     path: "/category",
                     type: "sap.ui.model.type.Integer"
@@ -167,7 +167,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                         press: function (): void {
                             that.fireViewEvents(that.removeReportParameterEvent,
                                 // 获取表格选中的对象
-                                utils.getTableSelecteds<bo.ReportParameter>(that.tableReportParameter)
+                                openui5.utils.getTableSelecteds<bo.ReportParameter>(that.tableReportParameter)
                             );
                         }
                     })
@@ -197,7 +197,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                     label: ibas.i18n.prop("bo_reportparameter_category"),
                     template: new sap.m.Select("", {
                         width: "100%",
-                        items: utils.createComboBoxItems(bo.emReportParameterType)
+                        items: openui5.utils.createComboBoxItems(bo.emReportParameterType)
                     }).bindProperty("selectedKey", {
                         path: "category",
                         type: "sap.ui.model.type.Integer"
@@ -293,17 +293,17 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
         // 新建时：禁用删除，
         if (data.isNew) {
             if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
         }
         // 不可编辑：已批准，
         /*
         if (data.approvalStatus === ibas.emApprovalStatus.APPROVED) {
             if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
-            utils.changeFormEditable(this.form, false);
+            openui5.utils.changeFormEditable(this.form, false);
         }
         */
     }
@@ -313,7 +313,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
     showReport(data: bo.Report): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.form, data);
+        openui5.utils.refreshModelChanged(this.form, data);
         // 改变视图状态
         this.changeViewStatus(data);
     }
@@ -321,6 +321,6 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
     showReportParameters(datas: bo.ReportParameter[]): void {
         this.tableReportParameter.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.tableReportParameter, datas);
+        openui5.utils.refreshModelChanged(this.tableReportParameter, datas);
     }
 }

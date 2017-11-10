@@ -7,7 +7,7 @@
  */
 
 import * as ibas from "ibas/index";
-import { utils } from "openui5/typings/ibas.utils";
+import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
 import { IReportBookEditView } from "../../../bsapp/reportbook/index";
 
@@ -43,7 +43,7 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_reportbook_activated") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(ibas.emYesNo)
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo)
                 }).bindProperty("selectedKey", {
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
@@ -51,7 +51,7 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_other_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_reportbook_assignedtype") }),
                 new sap.m.Select("", {
-                    items: utils.createComboBoxItems(bo.emAssignedType)
+                    items: openui5.utils.createComboBoxItems(bo.emAssignedType)
                 }).bindProperty("selectedKey", {
                     path: "/assignedType",
                     type: "sap.ui.model.type.Integer"
@@ -86,14 +86,14 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
                         press: function (): void {
                             that.fireViewEvents(that.removeReportBookItemEvent,
                                 // 获取表格选中的对象
-                                utils.getTableSelecteds<bo.ReportBookItem>(that.tableReportBookItem)
+                                openui5.utils.getTableSelecteds<bo.ReportBookItem>(that.tableReportBookItem)
                             );
                         }
                     })
                 ]
             }),
             enableSelectAll: false,
-            visibleRowCount: ibas.config.get(utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -193,7 +193,7 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
         // 新建时：禁用删除，
         if (data.isNew) {
             if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
+                openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
         }
     }
@@ -203,7 +203,7 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
     showReportBook(data: bo.ReportBook): void {
         this.form.setModel(new sap.ui.model.json.JSONModel(data));
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.form, data);
+        openui5.utils.refreshModelChanged(this.form, data);
         // 改变视图状态
         this.changeViewStatus(data);
     }
@@ -211,6 +211,6 @@ export class ReportBookEditView extends ibas.BOEditView implements IReportBookEd
     showReportBookItems(datas: bo.ReportBookItem[]): void {
         this.tableReportBookItem.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
-        utils.refreshModelChanged(this.tableReportBookItem, datas);
+        openui5.utils.refreshModelChanged(this.tableReportBookItem, datas);
     }
 }
