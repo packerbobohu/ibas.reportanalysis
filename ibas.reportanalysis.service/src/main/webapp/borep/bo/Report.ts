@@ -365,6 +365,7 @@ export class Report extends BOSimple<Report> implements IReport {
     protected init(): void {
         this.reportParameters = new ReportParameters(this);
         this.objectCode = config.applyVariables(Report.BUSINESS_OBJECT_CODE);
+        this.activated = emYesNo.YES;
     }
 }
 
