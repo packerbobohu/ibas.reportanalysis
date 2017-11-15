@@ -17,6 +17,10 @@ import * as bo from "./bo/index"
 /** ReportAnalysis 业务仓库 */
 export interface IBORepositoryReportAnalysis {
     /**
+     * 获取地址
+     */
+    toUrl(document: bo.IReport): string;
+    /**
      * 查询 报表
      * @param fetcher 查询者
      */

@@ -19,6 +19,15 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
         return new DataConverter4ra;
     }
     /**
+     * 获取地址
+     */
+    toUrl(report: bo.Report): string {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let url: string = this.address.replace("/services/rest/data/", "/services/rest/file/");
+        url += ibas.strings.format("{0}?token={1}", report.address, this.token);
+        return encodeURI(url);
+    }
+    /**
      * 上传报表文件
      * @param caller 调用者
      */
