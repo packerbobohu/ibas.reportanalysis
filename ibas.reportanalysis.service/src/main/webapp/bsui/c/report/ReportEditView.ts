@@ -41,7 +41,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_basic") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_title_basic") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_name") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
@@ -59,7 +59,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                     path: "/activated",
                     type: "sap.ui.model.type.Integer"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_associated") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_title_associated") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_bocode") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
@@ -87,7 +87,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                 }).bindProperty("value", {
                     path: "/associatedReport"
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_ui_content") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_title_content") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_report_category") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(bo.emReportType)
@@ -148,7 +148,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                 }),
             ]
         });
-        this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_reportparameter") }));
+        this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("reportanalysis_title_parameters") }));
         this.tableReportParameter = new sap.ui.table.Table("", {
             extension: new sap.m.Toolbar("", {
                 content: [
