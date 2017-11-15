@@ -32,7 +32,7 @@ let getWindowHeight: Function = function (tab: boolean): number {
     }
     return window.innerHeight - consume;
 };
-let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout.form.SimpleForm): void {
+let showResults: Function = function (table: ibas.DataTable, page: sap.m.Page): void {
     let datas: any[] = table.convert();
     if (datas.length === 1) {
         let data: any = datas[0];
@@ -63,7 +63,7 @@ let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout
                                 let newBlob: Blob = new Blob([uint8Array], { type: mime });
                                 // 成功获取
                                 let url: string = window.URL.createObjectURL(newBlob);
-                                form.addContent(new sap.ui.core.HTML("", {
+                                page.addContent(new sap.ui.core.HTML("", {
                                     content: ibas.strings.format("<embed src='{0}' type='application/x-shockwave-flash' \
                                     style= 'width:100%; \
                                     height:-webkit-fill-available;height: -moz-fill-available; \
@@ -74,7 +74,7 @@ let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout
                         } else {
                             // 成功获取
                             let url: string = window.URL.createObjectURL(blob);
-                            form.addContent(
+                            page.addContent(
                                 new sap.ui.core.HTML("", {
                                     content: ibas.strings.format(
                                         `<iframe src="{0}" width="{1}" height="{2}" frameborder="no" border="0" scrolling="no"></iframe>`,
@@ -89,7 +89,7 @@ let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout
                         }
                     } else {
                         // 获取失败
-                        form.addContent(new sap.m.MessagePage("", {
+                        page.addContent(new sap.m.MessagePage("", {
                             showHeader: false,
                             showNavButton: false,
                         }));
@@ -108,10 +108,6 @@ export class FileReportViewView extends ReportViewView {
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.form = new sap.ui.layout.form.SimpleForm("", {
-            content: [
-            ]
-        });
         this.page = new sap.m.Page("", {
             showHeader: false,
             subHeader: new sap.m.Bar("", {
@@ -126,7 +122,6 @@ export class FileReportViewView extends ReportViewView {
                     }),
                 ],
             }),
-            content: [this.form]
         });
         this.id = this.page.getId();
         return this.page;
@@ -137,9 +132,9 @@ export class FileReportViewView extends ReportViewView {
         if (!ibas.objects.isNull(this.tableResult)) {
             this.tableResult.destroy(true);
         }
-        this.form.destroyContent();
+        this.page.destroyContent();
         this.page.setShowSubHeader(false);
-        showResults(table, this.form);
+        showResults(table, this.page);
     }
 }
 /**
@@ -151,10 +146,6 @@ export class FileReportViewTabView extends ReportViewTabView {
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.form = new sap.ui.layout.form.SimpleForm("", {
-            content: [
-            ]
-        });
         this.page = new sap.m.Page("", {
             showHeader: false,
             subHeader: new sap.m.Bar("", {
@@ -169,7 +160,6 @@ export class FileReportViewTabView extends ReportViewTabView {
                     }),
                 ],
             }),
-            content: [this.form]
         });
         this.id = this.page.getId();
         return this.page;
@@ -180,8 +170,8 @@ export class FileReportViewTabView extends ReportViewTabView {
         if (!ibas.objects.isNull(this.tableResult)) {
             this.tableResult.destroy(true);
         }
-        this.form.destroyContent();
+        this.page.destroyContent();
         this.page.setShowSubHeader(false);
-        showResults(table, this.form);
+        showResults(table, this.page);
     }
 }
