@@ -44,7 +44,7 @@ let showResults: Function = function (table: ibas.DataTable, form: sap.ui.layout
             let boRepository: BORepositoryReportAnalysis = new BORepositoryReportAnalysis();
             boRepository.loadReport({
                 criteria: criteria,
-                onCompleted(opRslt: ibas.IOperationResult<any>): void {
+                onCompleted(opRslt: ibas.IOperationResult<Blob>): void {
                     let blob: Blob = opRslt.resultObjects.firstOrDefault();
                     if (!ibas.objects.isNull(blob)) {
                         if (data.Value.endsWith(".swf")) {

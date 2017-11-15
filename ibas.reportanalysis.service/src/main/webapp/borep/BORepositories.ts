@@ -34,7 +34,7 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
      * 读取报表文件
      * @param caller 调用者
      */
-    loadReport(caller: ibas.DownloadFileCaller): void {
+    loadReport(caller: ibas.DownloadFileCaller<Blob>): void {
         if (!this.address.endsWith("/")) { this.address += "/"; }
         let fileRepository: ibas.FileRepositoryDownloadAjax = new ibas.FileRepositoryDownloadAjax();
         fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
