@@ -128,6 +128,11 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                     width: "100%",
                     placeholder: ibas.i18n.prop("sys_shell_browse"),
                     change(event: sap.ui.base.Event): void {
+                        if (ibas.objects.isNull(event.getParameters())
+                            || ibas.objects.isNull(event.getParameters().files)
+                            || event.getParameters().files.length === 0) {
+                            return;
+                        }
                         let fileData: FormData = new FormData();
                         fileData.append("file", event.getParameters().files[0]);
                         fileData.append("name", event.getParameters().newValue);
