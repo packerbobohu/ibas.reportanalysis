@@ -22,7 +22,7 @@ export class BORepositoryReportAnalysis extends ibas.BORepositoryApplication imp
      * 上传报表文件
      * @param caller 调用者
      */
-    uploadReport(caller: ibas.UploadFileCaller): void {
+    uploadReport(caller: ibas.UploadFileCaller<ibas.FileData>): void {
         if (!this.address.endsWith("/")) { this.address += "/"; }
         let fileRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
         fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");

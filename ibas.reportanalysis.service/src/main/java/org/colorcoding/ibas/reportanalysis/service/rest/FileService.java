@@ -35,7 +35,7 @@ public class FileService extends FileRepositoryService {
 	 */
 	public final static String WORK_FOLDER = MyConfiguration.getConfigValue(
 			MyConfiguration.CONFIG_ITEM_REPORT_FILE_FOLDER,
-			MyConfiguration.getDataFolder() + File.separator + "report_files");
+			MyConfiguration.getDataFolder() + File.separator + "reportanalysis_files");
 
 	public FileService() {
 		// 设置工作目录，资源目录下的报表目录
