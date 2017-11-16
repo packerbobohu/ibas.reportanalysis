@@ -147,7 +147,7 @@ export class ReportChooseView extends ibas.BOChooseView implements IReportChoose
                 for (let item of datas) {
                     hDatas.rows.push(item);
                 }
-                model.refresh(false);
+                model.refresh(false);                done = true;
 
             }
         }
