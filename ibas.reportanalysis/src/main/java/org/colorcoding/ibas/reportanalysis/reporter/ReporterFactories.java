@@ -3,8 +3,8 @@ package org.colorcoding.ibas.reportanalysis.reporter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.reportanalysis.MyConfiguration;
 
 public final class ReporterFactories {
@@ -12,11 +12,7 @@ public final class ReporterFactories {
 	public static final String MSG_REGISTER_REPORTER_FACTORY = "reporter: register report factory [%s].";
 	public static final String MSG_NOT_FOUND_REPORTER = "reporter: not found [%s|%s]'s reporter.";
 
-	private static ReporterFactories instance;
-
-	private ReporterFactories() {
-
-	}
+	private volatile static ReporterFactories instance;
 
 	public static ReporterFactories create() {
 		if (instance == null) {
@@ -28,6 +24,10 @@ public final class ReporterFactories {
 			}
 		}
 		return instance;
+	}
+
+	private ReporterFactories() {
+
 	}
 
 	protected void init() {

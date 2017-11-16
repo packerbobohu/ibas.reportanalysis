@@ -142,7 +142,7 @@ public class BORepositoryReportAnalysis extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public IOperationResult<UserReport> fetchUserReports(String user) {
-		return this.fetchUserReports(user);
+		return this.fetchUserReports(user, this.getUserToken());
 	}
 
 	public static final String MSG_USER_RUN_REPORT = "report: user [%s] runs report [%s - %s].";
