@@ -32,6 +32,7 @@ public class testReport extends TestCase {
 
 		// 测试报表参数
 		IReportParameter reportparameter = bo.getReportParameters().create();
+		System.out.println(String.format("new item: %s", reportparameter.toString()));
 		// 测试属性赋值
 
 		// 测试对象的保存和查询
