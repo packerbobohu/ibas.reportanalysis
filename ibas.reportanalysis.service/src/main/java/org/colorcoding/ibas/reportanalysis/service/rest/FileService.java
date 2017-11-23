@@ -78,7 +78,7 @@ public class FileService extends FileRepositoryService {
 				File file = new File(fileData.getLocation());
 				long fileSize = file.length();
 				if (fileSize > Integer.MAX_VALUE) {
-					throw new Exception(I18N.prop("msg_importexport_invaild_file_data"));
+					throw new Exception(I18N.prop("msg_bobas_invalid_data"));
 				}
 				FileInputStream inputStream = new FileInputStream(file);
 				byte[] buffer = new byte[(int) fileSize];

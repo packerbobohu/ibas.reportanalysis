@@ -30,6 +30,10 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 	 */
 	public static final String NAMESPACE_SERVICE = NAMESPACE_ROOT + "service";
 	/**
+	 * 配置项目-文件文件夹
+	 */
+	public final static String CONFIG_ITEM_BOE_FILE_FOLDER = "BOEFileFolder";
+	/**
 	 * 配置项目-BOE地址
 	 */
 	public static final String CONFIG_ITEM_BOE_SERVER_ADDRESS = "BOEAddress";
