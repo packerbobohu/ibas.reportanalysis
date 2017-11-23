@@ -11,6 +11,9 @@ import {
     SaveCaller,
     MethodCaller,
     IOperationMessage,
+    UploadFileCaller,
+    DownloadFileCaller,
+    FileData
 } from "ibas/index";
 import * as bo from "./bo/index"
 
@@ -32,6 +35,16 @@ export interface IBORepositoryBusinessObjectsEnterprise {
      * @param fetcher 查询者
      */
     fetchReport(fetcher: FetchCaller<bo.IBOEReport>);
+    /**
+     * 上传文件
+     * @param caller 调用者
+     */
+    upload(caller: UploadFileCaller<FileData>);
+    /**
+     * 下载文件
+     * @param caller 调用者
+     */
+    download(caller: DownloadFileCaller<Blob>);
 
 }
 /**
