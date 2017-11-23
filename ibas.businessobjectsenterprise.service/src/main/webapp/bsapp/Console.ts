@@ -15,11 +15,14 @@ export class Console extends ibas.ModuleConsole {
     static CONSOLE_ID: string = "c4d3da42-0a53-480b-98fe-bf551a9581c7";
     /** 模块-名称 */
     static CONSOLE_NAME: string = "BusinessObjectsEnterprise";
+    /** 模块-版本 */
+    static CONSOLE_VERSION: string = "0.1.0";
     /** 构造函数 */
     constructor() {
         super();
         this.id = Console.CONSOLE_ID;
         this.name = Console.CONSOLE_NAME;
+        this.version = Console.CONSOLE_VERSION;
     }
     private _navigation: ibas.IViewNavigation;
     /** 创建视图导航 */

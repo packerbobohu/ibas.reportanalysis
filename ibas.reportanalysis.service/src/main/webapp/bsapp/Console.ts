@@ -19,11 +19,14 @@ export class Console extends ibas.ModuleConsole {
     static CONSOLE_ID: string = "0dda2ecb-af63-4a3d-b087-aa3dda8179b4";
     /** 模块-名称 */
     static CONSOLE_NAME: string = "ReportAnalysis";
+    /** 模块-版本 */
+    static CONSOLE_VERSION: string = "0.1.0";
     /** 构造函数 */
     constructor() {
         super();
         this.id = Console.CONSOLE_ID;
         this.name = Console.CONSOLE_NAME;
+        this.version = Console.CONSOLE_VERSION;
     }
     private _navigation: ibas.IViewNavigation;
     /** 创建视图导航 */
@@ -80,11 +83,14 @@ export class ConsoleUsers extends ibas.ModuleConsole {
     static CONSOLE_ID: string = "0dda2ecb-af63-4a3d-b087-aa3dda8179b5";
     /** 模块-名称 */
     static CONSOLE_NAME: string = "ReportAnalysisUsers";
+    /** 模块-版本 */
+    static CONSOLE_VERSION: string = "0.1.0";
     /** 构造函数 */
     constructor() {
         super();
         this.id = ConsoleUsers.CONSOLE_ID;
         this.name = ConsoleUsers.CONSOLE_NAME;
+        this.version = ConsoleUsers.CONSOLE_VERSION;
     }
     private _navigation: ibas.IViewNavigation;
     /** 创建视图导航 */
