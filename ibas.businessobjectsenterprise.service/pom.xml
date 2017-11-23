@@ -39,6 +39,17 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>ibas-maven</id>
+            <name>ibas maven repository</name>
+            <url>http://maven.colorcoding.org/repository/maven-public/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.colorcoding.ibas</groupId>
