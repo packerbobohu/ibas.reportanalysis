@@ -29,7 +29,7 @@ export abstract class ReportViewView extends ibas.View implements IReportViewVie
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_run"),
+                        text: ibas.i18n.prop("shell_run"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://begin",
                         press: function (): void {
@@ -73,7 +73,7 @@ export abstract class ReportViewTabView extends ibas.TabView implements IReportV
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_run"),
+                        text: ibas.i18n.prop("shell_run"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://begin",
                         press: function (): void {

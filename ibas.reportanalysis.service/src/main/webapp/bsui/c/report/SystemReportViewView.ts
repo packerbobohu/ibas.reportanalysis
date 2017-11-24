@@ -32,7 +32,7 @@ export class SystemReportViewView extends ReportViewView implements ISystemRepor
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_run"),
+                        text: ibas.i18n.prop("shell_run"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://begin",
                         press: function (): void {
@@ -40,7 +40,7 @@ export class SystemReportViewView extends ReportViewView implements ISystemRepor
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_reset"),
+                        text: ibas.i18n.prop("shell_reset"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://reset",
                         press: function (): void {
@@ -158,7 +158,7 @@ export class SystemReportViewTabView extends ReportViewTabView implements ISyste
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_run"),
+                        text: ibas.i18n.prop("shell_run"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://begin",
                         press: function (): void {
@@ -166,7 +166,7 @@ export class SystemReportViewTabView extends ReportViewTabView implements ISyste
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_reset"),
+                        text: ibas.i18n.prop("shell_reset"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://reset",
                         press: function (): void {

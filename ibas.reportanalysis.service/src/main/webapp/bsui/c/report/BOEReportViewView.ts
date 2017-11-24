@@ -56,7 +56,7 @@ export class BOEReportViewView extends ReportViewView {
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_run"),
+                        text: ibas.i18n.prop("shell_run"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://begin",
                         press: function (): void {
@@ -120,7 +120,7 @@ export class BOEReportViewTabView extends ReportViewTabView {
             subHeader: new sap.m.Bar("", {
                 contentLeft: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_run"),
+                        text: ibas.i18n.prop("shell_run"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://begin",
                         press: function (): void {

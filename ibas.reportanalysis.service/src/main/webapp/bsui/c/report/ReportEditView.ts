@@ -126,7 +126,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                 new sap.ui.unified.FileUploader("", {
                     name: "file",
                     width: "100%",
-                    placeholder: ibas.i18n.prop("sys_shell_browse"),
+                    placeholder: ibas.i18n.prop("shell_browse"),
                     change(event: sap.ui.base.Event): void {
                         if (ibas.objects.isNull(event.getParameters())
                             || ibas.objects.isNull(event.getParameters().files)
@@ -158,7 +158,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
             extension: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_add"),
+                        text: ibas.i18n.prop("shell_data_add"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
                         press: function (): void {
@@ -166,7 +166,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_remove"),
+                        text: ibas.i18n.prop("shell_data_remove"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://less",
                         press: function (): void {
@@ -231,7 +231,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
             subHeader: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_save"),
+                        text: ibas.i18n.prop("shell_data_save"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://save",
                         press: function (): void {
@@ -239,7 +239,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                         }
                     }),
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("sys_shell_data_delete"),
+                        text: ibas.i18n.prop("shell_data_delete"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://delete",
                         press: function (): void {
@@ -248,7 +248,7 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                     }),
                     new sap.m.ToolbarSeparator(""),
                     new sap.m.MenuButton("", {
-                        text: ibas.i18n.prop("sys_shell_data_new"),
+                        text: ibas.i18n.prop("shell_data_new"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://create",
                         buttonMode: sap.m.MenuButtonMode.Split,
@@ -259,11 +259,11 @@ export class ReportEditView extends ibas.BOEditView implements IReportEditView {
                         menu: new sap.m.Menu("", {
                             items: [
                                 new sap.m.MenuItem("", {
-                                    text: ibas.i18n.prop("sys_shell_data_new"),
+                                    text: ibas.i18n.prop("shell_data_new"),
                                     icon: "sap-icon://create"
                                 }),
                                 new sap.m.MenuItem("", {
-                                    text: ibas.i18n.prop("sys_shell_data_clone"),
+                                    text: ibas.i18n.prop("shell_data_clone"),
                                     icon: "sap-icon://copy"
                                 }),
                             ],

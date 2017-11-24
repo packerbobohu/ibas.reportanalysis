@@ -54,7 +54,7 @@ export class UserReportPageView extends ibas.View implements IUserReportPageView
                 content: [
                     new sap.m.ToolbarSpacer(""),
                     new sap.m.MenuButton("", {
-                        text: ibas.i18n.prop("sys_shell_refresh"),
+                        text: ibas.i18n.prop("shell_refresh"),
                         type: sap.m.ButtonType.Transparent,
                         width: "auto",
                         icon: "sap-icon://refresh",
